@@ -1,0 +1,261 @@
+"use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { supabase } from "@/lib/supabase";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Loader2, AlignLeft, AlignCenter, AlignRight } from "lucide-react";
+import Image from "next/image";
+
+const PRESET_BACKGROUNDS = [
+    { name: "Purple Gradient", value: "bg-gradient-to-r from-purple-900 to-indigo-900" },
+    { name: "Rose Gradient", value: "bg-gradient-to-r from-rose-900 to-pink-900" },
+    { name: "Amber Gradient", value: "bg-gradient-to-r from-amber-900 to-yellow-900" },
+    { name: "Ocean Gradient", value: "bg-gradient-to-r from-blue-900 to-cyan-900" },
+    { name: "Emerald Gradient", value: "bg-gradient-to-r from-emerald-900 to-green-900" },
+    { name: "Midnight", value: "bg-neutral-900" },
+];
+
+export default function NewPosterPage() {
+    const router = useRouter();
+    const [loading, setLoading] = useState(false);
+
+    // Form State
+    const [title, setTitle] = useState("");
+    const [description, setDescription] = useState("");
+    const [link, setLink] = useState("");
+    const [textPosition, setTextPosition] = useState("center"); // left, center, right
+
+    // Background State
+    const [backgroundType, setBackgroundType] = useState("image"); // image, preset
+    const [selectedPreset, setSelectedPreset] = useState(PRESET_BACKGROUNDS[0].value);
+    const [imageFile, setImageFile] = useState<File | null>(null);
+    const [imagePreview, setImagePreview] = useState("");
+
+    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files[0]) {
+            const file = e.target.files[0];
+            setImageFile(file);
+            setImagePreview(URL.createObjectURL(file));
+            setBackgroundType("image");
+        }
+    };
+
+    const handleUpload = async (e: React.FormEvent) => {
+        e.preventDefault();
+
+        if (backgroundType === "image" && !imageFile) {
+            alert("Please select an image or choose a preset background");
+            return;
+        }
+
+        setLoading(true);
+        try {
+            let finalImageUrl = selectedPreset;
+
+            // 1. Upload Image if needed
+            if (backgroundType === "image" && imageFile) {
+                const fileExt = imageFile.name.split(".").pop();
+                const fileName = `${Date.now()}.${fileExt}`;
+                const filePath = `posters/${fileName}`;
+                const bucketName = 'products'; // Reusing products bucket
+
+                const { error: uploadError } = await supabase.storage
+                    .from(bucketName)
+                    .upload(filePath, imageFile);
+
+                if (uploadError) throw uploadError;
+
+                const { data: { publicUrl } } = supabase.storage
+                    .from(bucketName)
+                    .getPublicUrl(filePath);
+
+                finalImageUrl = publicUrl;
+            }
+
+            // 2. Insert into DB
+            const { error: dbError } = await supabase.from("posters").insert([
+                {
+                    title,
+                    description,
+                    link,
+                    image_url: finalImageUrl,
+                    background_type: backgroundType,
+                    text_position: textPosition,
+                    text_color: "white",
+                    is_active: true,
+                },
+            ]);
+
+            if (dbError) throw dbError;
+
+            router.push("/admin/posters");
+            router.refresh();
+        } catch (error) {
+            console.error("Error creating poster:", error);
+            alert("Error creating poster: " + (error instanceof Error ? error.message : "Unknown error"));
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // Preview Component
+    const PosterPreview = () => (
+        <div className={`relative h-64 w-full overflow-hidden rounded-xl border border-neutral-800 ${backgroundType === 'preset' ? selectedPreset : 'bg-neutral-900'}`}>
+            {backgroundType === 'image' && imagePreview && (
+                <Image src={imagePreview} alt="Preview" fill className="object-cover" />
+            )}
+
+            <div className={`absolute inset-0 flex flex-col justify-center p-8 ${textPosition === 'left' ? 'items-start text-left' :
+                    textPosition === 'right' ? 'items-end text-right' :
+                        'items-center text-center'
+                }`}>
+                <div className={`${backgroundType === 'image' ? 'bg-black/40 p-4 rounded-xl backdrop-blur-sm' : ''}`}>
+                    {title && <h3 className="text-2xl font-bold text-white mb-2">{title}</h3>}
+                    {description && <p className="text-white/90">{description}</p>}
+                </div>
+            </div>
+        </div>
+    );
+
+    return (
+        <div className="grid gap-8 lg:grid-cols-2">
+            {/* Left Column: Form */}
+            <div className="space-y-6">
+                <h1 className="text-3xl font-bold text-white">Create New Poster</h1>
+
+                <div className="rounded-xl border border-neutral-800 bg-black p-6">
+                    <form onSubmit={handleUpload} className="space-y-6">
+
+                        {/* Title & Description */}
+                        <div className="space-y-4">
+                            <div className="space-y-2">
+                                <Label>Title</Label>
+                                <Input
+                                    value={title}
+                                    onChange={(e) => setTitle(e.target.value)}
+                                    placeholder="e.g., Summer Sale"
+                                    className="bg-neutral-900 border-neutral-800"
+                                />
+                            </div>
+                            <div className="space-y-2">
+                                <Label>Description</Label>
+                                <Textarea
+                                    value={description}
+                                    onChange={(e) => setDescription(e.target.value)}
+                                    placeholder="Add a catchy description..."
+                                    className="bg-neutral-900 border-neutral-800"
+                                />
+                            </div>
+                        </div>
+
+                        {/* Text Settings */}
+                        <div className="space-y-2">
+                            <Label>Text Alignment</Label>
+                            <div className="flex gap-2">
+                                {[
+                                    { value: 'left', icon: AlignLeft },
+                                    { value: 'center', icon: AlignCenter },
+                                    { value: 'right', icon: AlignRight },
+                                ].map((pos) => (
+                                    <Button
+                                        key={pos.value}
+                                        type="button"
+                                        variant="outline"
+                                        size="icon"
+                                        className={textPosition === pos.value ? "bg-yellow-500 text-black border-yellow-500" : "bg-neutral-900 border-neutral-800"}
+                                        onClick={() => setTextPosition(pos.value)}
+                                    >
+                                        <pos.icon className="h-4 w-4" />
+                                    </Button>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Background Selection */}
+                        <div className="space-y-4">
+                            <Label>Background Style</Label>
+                            <div className="flex gap-4">
+                                <Button
+                                    type="button"
+                                    variant={backgroundType === 'image' ? 'default' : 'outline'}
+                                    onClick={() => setBackgroundType('image')}
+                                    className={backgroundType === 'image' ? "bg-white text-black" : ""}
+                                >
+                                    Upload Image
+                                </Button>
+                                <Button
+                                    type="button"
+                                    variant={backgroundType === 'preset' ? 'default' : 'outline'}
+                                    onClick={() => setBackgroundType('preset')}
+                                    className={backgroundType === 'preset' ? "bg-white text-black" : ""}
+                                >
+                                    Use Preset
+                                </Button>
+                            </div>
+
+                            {backgroundType === 'image' ? (
+                                <div className="space-y-2">
+                                    <Input
+                                        type="file"
+                                        accept="image/*"
+                                        onChange={handleImageChange}
+                                        className="bg-neutral-900 border-neutral-800"
+                                    />
+                                    <p className="text-xs text-neutral-500">Recommended: 1920x600px</p>
+                                </div>
+                            ) : (
+                                <div className="grid grid-cols-3 gap-2">
+                                    {PRESET_BACKGROUNDS.map((preset) => (
+                                        <button
+                                            key={preset.name}
+                                            type="button"
+                                            onClick={() => setSelectedPreset(preset.value)}
+                                            className={`h-12 rounded-md ${preset.value} ${selectedPreset === preset.value ? 'ring-2 ring-white' : ''}`}
+                                            title={preset.name}
+                                        />
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+
+                        <div className="space-y-2">
+                            <Label>Destination Link</Label>
+                            <Input
+                                value={link}
+                                onChange={(e) => setLink(e.target.value)}
+                                placeholder="e.g., /products/123"
+                                className="bg-neutral-900 border-neutral-800"
+                            />
+                        </div>
+
+                        <Button type="submit" className="w-full bg-yellow-500 text-black hover:bg-yellow-400" disabled={loading}>
+                            {loading ? (
+                                <>
+                                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                    Creating...
+                                </>
+                            ) : (
+                                "Create Poster"
+                            )}
+                        </Button>
+                    </form>
+                </div>
+            </div>
+
+            {/* Right Column: Live Preview */}
+            <div className="space-y-6">
+                <h2 className="text-xl font-bold text-white">Live Preview</h2>
+                <div className="sticky top-6">
+                    <PosterPreview />
+                    <p className="mt-4 text-sm text-neutral-500">
+                        This is how your poster will appear on the home page.
+                    </p>
+                </div>
+            </div>
+        </div>
+    );
+}

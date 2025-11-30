@@ -1,0 +1,103 @@
+# GitHub Upload Commands (Copy & Paste in CMD)
+
+## STEP 1: Create Repository on GitHub First
+1. Go to https://github.com
+2. Click the "+" icon (top right) → "New repository"
+3. Name: dazzle-jewelry (or any name you want)
+4. Keep it Private (recommended)
+5. DON'T check "Initialize with README"
+6. Click "Create repository"
+7. Copy the repository URL (looks like: https://github.com/YOUR-USERNAME/dazzle-jewelry.git)
+
+## STEP 2: Run These Commands in CMD
+
+Open CMD in your project folder and run ONE BY ONE:
+
+# Initialize Git
+git init
+
+# Add all files (respects .gitignore)
+git add .
+
+# Check what will be uploaded (should NOT see .env.local or .sql files)
+git status
+
+# Commit your code
+git commit -m "Initial commit - Dazzle Jewelry Store"
+
+# Add your GitHub repository (REPLACE with YOUR URL from Step 1)
+git remote add origin https://github.com/YOUR-USERNAME/dazzle-jewelry.git
+
+# Set main branch
+git branch -M main
+
+# Push to GitHub (first time)
+git push -u origin main
+
+## DONE! Your code is now on GitHub! 🎉
+
+---
+
+## For Future Updates (After First Upload)
+
+# Add changes
+git add .
+
+# Commit with message
+git commit -m "Updated products"
+
+# Push to GitHub
+git push
+
+---
+
+## Troubleshooting
+
+### If you see "remote origin already exists":
+git remote set-url origin https://github.com/YOUR-USERNAME/dazzle-jewelry.git
+
+### If you see authentication error:
+# You need to set up Git credentials
+git config --global user.name "Your Name"
+git config --global user.email "your-email@example.com"
+
+# For GitHub authentication, use Personal Access Token:
+# 1. Go to GitHub → Settings → Developer settings → Personal access tokens
+# 2. Generate new token (classic)
+# 3. Select "repo" scope
+# 4. Use token as password when pushing
+
+### If you accidentally added .env.local:
+git rm --cached .env.local
+git commit -m "Remove .env.local"
+git push
+
+---
+
+## What Gets Uploaded?
+
+✅ Source code (src/)
+✅ Configuration files
+✅ package.json
+✅ README.md
+✅ .env.example
+
+❌ .env.local (API keys - SAFE!)
+❌ node_modules/
+❌ .next/
+❌ *.sql files
+❌ Task documentation files
+
+---
+
+## Next: Deploy to Vercel
+
+After uploading to GitHub:
+1. Go to https://vercel.com
+2. Sign in with GitHub
+3. Click "Import Project"
+4. Select your "dazzle-jewelry" repository
+5. Add environment variables
+6. Click "Deploy"
+7. Wait 2-3 minutes
+8. Your site is LIVE! 🚀
