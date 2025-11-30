@@ -83,7 +83,7 @@ export class RazorpayGateway implements PaymentGateway {
 
       return {
         id: order.id,
-        amount: order.amount / 100, // Convert back to rupees
+        amount: Number(order.amount) / 100, // Convert back to rupees
         currency: order.currency,
         status: order.status,
         receipt: order.receipt,
@@ -134,7 +134,7 @@ export class RazorpayGateway implements PaymentGateway {
 
       return {
         id: refund.id,
-        amount: refund.amount / 100, // Convert back to rupees
+        amount: Number(refund.amount || 0) / 100, // Convert back to rupees
         status: refund.status,
         paymentId: refund.payment_id,
       };
@@ -152,12 +152,12 @@ export class RazorpayGateway implements PaymentGateway {
 
       return {
         id: payment.id,
-        amount: payment.amount / 100, // Convert to rupees
+        amount: Number(payment.amount) / 100, // Convert to rupees
         currency: payment.currency,
         status: payment.status,
         method: payment.method,
         email: payment.email,
-        contact: payment.contact,
+        contact: String(payment.contact || ''),
         createdAt: new Date(payment.created_at * 1000), // Convert Unix timestamp
       };
     } catch (error) {

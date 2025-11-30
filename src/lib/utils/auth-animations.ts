@@ -99,7 +99,7 @@ export const animateError = (element: HTMLElement) => {
 
   // Shake animation
   gsap.to(element.closest('form') || element, {
-    x: [-5, 5, -5, 5, 0],
+    x: [-5, 5, -5, 5, 0] as any,
     duration: 0.4,
     ease: 'power2.inOut',
   });

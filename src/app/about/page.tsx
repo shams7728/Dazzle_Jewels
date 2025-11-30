@@ -93,8 +93,8 @@ export default function AboutPage() {
                             key={i}
                             className="absolute w-1 h-1 bg-yellow-500/30 rounded-full"
                             initial={{ 
-                                x: Math.random() * window.innerWidth,
-                                y: Math.random() * window.innerHeight,
+                                x: typeof window !== 'undefined' ? Math.random() * window.innerWidth : Math.random() * 1920,
+                                y: typeof window !== 'undefined' ? Math.random() * window.innerHeight : Math.random() * 1080,
                                 scale: 0
                             }}
                             animate={{
