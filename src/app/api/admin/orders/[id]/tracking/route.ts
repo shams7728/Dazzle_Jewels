@@ -16,7 +16,7 @@ import { notificationService } from '@/lib/services/notification-service';
  */
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // Get authenticated user
@@ -43,7 +43,7 @@ export async function PUT(
       );
     }
 
-    const orderId = params.id;
+    const { id: orderId } = await params;
     const body = await request.json();
     
     const {

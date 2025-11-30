@@ -14,7 +14,7 @@ import { reportService } from '@/lib/services/report-service';
  */
 export async function GET(
   request: NextRequest,
-  { params }: { params: { jobId: string } }
+  { params }: { params: Promise<{ jobId: string }> }
 ) {
   try {
     // Check if user is authenticated and is admin
@@ -53,7 +53,8 @@ export async function GET(
     }
 
     // Get job details
-    const job = await reportService.getReportJob(params.jobId, user.id);
+    const { jobId } = await params;
+    const job = await reportService.getReportJob(jobId, user.id);
 
     if (!job) {
       return NextResponse.json(
