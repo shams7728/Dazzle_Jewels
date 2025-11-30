@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import { Product, ShowcaseConfig } from "@/types";
-import { Loader2, ArrowRight, Sparkles, TrendingUp, Tag, LucideIcon } from "lucide-react";
+import { ArrowRight, Sparkles, TrendingUp, Tag, LucideIcon } from "lucide-react";
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
 import { ProductCard } from "@/components/products/product-card";
 
@@ -33,10 +33,6 @@ export function ShowcaseSection({
   const [error, setError] = useState<string | null>(null);
   const [totalCount, setTotalCount] = useState(0);
 
-  useEffect(() => {
-    fetchProducts();
-  }, [config.filterKey]);
-
   /**
    * Optimized product fetching with performance enhancements:
    * - Parallel queries for products and count
@@ -44,7 +40,7 @@ export function ShowcaseSection({
    * - Limited field selection to reduce payload size
    * - Inner join on variants for better query performance
    */
-  const fetchProducts = async () => {
+  const fetchProducts = useCallback(async () => {
     try {
       setError(null);
       
@@ -62,11 +58,17 @@ export function ShowcaseSection({
             base_price,
             discount_price,
             is_featured,
+            is_new_arrival,
+            is_best_seller,
+            is_offer_item,
+            created_at,
             variants:product_variants!inner(
               id,
+              product_id,
               images,
               price_adjustment,
-              stock_quantity
+              stock_quantity,
+              created_at
             )
           `)
           .eq(config.filterKey, true)
@@ -83,7 +85,7 @@ export function ShowcaseSection({
       if (productsResponse.error) throw productsResponse.error;
       if (countResponse.error) throw countResponse.error;
 
-      setProducts(productsResponse.data || []);
+      setProducts((productsResponse.data || []) as Product[]);
       setTotalCount(countResponse.count || 0);
     } catch (error) {
       console.error(`Error fetching ${config.filterKey} products:`, error);
@@ -92,7 +94,11 @@ export function ShowcaseSection({
     } finally {
       setLoading(false);
     }
-  };
+  }, [config.filterKey, limit]);
+
+  useEffect(() => {
+    fetchProducts();
+  }, [fetchProducts]);
 
   // Loading state with skeleton loaders
   if (loading) {
@@ -166,45 +172,7 @@ export function ShowcaseSection({
     : config.badgeIcon;
   const shouldShowViewAll = showViewAll && totalCount > limit;
 
-  // Extract color from accentColor (e.g., "blue-500" -> "blue")
-  const colorName = config.accentColor.split('-')[0];
-  
-  // Color mapping for proper theming
-  const colorMap: Record<string, {
-    bg: string;
-    text: string;
-    border: string;
-    shadow: string;
-    gradient: string;
-    blur: string;
-  }> = {
-    blue: {
-      bg: 'bg-blue-500/10',
-      text: 'text-blue-500',
-      border: 'border-blue-500/20',
-      shadow: 'shadow-blue-500/30 hover:shadow-blue-500/40',
-      gradient: 'from-blue-500 to-blue-600',
-      blur: 'bg-blue-500/5',
-    },
-    purple: {
-      bg: 'bg-purple-500/10',
-      text: 'text-purple-500',
-      border: 'border-purple-500/20',
-      shadow: 'shadow-purple-500/30 hover:shadow-purple-500/40',
-      gradient: 'from-purple-500 to-purple-600',
-      blur: 'bg-purple-500/5',
-    },
-    red: {
-      bg: 'bg-red-500/10',
-      text: 'text-red-500',
-      border: 'border-red-500/20',
-      shadow: 'shadow-red-500/30 hover:shadow-red-500/40',
-      gradient: 'from-red-500 to-red-600',
-      blur: 'bg-red-500/5',
-    },
-  };
 
-  const colors = colorMap[colorName] || colorMap.blue;
 
   return (
     <section className="relative overflow-hidden bg-black py-8 sm:py-10 md:py-12 lg:py-16">
