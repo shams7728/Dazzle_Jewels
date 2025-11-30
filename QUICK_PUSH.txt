@@ -1,0 +1,12 @@
+# Quick Push Commands (Copy & Paste in CMD)
+
+# Add all changes
+git add .
+
+# Commit
+git commit -m "Fix: Next.js 16 compatibility (async params + GSAP types)"
+
+# Push to GitHub (triggers Vercel auto-deploy)
+git push
+
+# Done! Check Vercel dashboard in 2-3 minutes

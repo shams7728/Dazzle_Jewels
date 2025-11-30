@@ -41,7 +41,7 @@ export function AnimatedInput({
     if (error && containerRef.current) {
       // Shake animation on error
       gsap.to(containerRef.current, {
-        x: [-5, 5, -5, 5, 0],
+        x: [-5, 5, -5, 5, 0] as any,
         duration: 0.4,
         ease: 'power2.inOut',
       });

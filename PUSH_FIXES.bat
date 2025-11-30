@@ -4,14 +4,12 @@ echo  Pushing Next.js 16 Fixes to GitHub
 echo ========================================
 echo.
 
-echo Adding fixed files...
-git add src/app/api/admin/orders/[id]/tracking/route.ts
-git add src/app/api/orders/[id]/cancel/route.ts
-git add src/app/api/admin/reports/[jobId]/route.ts
+echo Adding all fixed files...
+git add .
 
 echo.
 echo Committing changes...
-git commit -m "Fix: Update API routes for Next.js 16 async params"
+git commit -m "Fix: Update for Next.js 16 compatibility (async params + GSAP types)"
 
 echo.
 echo Pushing to GitHub...
