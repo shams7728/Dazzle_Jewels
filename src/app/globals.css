@@ -90,13 +90,6 @@ body {
 
 /* Mobile Performance Optimizations */
 @media (max-width: 768px) {
-  /* Enable hardware acceleration for transforms and opacity */
-  * {
-    -webkit-transform: translateZ(0);
-    -webkit-backface-visibility: hidden;
-    -webkit-perspective: 1000;
-  }
-
   /* Optimize touch interactions */
   button,
   a,
@@ -340,6 +333,18 @@ img {
 /* ============================================
    ANIMATIONS WITH REDUCED MOTION SUPPORT
    ============================================ */
+
+/* Fade In Up Animation for Horizontal Scroll */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
 /* Fade Animations */
 @keyframes fade-in-animation {
@@ -611,7 +616,8 @@ img {
   .animate-sparkle,
   .animate-gradient-shift,
   .animate-text-reveal,
-  .animate-scroll-left {
+  .animate-scroll-left,
+  [style*="animation: fadeInUp"] {
     animation: none !important;
     opacity: 1 !important;
     transform: none !important;
@@ -760,4 +766,178 @@ img {
 
 .leaflet-control-attribution a {
   color: #d4af37 !important;
+}
+
+/* ============================================
+   POSTER ANIMATIONS
+   ============================================ */
+
+/* Poster Fade In Animation */
+@keyframes poster-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Poster Slide Up Animation */
+@keyframes poster-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Poster Zoom In Animation */
+@keyframes poster-zoom-in {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Poster Bounce In Animation */
+@keyframes poster-bounce-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Apply animations */
+.animate-fade-in {
+  animation: poster-fade-in 0.8s ease-out forwards;
+}
+
+.animate-slide-up {
+  animation: poster-slide-up 0.8s ease-out forwards;
+}
+
+.animate-zoom-in {
+  animation: poster-zoom-in 0.6s ease-out forwards;
+}
+
+.animate-bounce-in {
+  animation: poster-bounce-in 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+}
+
+/* Responsive poster animations */
+@media (max-width: 768px) {
+  .animate-fade-in,
+  .animate-slide-up,
+  .animate-zoom-in,
+  .animate-bounce-in {
+    animation-duration: 0.5s;
+  }
+}
+
+/* Disable poster animations for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-in,
+  .animate-slide-up,
+  .animate-zoom-in,
+  .animate-bounce-in {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* ============================================
+   MOBILE MENU ANIMATIONS
+   ============================================ */
+
+/* Staggered fade-in for menu items */
+@keyframes menu-item-fade-in {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Shimmer effect for menu items */
+@keyframes menu-shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Pulse glow effect */
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(212, 175, 55, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+  }
+}
+
+/* Apply staggered animation to menu items */
+.menu-item-animate {
+  animation: menu-item-fade-in 0.3s ease-out forwards;
+  opacity: 0;
+}
+
+/* Disable menu animations for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .menu-item-animate {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* ============================================
+   CUSTOM SCROLLBAR FOR ADMIN DASHBOARD
+   ============================================ */
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(23, 23, 23, 0.5);
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(82, 82, 82, 0.8);
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(115, 115, 115, 0.9);
+}
+
+/* Firefox scrollbar */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(82, 82, 82, 0.8) rgba(23, 23, 23, 0.5);
 }

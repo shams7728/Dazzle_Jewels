@@ -31,7 +31,6 @@ export function ShowcaseSection({
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [totalCount, setTotalCount] = useState(0);
 
   /**
    * Optimized product fetching with performance enhancements:
@@ -44,49 +43,37 @@ export function ShowcaseSection({
     try {
       setError(null);
       
-      // Fetch products and count in parallel for better performance
-      // Optimized query: only fetch necessary fields, use indexes
-      const [productsResponse, countResponse] = await Promise.all([
-        // Fetch limited products with only necessary fields
-        // The WHERE clause uses indexed columns for fast filtering
-        supabase
-          .from("products")
-          .select(`
+      // Fetch products with optimized query
+      // The WHERE clause uses indexed columns for fast filtering
+      const { data, error: productsError } = await supabase
+        .from("products")
+        .select(`
+          id,
+          title,
+          description,
+          base_price,
+          discount_price,
+          is_featured,
+          is_new_arrival,
+          is_best_seller,
+          is_offer_item,
+          created_at,
+          variants:product_variants!inner(
             id,
-            title,
-            description,
-            base_price,
-            discount_price,
-            is_featured,
-            is_new_arrival,
-            is_best_seller,
-            is_offer_item,
-            created_at,
-            variants:product_variants!inner(
-              id,
-              product_id,
-              images,
-              price_adjustment,
-              stock_quantity,
-              created_at
-            )
-          `)
-          .eq(config.filterKey, true)
-          .order('created_at', { ascending: false })
-          .limit(limit),
-        
-        // Get total count separately using indexed column
-        supabase
-          .from("products")
-          .select("*", { count: "exact", head: true })
-          .eq(config.filterKey, true)
-      ]);
+            product_id,
+            images,
+            price_adjustment,
+            stock_quantity,
+            created_at
+          )
+        `)
+        .eq(config.filterKey, true)
+        .order('created_at', { ascending: false })
+        .limit(limit);
 
-      if (productsResponse.error) throw productsResponse.error;
-      if (countResponse.error) throw countResponse.error;
+      if (productsError) throw productsError;
 
-      setProducts((productsResponse.data || []) as Product[]);
-      setTotalCount(countResponse.count || 0);
+      setProducts((data || []) as Product[]);
     } catch (error) {
       console.error(`Error fetching ${config.filterKey} products:`, error);
       setError('Unable to load products. Please try again later.');
@@ -114,29 +101,30 @@ export function ShowcaseSection({
             <div className="mx-auto h-4 w-96 max-w-full animate-pulse rounded bg-neutral-800" />
           </div>
           
-          {/* Skeleton Grid - Optimized Responsive Breakpoints */}
-          {/* Mobile: 2 cols, Tablet: 3 cols, Desktop: 4 cols, Large: 4 cols */}
-          <div className="grid grid-cols-2 gap-3 xs:gap-3.5 sm:grid-cols-3 sm:gap-4 md:gap-4.5 lg:grid-cols-4 lg:gap-5 xl:gap-6">
-            {Array.from({ length: limit }).map((_, i) => (
-              <div
-                key={i}
-                className="overflow-hidden rounded-xl border border-neutral-800 bg-neutral-900"
-                style={{ animationDelay: `${i * 50}ms` }}
-              >
-                {/* Skeleton Image */}
-                <div className="aspect-square animate-pulse bg-neutral-800" />
-                {/* Skeleton Content */}
-                <div className="p-2 sm:p-3 space-y-2">
-                  <div className="h-4 w-3/4 animate-pulse rounded bg-neutral-800" />
-                  <div className="h-3 w-full animate-pulse rounded bg-neutral-800" />
-                  <div className="h-3 w-5/6 animate-pulse rounded bg-neutral-800" />
-                  <div className="mt-3 flex items-center justify-between">
-                    <div className="h-5 w-20 animate-pulse rounded bg-neutral-800" />
-                    <div className="h-7 w-16 animate-pulse rounded-full bg-neutral-800" />
+          {/* Skeleton Horizontal Scroll */}
+          <div className="relative -mx-4 sm:-mx-6 lg:-mx-8">
+            <div className="flex gap-3 overflow-x-auto px-4 pb-4 sm:gap-4 sm:px-6 lg:gap-5 lg:px-8 xl:gap-6 scrollbar-hide snap-x snap-mandatory">
+              {Array.from({ length: limit }).map((_, i) => (
+                <div
+                  key={i}
+                  className="flex-none w-[160px] xs:w-[180px] sm:w-[220px] md:w-[260px] lg:w-[280px] xl:w-[300px] overflow-hidden rounded-xl border border-neutral-800 bg-neutral-900 snap-start"
+                  style={{ animationDelay: `${i * 50}ms` }}
+                >
+                  {/* Skeleton Image */}
+                  <div className="aspect-square animate-pulse bg-neutral-800" />
+                  {/* Skeleton Content */}
+                  <div className="p-2 sm:p-3 space-y-2">
+                    <div className="h-4 w-3/4 animate-pulse rounded bg-neutral-800" />
+                    <div className="h-3 w-full animate-pulse rounded bg-neutral-800" />
+                    <div className="h-3 w-5/6 animate-pulse rounded bg-neutral-800" />
+                    <div className="mt-3 flex items-center justify-between">
+                      <div className="h-5 w-20 animate-pulse rounded bg-neutral-800" />
+                      <div className="h-7 w-16 animate-pulse rounded-full bg-neutral-800" />
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -170,31 +158,32 @@ export function ShowcaseSection({
   const BadgeIcon = typeof config.badgeIcon === 'string' 
     ? iconMap[config.badgeIcon] || Sparkles 
     : config.badgeIcon;
-  const shouldShowViewAll = showViewAll && totalCount > limit;
+  // Show "View All" button if showViewAll is true and there are products
+  const shouldShowViewAll = showViewAll && products.length > 0;
 
 
 
   return (
     <section className="relative overflow-hidden bg-black py-8 sm:py-10 md:py-12 lg:py-16">
-      {/* Animated Gold Shimmer Background */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-yellow-500/5 via-transparent to-transparent" />
+      {/* Animated Gold Shimmer Background - Enhanced for Mobile */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-yellow-500/10 via-transparent to-transparent sm:from-yellow-500/5" />
       
-      {/* Animated Gold Particles */}
+      {/* Animated Gold Particles - More visible on mobile */}
       <div className="absolute inset-0">
-        <div className="absolute left-[10%] top-[20%] h-32 w-32 animate-pulse rounded-full bg-yellow-500/10 blur-3xl" />
-        <div className="absolute right-[15%] top-[40%] h-40 w-40 animate-pulse rounded-full bg-yellow-400/10 blur-3xl animation-delay-1000" />
-        <div className="absolute left-[20%] bottom-[30%] h-36 w-36 animate-pulse rounded-full bg-yellow-600/10 blur-3xl animation-delay-2000" />
-        <div className="absolute right-[25%] bottom-[20%] h-32 w-32 animate-pulse rounded-full bg-yellow-500/10 blur-3xl animation-delay-3000" />
+        <div className="absolute left-[10%] top-[20%] h-24 w-24 sm:h-32 sm:w-32 animate-pulse rounded-full bg-yellow-500/20 sm:bg-yellow-500/10 blur-2xl sm:blur-3xl" />
+        <div className="absolute right-[15%] top-[40%] h-28 w-28 sm:h-40 sm:w-40 animate-pulse rounded-full bg-yellow-400/20 sm:bg-yellow-400/10 blur-2xl sm:blur-3xl animation-delay-1000" />
+        <div className="absolute left-[20%] bottom-[30%] h-26 w-26 sm:h-36 sm:w-36 animate-pulse rounded-full bg-yellow-600/20 sm:bg-yellow-600/10 blur-2xl sm:blur-3xl animation-delay-2000" />
+        <div className="absolute right-[25%] bottom-[20%] h-24 w-24 sm:h-32 sm:w-32 animate-pulse rounded-full bg-yellow-500/20 sm:bg-yellow-500/10 blur-2xl sm:blur-3xl animation-delay-3000" />
       </div>
 
-      {/* Diagonal Gold Shine Effect */}
-      <div className="absolute inset-0 bg-gradient-to-br from-transparent via-yellow-500/5 to-transparent opacity-50" />
+      {/* Diagonal Gold Shine Effect - More visible on mobile */}
+      <div className="absolute inset-0 bg-gradient-to-br from-transparent via-yellow-500/10 to-transparent opacity-70 sm:via-yellow-500/5 sm:opacity-50" />
       
-      {/* Animated Sparkle Lines */}
+      {/* Animated Sparkle Lines - More visible on mobile */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute left-0 top-1/4 h-px w-full bg-gradient-to-r from-transparent via-yellow-500/30 to-transparent animate-shimmer" />
-        <div className="absolute left-0 top-2/4 h-px w-full bg-gradient-to-r from-transparent via-yellow-400/20 to-transparent animate-shimmer animation-delay-1000" />
-        <div className="absolute left-0 top-3/4 h-px w-full bg-gradient-to-r from-transparent via-yellow-600/20 to-transparent animate-shimmer animation-delay-2000" />
+        <div className="absolute left-0 top-1/4 h-px w-full bg-gradient-to-r from-transparent via-yellow-500/50 to-transparent sm:via-yellow-500/30 animate-shimmer" />
+        <div className="absolute left-0 top-2/4 h-px w-full bg-gradient-to-r from-transparent via-yellow-400/40 to-transparent sm:via-yellow-400/20 animate-shimmer animation-delay-1000" />
+        <div className="absolute left-0 top-3/4 h-px w-full bg-gradient-to-r from-transparent via-yellow-600/40 to-transparent sm:via-yellow-600/20 animate-shimmer animation-delay-2000" />
       </div>
 
       <div className="container relative mx-auto px-4 sm:px-6 lg:px-8">
@@ -219,20 +208,30 @@ export function ShowcaseSection({
           </div>
         </ScrollReveal>
 
-        {/* Responsive Grid with Optimized Breakpoints and Spacing */}
-        {/* Mobile (< 640px): 2 columns, gap-3 (12px) */}
-        {/* Tablet (640px - 1024px): 3 columns, gap-4 (16px) */}
-        {/* Desktop (> 1024px): 4 columns, gap-5 (20px) */}
-        {/* Large Desktop (> 1280px): 4 columns, gap-6 (24px) */}
-        <div className="grid grid-cols-2 gap-3 xs:gap-3.5 sm:grid-cols-3 sm:gap-4 md:gap-4.5 lg:grid-cols-4 lg:gap-5 xl:gap-6">
-          {products.map((product, index) => (
-            <ProductCard 
-              key={product.id} 
-              product={product} 
-              index={index}
-              priority={priority && index < 4}
-            />
-          ))}
+        {/* Horizontal Scrolling Container with Smooth Animations */}
+        <div className="relative -mx-4 sm:-mx-6 lg:-mx-8">
+          {/* Gradient Fade Edges */}
+          <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-8 bg-gradient-to-r from-black to-transparent sm:w-12 lg:w-16" />
+          <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-8 bg-gradient-to-l from-black to-transparent sm:w-12 lg:w-16" />
+          
+          {/* Scrollable Product Container */}
+          <div className="flex gap-3 overflow-x-auto px-4 pb-4 sm:gap-4 sm:px-6 lg:gap-5 lg:px-8 xl:gap-6 scrollbar-hide snap-x snap-mandatory scroll-smooth">
+            {products.map((product, index) => (
+              <div 
+                key={product.id}
+                className="flex-none w-[160px] xs:w-[180px] sm:w-[220px] md:w-[260px] lg:w-[280px] xl:w-[300px] snap-start transform transition-all duration-300 hover:scale-105"
+                style={{ 
+                  animation: `fadeInUp 0.6s ease-out ${index * 0.1}s both`
+                }}
+              >
+                <ProductCard 
+                  product={product} 
+                  index={index}
+                  priority={priority && index < 4}
+                />
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* View All Link with Gold Theme */}

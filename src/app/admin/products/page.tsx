@@ -60,21 +60,44 @@ export default function ProductsPage() {
     };
 
     const deleteProduct = async (id: string) => {
-        if (!confirm("Are you sure you want to delete this product?")) return;
-
         try {
+            // Check if product is used in reels
+            const { data: reels, error: reelsError } = await supabase
+                .from("reels")
+                .select("id, video_url")
+                .eq("product_id", id);
+
+            if (reelsError) {
+                console.error("Error checking reels:", reelsError);
+            }
+
+            // Build confirmation message
+            let confirmMessage = "Are you sure you want to delete this product?\n\n";
+            
+            if (reels && reels.length > 0) {
+                confirmMessage += `⚠️ WARNING: This product is featured in ${reels.length} reel(s).\n`;
+                confirmMessage += "Deleting it will remove the product reference from those reels.\n\n";
+            }
+            
+            confirmMessage += "This action cannot be undone.";
+
+            // Show confirmation dialog
+            if (!confirm(confirmMessage)) return;
+
+            // Delete the product (variants will cascade, order_items will be set to null)
             const { error } = await supabase
                 .from("products")
                 .delete()
                 .eq("id", id);
 
             if (error) throw error;
+            
             setProducts(products.filter((p) => p.id !== id));
-            // Trigger statistics refresh
             setStatsRefreshTrigger(prev => prev + 1);
-        } catch (error) {
-            console.error("Error deleting product:", JSON.stringify(error, null, 2));
-            alert(`Failed to delete product: ${error instanceof Error ? error.message : "Unknown error"}`);
+            alert("Product deleted successfully!");
+        } catch (error: unknown) {
+            console.error("Error deleting product:", error);
+            alert(`Failed to delete product: ${(error as unknown)?.message || "Unknown error"}`);
         }
     };
 

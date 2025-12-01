@@ -91,22 +91,22 @@ export function ProductCard({ product, index = 0, featured = false, priority = f
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: isMobile ? 5 : 20 }}
+      initial={{ opacity: 0, y: isMobile ? 10 : 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ 
-        duration: isMobile ? 0.15 : 0.4, 
-        delay: isMobile ? Math.min(index * 0.03, 0.3) : index * 0.1,
+        duration: isMobile ? 0.3 : 0.4, 
+        delay: isMobile ? Math.min(index * 0.05, 0.4) : index * 0.1,
         ease: "easeOut"
       }}
       onHoverStart={() => !isMobile && setIsHovered(true)}
       onHoverEnd={() => !isMobile && setIsHovered(false)}
       className="group relative h-full"
     >
-      {/* Animated Border Gradient */}
-      <div className="absolute -inset-[2px] rounded-2xl bg-gradient-to-r from-yellow-500/0 via-yellow-500/50 to-yellow-500/0 opacity-0 blur-sm transition-opacity duration-500 group-hover:opacity-100" />
+      {/* Animated Border Gradient - Visible on mobile too */}
+      <div className="absolute -inset-[2px] rounded-2xl bg-gradient-to-r from-yellow-500/0 via-yellow-500/30 to-yellow-500/0 sm:via-yellow-500/50 opacity-0 blur-sm transition-opacity duration-500 group-hover:opacity-100 group-active:opacity-100" />
       
-      {/* Shimmer Effect */}
-      <div className="absolute inset-0 -z-10 rounded-2xl bg-gradient-to-r from-transparent via-yellow-500/10 to-transparent bg-[length:200%_100%] opacity-0 transition-opacity duration-500 group-hover:animate-shimmer group-hover:opacity-100" />
+      {/* Shimmer Effect - Visible on mobile too */}
+      <div className="absolute inset-0 -z-10 rounded-2xl bg-gradient-to-r from-transparent via-yellow-500/10 to-transparent bg-[length:200%_100%] opacity-0 transition-opacity duration-500 group-hover:animate-shimmer group-hover:opacity-100 group-active:animate-shimmer group-active:opacity-100" />
 
       <div className="relative h-full overflow-hidden rounded-xl border border-neutral-800 bg-gradient-to-b from-neutral-900 to-black transition-all duration-300 group-hover:border-yellow-500/30 group-hover:shadow-xl group-hover:shadow-yellow-500/10">
         <Link href={`/products/${product.id}`} className="flex h-full flex-col">
@@ -152,14 +152,19 @@ export function ProductCard({ product, index = 0, featured = false, priority = f
             {/* Overlay Gradient */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
 
-            {/* Badges */}
+            {/* Badges - Enhanced animations for mobile */}
             <div className="absolute left-1.5 top-1.5 z-10 flex flex-wrap gap-1 max-w-[calc(100%-3rem)]">
               {featured && (
                 <motion.div
                   initial={{ scale: 0, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
-                  transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-                  className="flex items-center gap-0.5 rounded bg-gradient-to-r from-yellow-500 to-yellow-600 px-1 py-0.5 shadow-md shadow-yellow-500/20"
+                  transition={{ 
+                    delay: isMobile ? Math.min(index * 0.05 + 0.2, 0.5) : 0.2, 
+                    type: "spring", 
+                    stiffness: isMobile ? 150 : 200,
+                    damping: isMobile ? 12 : 10
+                  }}
+                  className="flex items-center gap-0.5 rounded bg-gradient-to-r from-yellow-500 to-yellow-600 px-1 py-0.5 shadow-lg shadow-yellow-500/30 sm:shadow-md sm:shadow-yellow-500/20"
                 >
                   <Sparkles className="h-2 w-2 text-black" />
                   <span className="text-[8px] font-bold uppercase tracking-wide text-black">
@@ -172,8 +177,13 @@ export function ProductCard({ product, index = 0, featured = false, priority = f
                 <motion.div
                   initial={{ scale: 0, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
-                  transition={{ delay: 0.3, type: "spring", stiffness: 200 }}
-                  className="rounded bg-gradient-to-r from-red-500 to-pink-500 px-1 py-0.5 shadow-md shadow-red-500/20"
+                  transition={{ 
+                    delay: isMobile ? Math.min(index * 0.05 + 0.3, 0.6) : 0.3, 
+                    type: "spring", 
+                    stiffness: isMobile ? 150 : 200,
+                    damping: isMobile ? 12 : 10
+                  }}
+                  className="rounded bg-gradient-to-r from-red-500 to-pink-500 px-1 py-0.5 shadow-lg shadow-red-500/30 sm:shadow-md sm:shadow-red-500/20"
                 >
                   <span className="text-[8px] font-bold uppercase tracking-wide text-white">
                     {discountPercentage}% OFF
@@ -185,8 +195,13 @@ export function ProductCard({ product, index = 0, featured = false, priority = f
                 <motion.div
                   initial={{ scale: 0, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
-                  transition={{ delay: 0.4, type: "spring", stiffness: 200 }}
-                  className="rounded bg-neutral-800/90 px-1 py-0.5 backdrop-blur-sm shadow-md"
+                  transition={{ 
+                    delay: isMobile ? Math.min(index * 0.05 + 0.4, 0.7) : 0.4, 
+                    type: "spring", 
+                    stiffness: isMobile ? 150 : 200,
+                    damping: isMobile ? 12 : 10
+                  }}
+                  className="rounded bg-neutral-800/90 px-1 py-0.5 backdrop-blur-sm shadow-lg sm:shadow-md"
                 >
                   <span className="text-[8px] font-bold uppercase tracking-wide text-neutral-400">
                     Out of Stock
@@ -195,11 +210,16 @@ export function ProductCard({ product, index = 0, featured = false, priority = f
               )}
             </div>
 
-            {/* Wishlist Button */}
+            {/* Wishlist Button - Enhanced animation for mobile */}
             <motion.div
               initial={{ x: 20, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
-              transition={{ delay: 0.2 }}
+              transition={{ 
+                delay: isMobile ? Math.min(index * 0.05 + 0.15, 0.4) : 0.2,
+                type: "spring",
+                stiffness: isMobile ? 150 : 200,
+                damping: isMobile ? 12 : 10
+              }}
               className="absolute right-2 top-2 z-10"
             >
               <WishlistButton product={product} />
@@ -224,19 +244,17 @@ export function ProductCard({ product, index = 0, featured = false, priority = f
               </motion.div>
             )}
 
-            {/* Shine Effect on Hover - Desktop Only */}
-            {!isMobile && (
-              <motion.div
-                animate={{
-                  x: isHovered ? ["0%", "200%"] : "0%",
-                }}
-                transition={{
-                  duration: 0.8,
-                  ease: "easeInOut",
-                }}
-                className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent"
-              />
-            )}
+            {/* Shine Effect - Works on mobile tap too */}
+            <motion.div
+              animate={{
+                x: (isHovered || (isMobile && index === 0)) ? ["0%", "200%"] : "0%",
+              }}
+              transition={{
+                duration: 0.8,
+                ease: "easeInOut",
+              }}
+              className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent"
+            />
           </div>
 
           {/* Content - Compact responsive spacing */}
@@ -325,29 +343,27 @@ export function ProductCard({ product, index = 0, featured = false, priority = f
         </Link>
       </div>
 
-      {/* Floating Particles Effect - Desktop Only */}
-      {!isMobile && isHovered && (
-        <>
-          <motion.div
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{ opacity: [0, 1, 0], scale: [0, 1, 0], y: -50 }}
-            transition={{ duration: 2, repeat: Infinity, delay: 0 }}
-            className="pointer-events-none absolute left-1/4 top-1/4 h-1 w-1 rounded-full bg-yellow-500"
-          />
-          <motion.div
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{ opacity: [0, 1, 0], scale: [0, 1, 0], y: -50 }}
-            transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
-            className="pointer-events-none absolute right-1/4 top-1/3 h-1 w-1 rounded-full bg-yellow-400"
-          />
-          <motion.div
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{ opacity: [0, 1, 0], scale: [0, 1, 0], y: -50 }}
-            transition={{ duration: 2, repeat: Infinity, delay: 1 }}
-            className="pointer-events-none absolute left-1/3 top-1/2 h-1 w-1 rounded-full bg-yellow-300"
-          />
-        </>
-      )}
+      {/* Floating Particles Effect - Always Visible */}
+      <>
+        <motion.div
+          initial={{ opacity: 0, scale: 0 }}
+          animate={{ opacity: [0, 0.6, 0], scale: [0, 1, 0], y: -50 }}
+          transition={{ duration: 3, repeat: Infinity, delay: index * 0.2 }}
+          className="pointer-events-none absolute left-1/4 top-1/4 h-1 w-1 rounded-full bg-yellow-500"
+        />
+        <motion.div
+          initial={{ opacity: 0, scale: 0 }}
+          animate={{ opacity: [0, 0.5, 0], scale: [0, 1, 0], y: -50 }}
+          transition={{ duration: 3, repeat: Infinity, delay: index * 0.2 + 0.5 }}
+          className="pointer-events-none absolute right-1/4 top-1/3 h-1 w-1 rounded-full bg-yellow-400"
+        />
+        <motion.div
+          initial={{ opacity: 0, scale: 0 }}
+          animate={{ opacity: [0, 0.4, 0], scale: [0, 1, 0], y: -50 }}
+          transition={{ duration: 3, repeat: Infinity, delay: index * 0.2 + 1 }}
+          className="pointer-events-none absolute left-1/3 top-1/2 h-1 w-1 rounded-full bg-yellow-300"
+        />
+      </>
     </motion.div>
   );
 }

@@ -15,6 +15,7 @@ export default function AdminOrderDetailPage() {
   const orderId = params.id as string;
 
   const [order, setOrder] = useState<Order | null>(null);
+  const [customerName, setCustomerName] = useState<string>("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -34,6 +35,20 @@ export default function AdminOrderDetailPage() {
       }
       
       setOrder(orderData);
+      
+      // Fetch customer name from profiles table
+      const { supabase } = await import("@/lib/supabase");
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("full_name")
+        .eq("id", orderData.user_id)
+        .single();
+      
+      if (profile?.full_name) {
+        setCustomerName(profile.full_name);
+      } else if (orderData.shipping_address?.name) {
+        setCustomerName(orderData.shipping_address.name);
+      }
     } catch (err) {
       console.error("Error fetching order:", err);
       setError("Failed to load order details");
@@ -241,7 +256,7 @@ export default function AdminOrderDetailPage() {
             <div className="space-y-2 text-sm">
               <div>
                 <p className="text-neutral-400">Name</p>
-                <p className="text-white">{order.shipping_address.name}</p>
+                <p className="text-white">{customerName || order.shipping_address.name || "N/A"}</p>
               </div>
               <div>
                 <p className="text-neutral-400">Phone</p>

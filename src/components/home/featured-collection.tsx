@@ -73,15 +73,30 @@ export function FeaturedCollection() {
                     </div>
                 </ScrollReveal>
 
-                <div className="grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4">
-                    {products.map((product, index) => (
-                        <ProductCard
-                            key={product.id}
-                            product={product}
-                            index={index}
-                            featured={true}
-                        />
-                    ))}
+                {/* Horizontal Scrolling Product Container */}
+                <div className="relative -mx-4 sm:-mx-6 lg:-mx-8">
+                    {/* Gradient Fade Edges */}
+                    <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-8 bg-gradient-to-r from-black to-transparent sm:w-12 lg:w-16" />
+                    <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-8 bg-gradient-to-l from-black to-transparent sm:w-12 lg:w-16" />
+                    
+                    {/* Scrollable Product Container */}
+                    <div className="flex gap-3 overflow-x-auto px-4 pb-4 sm:gap-4 sm:px-6 lg:gap-5 lg:px-8 xl:gap-6 scrollbar-hide snap-x snap-mandatory scroll-smooth">
+                        {products.map((product, index) => (
+                            <div 
+                                key={product.id}
+                                className="flex-none w-[160px] xs:w-[180px] sm:w-[220px] md:w-[260px] lg:w-[280px] xl:w-[300px] snap-start transform transition-all duration-300 hover:scale-105"
+                                style={{ 
+                                    animation: `fadeInUp 0.6s ease-out ${index * 0.1}s both`
+                                }}
+                            >
+                                <ProductCard
+                                    product={product}
+                                    index={index}
+                                    featured={true}
+                                />
+                            </div>
+                        ))}
+                    </div>
                 </div>
 
                 <div className="mt-12 text-center">

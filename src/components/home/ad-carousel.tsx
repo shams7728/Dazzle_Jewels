@@ -15,6 +15,9 @@ interface Poster {
     image_url: string;
     background_type: string;
     text_position: string | null;
+    text_color?: string | null;
+    animation_style?: string | null;
+    theme_style?: string | null;
     link?: string | null;
     type?: string;
 }
@@ -115,6 +118,48 @@ export function AdCarousel() {
         }
     };
 
+    // Helper for theme classes
+    const getThemeClasses = (theme?: string | null) => {
+        switch (theme) {
+            case "elegant":
+                return "font-serif";
+            case "bold":
+                return "font-black tracking-tight";
+            case "minimal":
+                return "font-light tracking-wide";
+            default:
+                return "font-sans";
+        }
+    };
+
+    // Helper for text color classes
+    const getTextColorClasses = (color?: string | null) => {
+        switch (color) {
+            case "black":
+                return "text-black";
+            case "yellow":
+                return "text-yellow-500";
+            default:
+                return "text-white";
+        }
+    };
+
+    // Helper for animation classes
+    const getAnimationClasses = (animation?: string | null) => {
+        switch (animation) {
+            case "fade-in":
+                return "animate-fade-in";
+            case "slide-up":
+                return "animate-slide-up";
+            case "zoom-in":
+                return "animate-zoom-in";
+            case "bounce":
+                return "animate-bounce-in";
+            default:
+                return "";
+        }
+    };
+
     const slideVariants = {
         enter: (direction: number) => ({
             x: direction > 0 ? 1000 : -1000,
@@ -194,7 +239,7 @@ export function AdCarousel() {
                                 </div>
 
                                 {/* Content */}
-                                <div className={`relative z-10 max-w-3xl ${currentPoster.text_position === 'left' ? 'mr-auto' : currentPoster.text_position === 'right' ? 'ml-auto' : 'mx-auto'}`}>
+                                <div className={`relative z-10 max-w-3xl ${currentPoster.text_position === 'left' ? 'mr-auto' : currentPoster.text_position === 'right' ? 'ml-auto' : 'mx-auto'} ${getThemeClasses(currentPoster.theme_style)} ${getAnimationClasses(currentPoster.animation_style)}`}>
                                     {/* Badge */}
                                     <motion.div
                                         initial={{ opacity: 0, y: 20 }}
@@ -212,7 +257,7 @@ export function AdCarousel() {
                                             initial={{ opacity: 0, y: 20 }}
                                             animate={{ opacity: 1, y: 0 }}
                                             transition={{ delay: 0.3 }}
-                                            className="mb-3 text-3xl md:text-4xl lg:text-5xl font-bold text-white drop-shadow-2xl leading-tight"
+                                            className={`mb-3 text-3xl md:text-4xl lg:text-5xl font-bold ${getTextColorClasses(currentPoster.text_color)} drop-shadow-2xl leading-tight`}
                                         >
                                             {currentPoster.title}
                                         </motion.h3>
@@ -224,7 +269,7 @@ export function AdCarousel() {
                                             initial={{ opacity: 0, y: 20 }}
                                             animate={{ opacity: 1, y: 0 }}
                                             transition={{ delay: 0.4 }}
-                                            className="mb-6 text-base md:text-lg lg:text-xl text-white/90 drop-shadow-lg max-w-2xl"
+                                            className={`mb-6 text-base md:text-lg lg:text-xl ${currentPoster.text_color === 'black' ? 'text-black/90' : currentPoster.text_color === 'yellow' ? 'text-yellow-400' : 'text-white/90'} drop-shadow-lg max-w-2xl`}
                                         >
                                             {currentPoster.description}
                                         </motion.p>

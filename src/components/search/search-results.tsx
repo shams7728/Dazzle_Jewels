@@ -1,7 +1,6 @@
 "use client";
 
 import { useMemo } from 'react';
-import Link from 'next/link';
 import { useSearchStore } from '@/lib/store/search';
 import { Button } from '@/components/ui/button';
 import { Package } from 'lucide-react';
@@ -86,15 +85,21 @@ export function SearchResults() {
           </p>
         </div>
         
-        {/* Popular Products Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+        {/* Popular Products Responsive Grid */}
+        <div className="grid grid-cols-2 gap-3 xs:gap-4 sm:gap-5 md:grid-cols-3 md:gap-6 lg:grid-cols-4">
           {popularProducts.map((product, index) => (
-            <ProductCard
+            <div 
               key={product.id}
-              product={product}
-              index={index}
-              featured={product.is_featured}
-            />
+              style={{ 
+                animation: `fadeInUp 0.6s ease-out ${index * 0.1}s both`
+              }}
+            >
+              <ProductCard
+                product={product}
+                index={index}
+                featured={product.is_featured}
+              />
+            </div>
           ))}
         </div>
       </div>
@@ -157,19 +162,25 @@ export function SearchResults() {
         )}
       </div>
 
-      {/* Product Grid */}
+      {/* Responsive Product Grid */}
       <div 
-        className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4"
+        className="grid grid-cols-2 gap-3 xs:gap-4 sm:gap-5 md:grid-cols-3 md:gap-6 lg:grid-cols-4"
         role="list"
         aria-label="Search results"
       >
         {filteredProducts.map((product, index) => (
-          <ProductCard
+          <div 
             key={product.id}
-            product={product}
-            index={index}
-            featured={product.is_featured}
-          />
+            style={{ 
+              animation: `fadeInUp 0.6s ease-out ${index * 0.1}s both`
+            }}
+          >
+            <ProductCard
+              product={product}
+              index={index}
+              featured={product.is_featured}
+            />
+          </div>
         ))}
       </div>
     </div>

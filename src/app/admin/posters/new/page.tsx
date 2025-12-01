@@ -19,6 +19,21 @@ const PRESET_BACKGROUNDS = [
     { name: "Midnight", value: "bg-neutral-900" },
 ];
 
+const ANIMATION_STYLES = [
+    { name: "None", value: "none" },
+    { name: "Fade In", value: "fade-in" },
+    { name: "Slide Up", value: "slide-up" },
+    { name: "Zoom In", value: "zoom-in" },
+    { name: "Bounce", value: "bounce" },
+];
+
+const THEME_STYLES = [
+    { name: "Modern", value: "modern" },
+    { name: "Elegant", value: "elegant" },
+    { name: "Bold", value: "bold" },
+    { name: "Minimal", value: "minimal" },
+];
+
 export default function NewPosterPage() {
     const router = useRouter();
     const [loading, setLoading] = useState(false);
@@ -27,10 +42,15 @@ export default function NewPosterPage() {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [link, setLink] = useState("");
-    const [textPosition, setTextPosition] = useState("center"); // left, center, right
+    const [textPosition, setTextPosition] = useState("center");
+    const [textColor, setTextColor] = useState("white");
+
+    // New Features
+    const [animationStyle, setAnimationStyle] = useState("fade-in");
+    const [themeStyle, setThemeStyle] = useState("modern");
 
     // Background State
-    const [backgroundType, setBackgroundType] = useState("image"); // image, preset
+    const [backgroundType, setBackgroundType] = useState("image");
     const [selectedPreset, setSelectedPreset] = useState(PRESET_BACKGROUNDS[0].value);
     const [imageFile, setImageFile] = useState<File | null>(null);
     const [imagePreview, setImagePreview] = useState("");
@@ -85,7 +105,9 @@ export default function NewPosterPage() {
                     image_url: finalImageUrl,
                     background_type: backgroundType,
                     text_position: textPosition,
-                    text_color: "white",
+                    text_color: textColor,
+                    animation_style: animationStyle,
+                    theme_style: themeStyle,
                     is_active: true,
                 },
             ]);
@@ -102,24 +124,62 @@ export default function NewPosterPage() {
         }
     };
 
-    // Preview Component
-    const PosterPreview = () => (
-        <div className={`relative h-64 w-full overflow-hidden rounded-xl border border-neutral-800 ${backgroundType === 'preset' ? selectedPreset : 'bg-neutral-900'}`}>
-            {backgroundType === 'image' && imagePreview && (
-                <Image src={imagePreview} alt="Preview" fill className="object-cover" />
-            )}
+    // Preview Component with Animation
+    const PosterPreview = () => {
+        const getThemeClasses = () => {
+            switch (themeStyle) {
+                case "elegant":
+                    return "font-serif";
+                case "bold":
+                    return "font-black tracking-tight";
+                case "minimal":
+                    return "font-light tracking-wide";
+                default:
+                    return "font-sans";
+            }
+        };
 
-            <div className={`absolute inset-0 flex flex-col justify-center p-8 ${textPosition === 'left' ? 'items-start text-left' :
-                    textPosition === 'right' ? 'items-end text-right' :
-                        'items-center text-center'
-                }`}>
-                <div className={`${backgroundType === 'image' ? 'bg-black/40 p-4 rounded-xl backdrop-blur-sm' : ''}`}>
-                    {title && <h3 className="text-2xl font-bold text-white mb-2">{title}</h3>}
-                    {description && <p className="text-white/90">{description}</p>}
+        const getAnimationClasses = () => {
+            switch (animationStyle) {
+                case "fade-in":
+                    return "animate-fade-in";
+                case "slide-up":
+                    return "animate-slide-up";
+                case "zoom-in":
+                    return "animate-zoom-in";
+                case "bounce":
+                    return "animate-bounce-in";
+                default:
+                    return "";
+            }
+        };
+
+        return (
+            <div className={`relative h-64 w-full overflow-hidden rounded-xl border border-neutral-800 ${backgroundType === 'preset' ? selectedPreset : 'bg-neutral-900'}`}>
+                {backgroundType === 'image' && imagePreview && (
+                    <Image src={imagePreview} alt="Preview" fill className="object-cover" />
+                )}
+
+                <div className={`absolute inset-0 flex flex-col justify-center p-8 ${textPosition === 'left' ? 'items-start text-left' :
+                        textPosition === 'right' ? 'items-end text-right' :
+                            'items-center text-center'
+                    }`}>
+                    <div className={`${backgroundType === 'image' ? 'bg-black/40 p-6 rounded-xl backdrop-blur-sm' : ''} ${getAnimationClasses()} ${getThemeClasses()}`}>
+                        {title && (
+                            <h3 className={`text-3xl font-bold mb-2 ${textColor === 'white' ? 'text-white' : textColor === 'black' ? 'text-black' : 'text-yellow-500'}`}>
+                                {title}
+                            </h3>
+                        )}
+                        {description && (
+                            <p className={`${textColor === 'white' ? 'text-white/90' : textColor === 'black' ? 'text-black/90' : 'text-yellow-400'}`}>
+                                {description}
+                            </p>
+                        )}
+                    </div>
                 </div>
             </div>
-        </div>
-    );
+        );
+    };
 
     return (
         <div className="grid gap-8 lg:grid-cols-2">
@@ -152,26 +212,85 @@ export default function NewPosterPage() {
                             </div>
                         </div>
 
-                        {/* Text Settings */}
+                        {/* Theme Style */}
                         <div className="space-y-2">
-                            <Label>Text Alignment</Label>
-                            <div className="flex gap-2">
-                                {[
-                                    { value: 'left', icon: AlignLeft },
-                                    { value: 'center', icon: AlignCenter },
-                                    { value: 'right', icon: AlignRight },
-                                ].map((pos) => (
+                            <Label>Theme Style</Label>
+                            <div className="grid grid-cols-2 gap-2">
+                                {THEME_STYLES.map((theme) => (
                                     <Button
-                                        key={pos.value}
+                                        key={theme.value}
                                         type="button"
                                         variant="outline"
-                                        size="icon"
-                                        className={textPosition === pos.value ? "bg-yellow-500 text-black border-yellow-500" : "bg-neutral-900 border-neutral-800"}
-                                        onClick={() => setTextPosition(pos.value)}
+                                        className={themeStyle === theme.value ? "bg-yellow-500 text-black border-yellow-500" : "bg-neutral-900 border-neutral-800"}
+                                        onClick={() => setThemeStyle(theme.value)}
                                     >
-                                        <pos.icon className="h-4 w-4" />
+                                        {theme.name}
                                     </Button>
                                 ))}
+                            </div>
+                        </div>
+
+                        {/* Animation Style */}
+                        <div className="space-y-2">
+                            <Label>Animation</Label>
+                            <div className="grid grid-cols-3 gap-2">
+                                {ANIMATION_STYLES.map((anim) => (
+                                    <Button
+                                        key={anim.value}
+                                        type="button"
+                                        variant="outline"
+                                        size="sm"
+                                        className={animationStyle === anim.value ? "bg-yellow-500 text-black border-yellow-500" : "bg-neutral-900 border-neutral-800"}
+                                        onClick={() => setAnimationStyle(anim.value)}
+                                    >
+                                        {anim.name}
+                                    </Button>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Text Settings */}
+                        <div className="space-y-4">
+                            <div className="space-y-2">
+                                <Label>Text Alignment</Label>
+                                <div className="flex gap-2">
+                                    {[
+                                        { value: 'left', icon: AlignLeft },
+                                        { value: 'center', icon: AlignCenter },
+                                        { value: 'right', icon: AlignRight },
+                                    ].map((pos) => (
+                                        <Button
+                                            key={pos.value}
+                                            type="button"
+                                            variant="outline"
+                                            size="icon"
+                                            className={textPosition === pos.value ? "bg-yellow-500 text-black border-yellow-500" : "bg-neutral-900 border-neutral-800"}
+                                            onClick={() => setTextPosition(pos.value)}
+                                        >
+                                            <pos.icon className="h-4 w-4" />
+                                        </Button>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div className="space-y-2">
+                                <Label>Text Color</Label>
+                                <div className="flex gap-2">
+                                    {['white', 'black', 'yellow'].map((color) => (
+                                        <Button
+                                            key={color}
+                                            type="button"
+                                            variant="outline"
+                                            className={`${textColor === color ? 'ring-2 ring-yellow-500' : ''} ${color === 'white' ? 'bg-white text-black' :
+                                                    color === 'black' ? 'bg-black text-white border-white' :
+                                                        'bg-yellow-500 text-black'
+                                                }`}
+                                            onClick={() => setTextColor(color)}
+                                        >
+                                            {color.charAt(0).toUpperCase() + color.slice(1)}
+                                        </Button>
+                                    ))}
+                                </div>
                             </div>
                         </div>
 

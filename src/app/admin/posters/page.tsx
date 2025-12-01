@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { supabase } from "@/lib/supabase";
 import { Button } from "@/components/ui/button";
-import { Plus, Trash2, ExternalLink } from "lucide-react";
+import { Plus, Trash2, ExternalLink, Edit } from "lucide-react";
 
 interface Poster {
     id: string;
@@ -71,6 +71,11 @@ export default function AdminPostersPage() {
         }
     };
 
+    const isValidImageUrl = (url: string) => {
+        if (!url) return false;
+        return url.startsWith('http://') || url.startsWith('https://') || url.startsWith('/');
+    };
+
     return (
         <div className="space-y-6">
             <div className="flex items-center justify-between">
@@ -89,12 +94,20 @@ export default function AdminPostersPage() {
                     {posters.map((poster) => (
                         <div key={poster.id} className="overflow-hidden rounded-xl border border-neutral-800 bg-black">
                             <div className="relative aspect-video w-full bg-neutral-900">
-                                <Image
-                                    src={poster.image_url}
-                                    alt={poster.title || "Poster"}
-                                    fill
-                                    className="object-cover"
-                                />
+                                {isValidImageUrl(poster.image_url) ? (
+                                    <Image
+                                        src={poster.image_url}
+                                        alt={poster.title || "Poster"}
+                                        fill
+                                        className="object-cover"
+                                    />
+                                ) : poster.image_url ? (
+                                    <div className={`h-full w-full ${poster.image_url}`} />
+                                ) : (
+                                    <div className="flex h-full items-center justify-center text-neutral-500">
+                                        No Image
+                                    </div>
+                                )}
                                 {!poster.is_active && (
                                     <div className="absolute inset-0 flex items-center justify-center bg-black/60">
                                         <span className="rounded-full bg-red-500/20 px-3 py-1 text-sm font-medium text-red-500 border border-red-500/50">
@@ -118,6 +131,15 @@ export default function AdminPostersPage() {
                                     >
                                         {poster.is_active ? "Active" : "Inactive"}
                                     </Button>
+                                    <Link href={`/admin/posters/${poster.id}`}>
+                                        <Button
+                                            variant="outline"
+                                            size="sm"
+                                            className="border-yellow-500/50 text-yellow-500 hover:bg-yellow-500/10"
+                                        >
+                                            <Edit className="h-4 w-4" />
+                                        </Button>
+                                    </Link>
                                     <Button
                                         variant="destructive"
                                         size="sm"

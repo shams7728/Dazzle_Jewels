@@ -57,82 +57,151 @@ export function Header() {
                         <div className="lg:hidden">
                             <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
                                 <SheetTrigger asChild>
-                                    <Button variant="ghost" size="icon" className="lg:hidden">
-                                        <Menu className="h-6 w-6 text-white" />
+                                    <Button 
+                                        variant="ghost" 
+                                        size="icon" 
+                                        className="lg:hidden relative group hover:bg-neutral-900 transition-all duration-300"
+                                    >
+                                        <div className="relative w-6 h-6 flex items-center justify-center">
+                                            {/* Animated hamburger icon */}
+                                            <div className={`flex flex-col gap-1.5 transition-all duration-300 ${isMobileMenuOpen ? 'rotate-90' : ''}`}>
+                                                <span className={`block h-0.5 bg-gradient-to-r from-yellow-400 to-yellow-500 transition-all duration-300 ${isMobileMenuOpen ? 'w-6 rotate-45 translate-y-2' : 'w-6'}`} />
+                                                <span className={`block h-0.5 bg-gradient-to-r from-yellow-400 to-yellow-500 transition-all duration-300 ${isMobileMenuOpen ? 'opacity-0 w-0' : 'w-5'}`} />
+                                                <span className={`block h-0.5 bg-gradient-to-r from-yellow-400 to-yellow-500 transition-all duration-300 ${isMobileMenuOpen ? 'w-6 -rotate-45 -translate-y-2' : 'w-4'}`} />
+                                            </div>
+                                        </div>
+                                        {/* Glow effect on hover */}
+                                        <div className="absolute inset-0 rounded-md bg-yellow-500/0 group-hover:bg-yellow-500/10 transition-all duration-300" />
                                     </Button>
                                 </SheetTrigger>
-                                <SheetContent side="left" className="w-[300px] bg-black border-neutral-800">
-                                    <SheetHeader>
-                                        <SheetTitle className="text-left text-yellow-500 font-bold">Menu</SheetTitle>
+                                <SheetContent 
+                                    side="left" 
+                                    className="w-[320px] sm:w-[380px] bg-gradient-to-br from-black via-neutral-950 to-black border-r border-yellow-500/20 backdrop-blur-xl"
+                                >
+                                    {/* Header with logo */}
+                                    <SheetHeader className="border-b border-yellow-500/20 pb-6 mb-6">
+                                        <div className="flex items-center gap-3">
+                                            <div className="relative h-12 w-12 rounded-full border-2 border-yellow-500/40 overflow-hidden shadow-lg shadow-yellow-500/30">
+                                                <img 
+                                                    src="/logo-white.jpg" 
+                                                    alt="Dazzle Jewels" 
+                                                    className="h-full w-full object-cover"
+                                                />
+                                            </div>
+                                            <div className="flex flex-col">
+                                                <SheetTitle className="text-left text-xl font-bold bg-gradient-to-r from-yellow-400 to-yellow-500 bg-clip-text text-transparent">
+                                                    Dazzle Jewels
+                                                </SheetTitle>
+                                                <span className="text-xs text-neutral-400">Luxury Jewelry Collection</span>
+                                            </div>
+                                        </div>
                                     </SheetHeader>
-                                    <nav className="flex flex-col gap-4 mt-8">
+
+                                    {/* Navigation */}
+                                    <nav className="flex flex-col gap-2">
+                                        {/* Home Link */}
                                         <Link
                                             href="/"
-                                            className="flex items-center gap-3 text-lg font-medium text-white hover:text-yellow-500 transition-colors"
+                                            className="group flex items-center gap-3 px-4 py-3 rounded-lg text-base font-medium text-white hover:bg-yellow-500/10 hover:text-yellow-500 transition-all duration-300 relative overflow-hidden"
                                             onClick={() => setIsMobileMenuOpen(false)}
                                         >
-                                            <Sparkles className="h-5 w-5" />
-                                            Home
+                                            <div className="absolute inset-0 bg-gradient-to-r from-yellow-500/0 via-yellow-500/5 to-yellow-500/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
+                                            <Sparkles className="h-5 w-5 relative z-10 group-hover:rotate-12 transition-transform duration-300" />
+                                            <span className="relative z-10">Home</span>
                                         </Link>
                                         
-                                        {/* Mobile Categories */}
-                                        <div className="flex flex-col gap-2 border-t border-neutral-800 pt-4">
-                                            <span className="text-sm font-semibold text-yellow-500/70 uppercase tracking-wider">Categories</span>
-                                            {categories.map((category) => (
-                                                <Link
-                                                    key={category.id}
-                                                    href={`/products?category=${category.slug}`}
-                                                    className="text-base font-medium text-neutral-300 hover:text-yellow-500 transition-colors pl-4"
-                                                    onClick={() => setIsMobileMenuOpen(false)}
-                                                >
-                                                    {category.name}
-                                                </Link>
-                                            ))}
+                                        {/* Categories Section */}
+                                        <div className="flex flex-col gap-1 mt-2">
+                                            <div className="flex items-center gap-2 px-4 py-2">
+                                                <div className="h-px flex-1 bg-gradient-to-r from-transparent via-yellow-500/30 to-transparent" />
+                                                <span className="text-xs font-semibold text-yellow-500/70 uppercase tracking-wider">Categories</span>
+                                                <div className="h-px flex-1 bg-gradient-to-r from-transparent via-yellow-500/30 to-transparent" />
+                                            </div>
+                                            <div className="flex flex-col gap-1 max-h-[200px] overflow-y-auto scrollbar-hide">
+                                                {categories.map((category, index) => (
+                                                    <Link
+                                                        key={category.id}
+                                                        href={`/collections/${category.slug}`}
+                                                        className="group flex items-center gap-3 px-6 py-2.5 rounded-lg text-sm font-medium text-neutral-300 hover:bg-yellow-500/10 hover:text-yellow-500 transition-all duration-300 relative overflow-hidden"
+                                                        onClick={() => setIsMobileMenuOpen(false)}
+                                                        style={{ animationDelay: `${index * 50}ms` }}
+                                                    >
+                                                        <div className="absolute inset-0 bg-gradient-to-r from-yellow-500/0 via-yellow-500/5 to-yellow-500/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
+                                                        <div className="w-1.5 h-1.5 rounded-full bg-yellow-500/50 group-hover:bg-yellow-500 group-hover:scale-150 transition-all duration-300" />
+                                                        <span className="relative z-10">{category.name}</span>
+                                                    </Link>
+                                                ))}
+                                            </div>
                                         </div>
 
-                                        <Link
-                                            href="/collections"
-                                            className="text-lg font-medium text-white hover:text-yellow-500 transition-colors border-t border-neutral-800 pt-4"
-                                            onClick={() => setIsMobileMenuOpen(false)}
-                                        >
-                                            Collections
-                                        </Link>
-                                        <Link
-                                            href="/about"
-                                            className="text-lg font-medium text-white hover:text-yellow-500 transition-colors"
-                                            onClick={() => setIsMobileMenuOpen(false)}
-                                        >
-                                            About
-                                        </Link>
-                                        <Link
-                                            href="/reels"
-                                            className="text-lg font-medium text-yellow-500 hover:text-yellow-400 transition-colors"
-                                            onClick={() => setIsMobileMenuOpen(false)}
-                                        >
-                                            Reels
-                                        </Link>
-
-                                        {/* Mobile-only links */}
-                                        <div className="flex flex-col gap-4 border-t border-neutral-800 pt-4 mt-4">
+                                        {/* Main Links */}
+                                        <div className="flex flex-col gap-1 mt-2">
                                             <Link
-                                                href="/wishlist"
-                                                className="flex items-center gap-3 text-lg font-medium text-white hover:text-yellow-500 transition-colors"
+                                                href="/collections"
+                                                className="group flex items-center gap-3 px-4 py-3 rounded-lg text-base font-medium text-white hover:bg-yellow-500/10 hover:text-yellow-500 transition-all duration-300 relative overflow-hidden"
                                                 onClick={() => setIsMobileMenuOpen(false)}
                                             >
-                                                <Heart className="h-5 w-5" />
-                                                Wishlist
+                                                <div className="absolute inset-0 bg-gradient-to-r from-yellow-500/0 via-yellow-500/5 to-yellow-500/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
+                                                <div className="w-5 h-5 rounded-md bg-yellow-500/20 flex items-center justify-center group-hover:bg-yellow-500/30 transition-all duration-300">
+                                                    <div className="w-2 h-2 rounded-sm bg-yellow-500" />
+                                                </div>
+                                                <span className="relative z-10">Collections</span>
+                                            </Link>
+                                            <Link
+                                                href="/about"
+                                                className="group flex items-center gap-3 px-4 py-3 rounded-lg text-base font-medium text-white hover:bg-yellow-500/10 hover:text-yellow-500 transition-all duration-300 relative overflow-hidden"
+                                                onClick={() => setIsMobileMenuOpen(false)}
+                                            >
+                                                <div className="absolute inset-0 bg-gradient-to-r from-yellow-500/0 via-yellow-500/5 to-yellow-500/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
+                                                <div className="w-5 h-5 rounded-md bg-yellow-500/20 flex items-center justify-center group-hover:bg-yellow-500/30 transition-all duration-300">
+                                                    <div className="w-2 h-2 rounded-full bg-yellow-500" />
+                                                </div>
+                                                <span className="relative z-10">About</span>
+                                            </Link>
+                                            <Link
+                                                href="/reels"
+                                                className="group flex items-center gap-3 px-4 py-3 rounded-lg text-base font-medium bg-gradient-to-r from-yellow-500/10 to-yellow-600/10 text-yellow-500 hover:from-yellow-500/20 hover:to-yellow-600/20 transition-all duration-300 relative overflow-hidden border border-yellow-500/20"
+                                                onClick={() => setIsMobileMenuOpen(false)}
+                                            >
+                                                <div className="absolute inset-0 bg-gradient-to-r from-yellow-500/0 via-yellow-500/10 to-yellow-500/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
+                                                <Sparkles className="h-5 w-5 relative z-10 animate-pulse" />
+                                                <span className="relative z-10 font-semibold">Reels</span>
+                                            </Link>
+                                        </div>
+
+                                        {/* User Actions */}
+                                        <div className="flex flex-col gap-1 mt-4 pt-4 border-t border-yellow-500/20">
+                                            <Link
+                                                href="/wishlist"
+                                                className="group flex items-center justify-between px-4 py-3 rounded-lg text-base font-medium text-white hover:bg-yellow-500/10 hover:text-yellow-500 transition-all duration-300 relative overflow-hidden"
+                                                onClick={() => setIsMobileMenuOpen(false)}
+                                            >
+                                                <div className="absolute inset-0 bg-gradient-to-r from-yellow-500/0 via-yellow-500/5 to-yellow-500/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
+                                                <div className="flex items-center gap-3 relative z-10">
+                                                    <Heart className="h-5 w-5 group-hover:fill-yellow-500 transition-all duration-300" />
+                                                    <span>Wishlist</span>
+                                                </div>
                                                 <WishlistBadge />
                                             </Link>
                                             <Link
                                                 href="/profile"
-                                                className="flex items-center gap-3 text-lg font-medium text-white hover:text-yellow-500 transition-colors"
+                                                className="group flex items-center gap-3 px-4 py-3 rounded-lg text-base font-medium text-white hover:bg-yellow-500/10 hover:text-yellow-500 transition-all duration-300 relative overflow-hidden"
                                                 onClick={() => setIsMobileMenuOpen(false)}
                                             >
-                                                <User className="h-5 w-5" />
-                                                Profile
+                                                <div className="absolute inset-0 bg-gradient-to-r from-yellow-500/0 via-yellow-500/5 to-yellow-500/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
+                                                <User className="h-5 w-5 relative z-10 group-hover:scale-110 transition-transform duration-300" />
+                                                <span className="relative z-10">Profile</span>
                                             </Link>
                                         </div>
                                     </nav>
+
+                                    {/* Footer */}
+                                    <div className="absolute bottom-6 left-6 right-6">
+                                        <div className="flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-gradient-to-r from-yellow-500/5 to-yellow-600/5 border border-yellow-500/20">
+                                            <Sparkles className="h-4 w-4 text-yellow-500 animate-pulse" />
+                                            <span className="text-xs text-neutral-400">Premium Jewelry Experience</span>
+                                        </div>
+                                    </div>
                                 </SheetContent>
                             </Sheet>
                         </div>
@@ -199,7 +268,7 @@ export function Header() {
                                                 {categories.map((category) => (
                                                     <Link
                                                         key={category.id}
-                                                        href={`/products?category=${category.slug}`}
+                                                        href={`/collections/${category.slug}`}
                                                         className="group/item flex flex-col items-center gap-2 p-4 rounded-lg hover:bg-neutral-800/50 transition-all duration-300"
                                                         onClick={() => setShowCategoriesDropdown(false)}
                                                     >

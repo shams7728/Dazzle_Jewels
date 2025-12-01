@@ -5,6 +5,7 @@ import { Loader2, Eye, Search, ChevronLeft, ChevronRight, Calendar, ArrowUpDown 
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { orderService } from "@/lib/services/order-service";
+import { supabase } from "@/lib/supabase";
 import type { OrderStatus, OrderFilters, PaginatedOrders } from "@/types/order-management";
 
 type SortField = 'created_at' | 'total' | 'status';
@@ -12,6 +13,7 @@ type SortDirection = 'asc' | 'desc';
 
 export default function AdminOrdersPage() {
     const [paginatedData, setPaginatedData] = useState<PaginatedOrders | null>(null);
+    const [customerNames, setCustomerNames] = useState<Record<string, string>>({});
     const [loading, setLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
     const [statusFilter, setStatusFilter] = useState<OrderStatus | 'all'>('all');
@@ -59,6 +61,25 @@ export default function AdminOrdersPage() {
                     }
                     return sortDirection === 'asc' ? comparison : -comparison;
                 });
+                
+                // Fetch customer names from profiles
+                const userIds = [...new Set(data.orders.map(order => order.user_id))];
+                if (userIds.length > 0) {
+                    const { data: profiles } = await supabase
+                        .from('profiles')
+                        .select('id, full_name')
+                        .in('id', userIds);
+                    
+                    if (profiles) {
+                        const namesMap: Record<string, string> = {};
+                        profiles.forEach(profile => {
+                            if (profile.full_name) {
+                                namesMap[profile.id] = profile.full_name;
+                            }
+                        });
+                        setCustomerNames(namesMap);
+                    }
+                }
             }
             
             setPaginatedData(data);
@@ -264,7 +285,9 @@ export default function AdminOrdersPage() {
                                         </td>
                                         <td className="px-6 py-4">
                                             <div className="flex flex-col">
-                                                <span className="text-white">{order.shipping_address?.name || "Guest"}</span>
+                                                <span className="text-white">
+                                                    {customerNames[order.user_id] || order.shipping_address?.name || "Guest"}
+                                                </span>
                                                 <span className="text-xs text-neutral-500">{order.shipping_address?.phone}</span>
                                             </div>
                                         </td>
