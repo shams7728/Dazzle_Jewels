@@ -97,7 +97,7 @@ export default function ProductsPage() {
             alert("Product deleted successfully!");
         } catch (error: unknown) {
             console.error("Error deleting product:", error);
-            alert(`Failed to delete product: ${(error as unknown)?.message || "Unknown error"}`);
+            alert(`Failed to delete product: ${error instanceof Error ? error.message : "Unknown error"}`);
         }
     };
 
