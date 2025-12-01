@@ -16,6 +16,16 @@ interface Order {
   } | null;
 }
 
+interface OrderResponse {
+  id: string;
+  created_at: string;
+  total: number;
+  status: string;
+  profiles: {
+    full_name: string;
+  }[] | null;
+}
+
 export function RecentOrdersTable() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
@@ -44,7 +54,13 @@ export function RecentOrdersTable() {
         .limit(5);
 
       if (data) {
-        setOrders(data as Order[]);
+        const transformedData: Order[] = (data as OrderResponse[]).map(order => ({
+          ...order,
+          profiles: Array.isArray(order.profiles) && order.profiles.length > 0 
+            ? order.profiles[0] 
+            : null
+        }));
+        setOrders(transformedData);
       }
     } catch (error) {
       console.error('Error fetching recent orders:', error);
