@@ -37,49 +37,33 @@ export default function AdminLayout({
     const checkAdmin = async () => {
         try {
             const { data: { user } } = await supabase.auth.getUser();
-            console.log('Admin Check - User:', user);
-            console.log('Admin Check - User ID:', user?.id);
 
             if (!user) {
-                console.log('Admin Check - No user found, redirecting to login');
                 router.push('/login');
                 return;
             }
 
+            // Simple query - just get the role
             const { data: profile, error } = await supabase
                 .from('profiles')
                 .select('role')
                 .eq('id', user.id)
-                .single();
-
-            console.log('Admin Check - Profile Data:', profile);
-            console.log('Admin Check - Profile Role:', profile?.role);
-            console.log('Admin Check - Error:', error);
-            console.log('Admin Check - Error Message:', error?.message);
-            console.log('Admin Check - Error Details:', JSON.stringify(error, null, 2));
+                .maybeSingle();
 
             if (error) {
-                console.error('Admin Check - Query failed with error:', error);
+                console.error('Admin check error:', error);
                 router.push('/unauthorized');
                 return;
             }
 
-            if (!profile) {
-                console.error('Admin Check - No profile found for user');
+            if (!profile || profile.role !== 'admin') {
                 router.push('/unauthorized');
                 return;
             }
 
-            if (profile?.role !== 'admin') {
-                console.log('Admin Check - Not admin, role is:', profile?.role);
-                router.push('/unauthorized');
-                return;
-            }
-
-            console.log('Admin Check - SUCCESS! User is admin');
             setIsAdmin(true);
         } catch (error) {
-            console.error('Error checking admin status (catch block):', error);
+            console.error('Admin check failed:', error);
             router.push('/unauthorized');
         } finally {
             setLoading(false);
