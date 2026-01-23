@@ -16,7 +16,7 @@ function MaterialFilterComponent() {
     });
 
     const counts = calculateFilterCounts(products, filters);
-    
+
     return Array.from(allMaterials).map((material) => ({
       value: material,
       label: material.charAt(0).toUpperCase() + material.slice(1),
@@ -35,7 +35,7 @@ function MaterialFilterComponent() {
 
   if (materialOptions.length === 0) {
     return (
-      <div className="text-sm text-neutral-500 text-center py-4">
+      <div className="text-sm text-muted-foreground text-center py-4">
         No materials available
       </div>
     );
@@ -48,9 +48,9 @@ function MaterialFilterComponent() {
           key={option.value}
           className={cn(
             'flex items-center justify-between p-3 rounded-lg cursor-pointer',
-            'hover:bg-neutral-800 transition-colors',
+            'hover:bg-muted transition-colors',
             'active:scale-95 touch-manipulation', // Mobile optimization
-            filters.materials.includes(option.value) && 'bg-neutral-800'
+            filters.materials.includes(option.value) && 'bg-muted'
           )}
         >
           <div className="flex items-center gap-3">
@@ -59,15 +59,15 @@ function MaterialFilterComponent() {
               checked={filters.materials.includes(option.value)}
               onChange={() => handleToggle(option.value)}
               className={cn(
-                'w-4 h-4 rounded border-neutral-600 bg-neutral-700',
-                'text-yellow-500 focus:ring-2 focus:ring-yellow-500 focus:ring-offset-0',
+                'w-4 h-4 rounded border-input bg-background',
+                'text-primary focus:ring-2 focus:ring-primary focus:ring-offset-0',
                 'cursor-pointer touch-manipulation' // Mobile optimization
               )}
               aria-label={`${option.label} (${option.count} products)`}
             />
-            <span className="text-white text-sm" aria-hidden="true">{option.label}</span>
+            <span className="text-foreground text-sm" aria-hidden="true">{option.label}</span>
           </div>
-          <span className="text-xs text-neutral-500" aria-hidden="true">({option.count})</span>
+          <span className="text-xs text-muted-foreground" aria-hidden="true">({option.count})</span>
         </label>
       ))}
     </div>

@@ -9,7 +9,7 @@ import { showcaseConfigs } from "@/lib/config/showcase";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-black">
+    <main className="min-h-screen bg-background">
       <Hero3D />
       <CouponBanner />
       <AdCarousel />

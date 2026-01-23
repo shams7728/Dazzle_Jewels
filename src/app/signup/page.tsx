@@ -44,7 +44,7 @@ export default function SignupPage() {
 
     const handleSignup = async (e: React.FormEvent) => {
         e.preventDefault();
-        
+
         if (!acceptTerms) {
             setError("Please accept the terms and conditions");
             return;
@@ -86,7 +86,7 @@ export default function SignupPage() {
         } catch (err) {
             const errorMessage = err instanceof Error ? err.message : "An error occurred";
             setError(errorMessage);
-            
+
             // Error animation
             if (formRef.current) {
                 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -104,7 +104,7 @@ export default function SignupPage() {
 
     const getPasswordStrength = (password: string): { strength: number; label: string; color: string } => {
         if (!password) return { strength: 0, label: '', color: '' };
-        
+
         let strength = 0;
         if (password.length >= 8) strength++;
         if (/[A-Z]/.test(password)) strength++;
@@ -161,23 +161,23 @@ export default function SignupPage() {
                         required
                         autoComplete="new-password"
                     />
-                    
+
                     {/* Password Strength Indicator */}
                     {formData.password && (
                         <div data-animate className="mt-3 space-y-2">
                             <div className="flex items-center justify-between text-xs">
                                 <span className="text-neutral-400">Password strength</span>
-                                <span className={`font-medium ${
-                                    passwordStrength.label === 'Weak' ? 'text-red-400' :
-                                    passwordStrength.label === 'Medium' ? 'text-yellow-400' :
-                                    'text-green-400'
-                                }`}>
+                                <span className={`font-medium ${passwordStrength.label === 'Weak' ? 'text-red-400' :
+                                        passwordStrength.label === 'Medium' ? 'text-orange-400' :
+                                            'text-green-500'
+                                    }`}>
                                     {passwordStrength.label}
                                 </span>
                             </div>
                             <div className="h-1.5 bg-neutral-800 rounded-full overflow-hidden">
                                 <div
-                                    className={`h-full transition-all duration-300 ${passwordStrength.color}`}
+                                    className={`h-full transition-all duration-300 ${passwordStrength.label === 'Medium' ? 'bg-orange-400' : passwordStrength.color
+                                        }`}
                                     style={{ width: `${passwordStrength.strength}%` }}
                                 />
                             </div>
@@ -192,15 +192,15 @@ export default function SignupPage() {
                             type="checkbox"
                             checked={acceptTerms}
                             onChange={(e) => setAcceptTerms(e.target.checked)}
-                            className="mt-0.5 w-4 h-4 rounded border-neutral-700 bg-neutral-900 text-gold-500 focus:ring-2 focus:ring-gold-500/50 transition-all"
+                            className="mt-0.5 w-4 h-4 rounded border-input bg-background text-primary focus:ring-2 focus:ring-primary/50 transition-all"
                         />
-                        <span className="text-sm text-neutral-400 group-hover:text-neutral-300 transition-colors">
+                        <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">
                             I agree to the{' '}
-                            <a href="#" className="text-gold-500 hover:text-gold-400">
+                            <a href="#" className="text-primary hover:text-primary/80">
                                 Terms of Service
                             </a>{' '}
                             and{' '}
-                            <a href="#" className="text-gold-500 hover:text-gold-400">
+                            <a href="#" className="text-primary hover:text-primary/80">
                                 Privacy Policy
                             </a>
                         </span>

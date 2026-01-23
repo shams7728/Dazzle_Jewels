@@ -8,12 +8,12 @@ const buttonVariants = cva(
     {
         variants: {
             variant: {
-                default: "bg-yellow-500 text-black hover:bg-yellow-400",
-                destructive: "bg-red-500 text-white hover:bg-red-600",
-                outline: "border border-neutral-800 bg-black hover:bg-neutral-900 hover:text-white",
-                secondary: "bg-neutral-800 text-white hover:bg-neutral-700",
-                ghost: "hover:bg-neutral-800 hover:text-white",
-                link: "text-yellow-500 underline-offset-4 hover:underline",
+                default: "bg-primary text-primary-foreground hover:bg-primary/90",
+                destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+                outline: "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
+                secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+                ghost: "hover:bg-accent hover:text-accent-foreground",
+                link: "text-primary underline-offset-4 hover:underline",
             },
             size: {
                 default: "h-11 px-4 py-2 min-h-[44px]", // Minimum 44px touch target

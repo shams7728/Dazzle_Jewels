@@ -59,7 +59,7 @@ export default function CheckoutPage() {
         // Validate each item in the array
         for (let i = 0; i < sessionObj.items.length; i++) {
             const item = sessionObj.items[i];
-            
+
             // Check if item is an object
             if (!item || typeof item !== 'object') {
                 console.warn(`Buy Now session validation failed: item at index ${i} is not an object`);
@@ -132,14 +132,14 @@ export default function CheckoutPage() {
                 if (buyNowSessionData) {
                     try {
                         const session: unknown = JSON.parse(buyNowSessionData);
-                        
+
                         // Validate session structure with comprehensive checks
                         if (validateBuyNowSession(session)) {
                             console.log('Buy Now session validated successfully');
-                            
+
                             // Clean up session from storage immediately after reading
                             sessionStorage.removeItem('buyNowSession');
-                            
+
                             // TypeScript now knows session is CheckoutSession
                             return {
                                 checkoutType: "buyNow" as const,
@@ -166,7 +166,7 @@ export default function CheckoutPage() {
                 // Continue with cart checkout - don't break user experience
             }
         }
-        
+
         // Fall back to cart checkout
         console.log('Falling back to cart checkout');
         return {
@@ -178,7 +178,7 @@ export default function CheckoutPage() {
 
     // Initialize state synchronously
     const initialState = initializeCheckoutState();
-    
+
     // Checkout type state
     const [checkoutType] = useState<"cart" | "buyNow">(initialState.checkoutType);
     const [checkoutItems, setCheckoutItems] = useState<CartItem[]>(initialState.items);
@@ -351,7 +351,7 @@ export default function CheckoutPage() {
     const createOrder = async () => {
         try {
             setLoading(true);
-            
+
             // Get current user
             const { data: { user } } = await supabase.auth.getUser();
 
@@ -380,7 +380,7 @@ export default function CheckoutPage() {
                 .single();
 
             if (orderError) throw orderError;
-            
+
             if (!order) {
                 throw new Error("Failed to create order - no order data returned");
             }
@@ -390,15 +390,15 @@ export default function CheckoutPage() {
                 const price = item.variant
                     ? item.product.base_price + item.variant.price_adjustment
                     : item.product.base_price;
-                
+
                 // Get product image from variant or product
                 const productImage = item.variant?.images?.[0] || item.product.variants?.[0]?.images?.[0] || null;
-                
+
                 // Build variant name from color and material
-                const variantName = item.variant 
+                const variantName = item.variant
                     ? [item.variant.color, item.variant.material].filter(Boolean).join(' - ') || 'Default'
                     : null;
-                
+
                 return {
                     order_id: order.id,
                     product_id: item.product.id,
@@ -423,14 +423,14 @@ export default function CheckoutPage() {
                 clearCart();
             }
             // For Buy Now, we don't clear the cart as it should remain unchanged
-            
+
             router.push(`/checkout/success?orderId=${order.id}`);
         } catch (error) {
             console.error("Error creating order:", error);
-            
+
             // Better error handling for Supabase errors
             let errorMessage = "Unknown error";
-            
+
             if (error && typeof error === 'object') {
                 if ('message' in error) {
                     errorMessage = String(error.message);
@@ -442,7 +442,7 @@ export default function CheckoutPage() {
             } else if (error instanceof Error) {
                 errorMessage = error.message;
             }
-            
+
             console.error("Detailed error:", errorMessage);
             alert("Error creating order: " + errorMessage);
         } finally {
@@ -461,9 +461,9 @@ export default function CheckoutPage() {
             <Script src="https://checkout.razorpay.com/v1/checkout.js" />
 
             <header className="mb-8 flex items-center justify-between">
-                <h1 className="text-3xl font-bold text-white">Checkout</h1>
+                <h1 className="text-3xl font-bold text-foreground">Checkout</h1>
                 {checkoutType === "buyNow" && (
-                    <span className="rounded-full bg-yellow-500/20 px-4 py-1 text-sm font-medium text-yellow-500" role="status" aria-label="Buy Now checkout mode">
+                    <span className="rounded-full bg-primary/20 px-4 py-1 text-sm font-medium text-primary" role="status" aria-label="Buy Now checkout mode">
                         Buy Now
                     </span>
                 )}
@@ -476,13 +476,12 @@ export default function CheckoutPage() {
                         <div key={step.id} className="flex flex-1 items-center">
                             <div className="flex flex-col items-center">
                                 <div
-                                    className={`flex h-10 w-10 items-center justify-center rounded-full border-2 transition-all ${
-                                        currentStep === step.id
-                                            ? "border-yellow-500 bg-yellow-500 text-black"
+                                    className={`flex h-10 w-10 items-center justify-center rounded-full border-2 transition-all ${currentStep === step.id
+                                            ? "border-primary bg-primary text-primary-foreground"
                                             : steps.findIndex((s) => s.id === currentStep) > index
-                                            ? "border-green-500 bg-green-500 text-white"
-                                            : "border-neutral-700 bg-neutral-900 text-neutral-400"
-                                    }`}
+                                                ? "border-green-500 bg-green-500 text-white"
+                                                : "border-muted-foreground/30 bg-muted text-muted-foreground"
+                                        }`}
                                 >
                                     {steps.findIndex((s) => s.id === currentStep) > index ? (
                                         <Check className="h-5 w-5" />
@@ -491,24 +490,22 @@ export default function CheckoutPage() {
                                     )}
                                 </div>
                                 <span
-                                    className={`mt-2 text-sm font-medium ${
-                                        currentStep === step.id
-                                            ? "text-yellow-500"
+                                    className={`mt-2 text-sm font-medium ${currentStep === step.id
+                                            ? "text-primary"
                                             : steps.findIndex((s) => s.id === currentStep) > index
-                                            ? "text-green-500"
-                                            : "text-neutral-400"
-                                    }`}
+                                                ? "text-green-500"
+                                                : "text-muted-foreground"
+                                        }`}
                                 >
                                     {step.label}
                                 </span>
                             </div>
                             {index < steps.length - 1 && (
                                 <div
-                                    className={`mx-4 h-0.5 flex-1 transition-all ${
-                                        steps.findIndex((s) => s.id === currentStep) > index
+                                    className={`mx-4 h-0.5 flex-1 transition-all ${steps.findIndex((s) => s.id === currentStep) > index
                                             ? "bg-green-500"
                                             : "bg-neutral-700"
-                                    }`}
+                                        }`}
                                 />
                             )}
                         </div>
@@ -521,9 +518,9 @@ export default function CheckoutPage() {
                 <div className="space-y-6">
                     {/* Address Step */}
                     {currentStep === "address" && (
-                        <section className="rounded-xl border border-neutral-800 bg-black p-6" aria-labelledby="shipping-heading">
-                            <h2 id="shipping-heading" className="mb-4 text-xl font-semibold text-white">Shipping Details</h2>
-                            <div className="text-neutral-400 text-sm mb-4">
+                        <section className="rounded-xl border border-border bg-card p-6" aria-labelledby="shipping-heading">
+                            <h2 id="shipping-heading" className="mb-4 text-xl font-semibold text-foreground">Shipping Details</h2>
+                            <div className="text-muted-foreground text-sm mb-4">
                                 Step 1: Enter your shipping address
                             </div>
                             <AddressForm
@@ -537,9 +534,9 @@ export default function CheckoutPage() {
 
                     {/* Payment Step */}
                     {currentStep === "payment" && (
-                        <section className="rounded-xl border border-neutral-800 bg-black p-6" aria-labelledby="payment-heading">
-                            <h2 id="payment-heading" className="mb-4 text-xl font-semibold text-white">Payment Method</h2>
-                            <div className="text-neutral-400 text-sm mb-4">
+                        <section className="rounded-xl border border-border bg-card p-6" aria-labelledby="payment-heading">
+                            <h2 id="payment-heading" className="mb-4 text-xl font-semibold text-foreground">Payment Method</h2>
+                            <div className="text-muted-foreground text-sm mb-4">
                                 Step 2: Choose your payment method
                             </div>
                             <PaymentSelector
@@ -557,16 +554,16 @@ export default function CheckoutPage() {
 
                     {/* Review Step */}
                     {currentStep === "review" && (
-                        <section className="rounded-xl border border-neutral-800 bg-black p-6" aria-labelledby="review-heading">
-                            <h2 id="review-heading" className="mb-4 text-xl font-semibold text-white">Review Order</h2>
-                            <div className="text-neutral-400 text-sm mb-4">
+                        <section className="rounded-xl border border-border bg-card p-6" aria-labelledby="review-heading">
+                            <h2 id="review-heading" className="mb-4 text-xl font-semibold text-foreground">Review Order</h2>
+                            <div className="text-muted-foreground text-sm mb-4">
                                 Step 3: Review your order details
                             </div>
-                            
+
                             {/* Shipping Address Review */}
-                            <div className="mb-6 rounded-lg border border-neutral-800 bg-neutral-900/50 p-4">
-                                <h3 className="mb-2 font-semibold text-white">Shipping Address</h3>
-                                <div className="space-y-1 text-sm text-neutral-300">
+                            <div className="mb-6 rounded-lg border border-border bg-muted/50 p-4">
+                                <h3 className="mb-2 font-semibold text-foreground">Shipping Address</h3>
+                                <div className="space-y-1 text-sm text-muted-foreground">
                                     <p>{formData.fullName}</p>
                                     <p>{formData.email}</p>
                                     <p>{formData.phone}</p>
@@ -577,23 +574,23 @@ export default function CheckoutPage() {
                                     variant="ghost"
                                     size="sm"
                                     onClick={() => setCurrentStep("address")}
-                                    className="mt-2 text-yellow-500 hover:text-yellow-400"
+                                    className="mt-2 text-primary hover:text-primary/80"
                                 >
                                     Edit Address
                                 </Button>
                             </div>
 
                             {/* Payment Method Review */}
-                            <div className="mb-6 rounded-lg border border-neutral-800 bg-neutral-900/50 p-4">
-                                <h3 className="mb-2 font-semibold text-white">Payment Method</h3>
-                                <p className="text-sm text-neutral-300">
+                            <div className="mb-6 rounded-lg border border-border bg-muted/50 p-4">
+                                <h3 className="mb-2 font-semibold text-foreground">Payment Method</h3>
+                                <p className="text-sm text-muted-foreground">
                                     {paymentMethod === "razorpay" ? "Online Payment (Razorpay)" : "Cash on Delivery"}
                                 </p>
                                 <Button
                                     variant="ghost"
                                     size="sm"
                                     onClick={() => setCurrentStep("payment")}
-                                    className="mt-2 text-yellow-500 hover:text-yellow-400"
+                                    className="mt-2 text-primary hover:text-primary/80"
                                 >
                                     Change Payment Method
                                 </Button>
@@ -642,8 +639,8 @@ export default function CheckoutPage() {
 
                 {/* Order Summary */}
                 <div>
-                    <section className="sticky top-24 rounded-xl border border-neutral-800 bg-black p-6" aria-labelledby="order-summary-heading">
-                        <h2 id="order-summary-heading" className="mb-4 text-xl font-semibold text-white">Order Summary</h2>
+                    <section className="sticky top-24 rounded-xl border border-border bg-card p-6" aria-labelledby="order-summary-heading">
+                        <h2 id="order-summary-heading" className="mb-4 text-xl font-semibold text-foreground">Order Summary</h2>
                         <OrderSummary
                             items={checkoutItems}
                             subtotal={subtotal}

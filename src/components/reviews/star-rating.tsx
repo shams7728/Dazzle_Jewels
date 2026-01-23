@@ -43,8 +43,8 @@ export function StarRating({
                         className={cn(
                             sizeClasses[size],
                             star <= rating
-                                ? "fill-yellow-500 text-yellow-500"
-                                : "fill-neutral-800 text-neutral-600"
+                                ? "fill-primary text-primary"
+                                : "fill-muted text-muted-foreground"
                         )}
                     />
                 </button>

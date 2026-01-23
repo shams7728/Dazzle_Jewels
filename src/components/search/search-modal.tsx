@@ -88,7 +88,7 @@ function SearchModalComponent({ className }: SearchModalProps) {
     };
 
     modal.addEventListener('keydown', handleTabKey);
-    
+
     // Focus first element when modal opens
     setTimeout(() => firstElement?.focus(), 100);
 
@@ -102,7 +102,7 @@ function SearchModalComponent({ className }: SearchModalProps) {
   return (
     <div
       className={cn(
-        'fixed inset-0 z-50 flex items-start justify-center bg-black/80 backdrop-blur-sm',
+        'fixed inset-0 z-50 flex items-start justify-center bg-background/80 backdrop-blur-sm',
         'animate-in fade-in-0 duration-200',
         className
       )}
@@ -116,19 +116,19 @@ function SearchModalComponent({ className }: SearchModalProps) {
         aria-labelledby="search-modal-title"
         className={cn(
           'relative w-full max-w-4xl mx-4 mt-20',
-          'bg-neutral-900 border border-neutral-800 rounded-2xl shadow-2xl',
+          'bg-background border border-border rounded-2xl shadow-2xl',
           'animate-in slide-in-from-top-4 duration-300',
           'max-h-[80vh] flex flex-col'
         )}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-neutral-800">
-          <h2 id="search-modal-title" className="text-lg font-semibold text-white">Search Products</h2>
+        <div className="flex items-center justify-between p-4 border-b border-border">
+          <h2 id="search-modal-title" className="text-lg font-semibold text-foreground">Search Products</h2>
           <button
             ref={closeButtonRef}
             onClick={() => setIsOpen(false)}
-            className="rounded-lg p-2 text-neutral-400 hover:bg-neutral-800 hover:text-white transition-colors"
+            className="rounded-lg p-2 text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
             aria-label="Close search modal"
           >
             <X className="h-5 w-5" />
@@ -138,7 +138,7 @@ function SearchModalComponent({ className }: SearchModalProps) {
         {/* Search Content */}
         <div className="flex-1 overflow-hidden flex flex-col lg:flex-row">
           {/* Left Side - Filters (Desktop) / Top (Mobile) */}
-          <div className="lg:w-80 border-b lg:border-b-0 lg:border-r border-neutral-800 overflow-y-auto">
+          <div className="lg:w-80 border-b lg:border-b-0 lg:border-r border-border overflow-y-auto">
             <div className="p-4">
               <FilterPanel />
             </div>
@@ -147,9 +147,9 @@ function SearchModalComponent({ className }: SearchModalProps) {
           {/* Right Side - Search and Results */}
           <div className="flex-1 flex flex-col overflow-hidden">
             {/* Search Input and Controls */}
-            <div className="p-4 space-y-4 border-b border-neutral-800">
+            <div className="p-4 space-y-4 border-b border-border">
               <SearchInput />
-              
+
               {/* Active Filters and Sort */}
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div className="flex-1 min-w-0">
@@ -169,23 +169,23 @@ function SearchModalComponent({ className }: SearchModalProps) {
         </div>
 
         {/* Footer with keyboard shortcuts hint */}
-        <div className="p-4 border-t border-neutral-800 bg-neutral-900/50">
-          <div className="flex items-center justify-between text-xs text-neutral-500">
+        <div className="p-4 border-t border-border bg-muted/50">
+          <div className="flex items-center justify-between text-xs text-muted-foreground">
             <div className="flex items-center gap-4">
               <span className="flex items-center gap-1">
-                <kbd className="px-2 py-1 bg-neutral-800 rounded border border-neutral-700">
+                <kbd className="px-2 py-1 bg-muted rounded border border-border">
                   ↑↓
                 </kbd>
                 Navigate
               </span>
               <span className="flex items-center gap-1">
-                <kbd className="px-2 py-1 bg-neutral-800 rounded border border-neutral-700">
+                <kbd className="px-2 py-1 bg-muted rounded border border-border">
                   Enter
                 </kbd>
                 Select
               </span>
               <span className="flex items-center gap-1">
-                <kbd className="px-2 py-1 bg-neutral-800 rounded border border-neutral-700">
+                <kbd className="px-2 py-1 bg-muted rounded border border-border">
                   Esc
                 </kbd>
                 Close
@@ -193,7 +193,7 @@ function SearchModalComponent({ className }: SearchModalProps) {
             </div>
             <span>
               Press{' '}
-              <kbd className="px-2 py-1 bg-neutral-800 rounded border border-neutral-700">
+              <kbd className="px-2 py-1 bg-muted rounded border border-border">
                 ⌘K
               </kbd>{' '}
               to open

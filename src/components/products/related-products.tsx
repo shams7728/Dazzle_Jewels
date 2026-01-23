@@ -41,7 +41,7 @@ export function RelatedProducts({
   const handleProductHover = (productId: string) => {
     // Prefetch the product page route
     router.prefetch(`/products/${productId}`);
-    
+
     // Preload product images
     const product = products.find(p => p.id === productId);
     if (product?.variants?.[0]?.images?.[0]) {
@@ -115,9 +115,9 @@ export function RelatedProducts({
       direction === "left"
         ? Math.max(0, scrollPosition - scrollAmount)
         : Math.min(
-            container.scrollWidth - container.offsetWidth,
-            scrollPosition + scrollAmount
-          );
+          container.scrollWidth - container.offsetWidth,
+          scrollPosition + scrollAmount
+        );
 
     container.scrollTo({ left: newPosition, behavior: "smooth" });
     setScrollPosition(newPosition);
@@ -149,12 +149,12 @@ export function RelatedProducts({
     <section className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h2 className="text-xl md:text-2xl font-bold text-white">
+          <h2 className="text-xl md:text-2xl font-bold text-foreground">
             {isFallback ? "You May Also Like" : categoryId ? "Related Products" : "You May Also Like"}
           </h2>
-          <p className="mt-1 text-sm md:text-base text-neutral-400">
-            {isFallback 
-              ? "Featured products you might love" 
+          <p className="mt-1 text-sm md:text-base text-muted-foreground">
+            {isFallback
+              ? "Featured products you might love"
               : "Discover similar items you might love"}
           </p>
         </div>
@@ -167,7 +167,7 @@ export function RelatedProducts({
               size="icon"
               onClick={() => handleScroll("left")}
               disabled={scrollPosition === 0}
-              className="rounded-full border-neutral-800 bg-neutral-900 hover:bg-neutral-800 touch-manipulation"
+              className="rounded-full border-input bg-background hover:bg-muted touch-manipulation"
             >
               <ChevronLeft className="h-5 w-5" />
             </Button>
@@ -175,7 +175,7 @@ export function RelatedProducts({
               variant="outline"
               size="icon"
               onClick={() => handleScroll("right")}
-              className="rounded-full border-neutral-800 bg-neutral-900 hover:bg-neutral-800 touch-manipulation"
+              className="rounded-full border-input bg-background hover:bg-muted touch-manipulation"
             >
               <ChevronRight className="h-5 w-5" />
             </Button>

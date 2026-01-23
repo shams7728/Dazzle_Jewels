@@ -39,7 +39,7 @@ export function VariantSelector({
   if (type === 'color') {
     return (
       <div className="space-y-3">
-        <label className="text-sm font-medium text-neutral-400">
+        <label className="text-sm font-medium text-muted-foreground">
           Select Color
         </label>
         <div className="flex flex-wrap gap-3" data-testid="color-selector">
@@ -64,9 +64,9 @@ export function VariantSelector({
                     'relative rounded-full border-2 transition-all touch-manipulation',
                     'h-12 w-12 min-h-[48px] min-w-[48px]', // Minimum 48px for better touch
                     'md:h-12 md:w-12',
-                    isSelected && 'border-yellow-500 ring-2 ring-yellow-500/30',
-                    !isSelected && !isOutOfStock && 'border-neutral-700 hover:border-neutral-500',
-                    isOutOfStock && 'border-neutral-800 opacity-50 cursor-not-allowed'
+                    isSelected && 'border-primary ring-2 ring-primary/30',
+                    !isSelected && !isOutOfStock && 'border-border hover:border-muted-foreground',
+                    isOutOfStock && 'border-border opacity-50 cursor-not-allowed'
                   )}
                   style={{
                     backgroundColor: getColorHex(color),
@@ -118,7 +118,7 @@ export function VariantSelector({
   // Render button groups for material/size
   return (
     <div className="space-y-3">
-      <label className="text-sm font-medium text-neutral-400">
+      <label className="text-sm font-medium text-muted-foreground">
         Select {type === 'material' ? 'Material' : 'Size'}
       </label>
       <div className="flex flex-wrap gap-3" data-testid={`${type}-selector`}>
@@ -143,9 +143,9 @@ export function VariantSelector({
                   'rounded-lg border px-4 py-3 text-sm font-medium transition-all touch-manipulation',
                   'min-w-[80px] min-h-[44px]', // Minimum touch target
                   'md:py-2 md:min-h-[40px]',
-                  isSelected && 'border-yellow-500 bg-yellow-500/10 text-yellow-500',
-                  !isSelected && !isOutOfStock && 'border-neutral-800 bg-neutral-900 text-neutral-400 hover:border-neutral-600',
-                  isOutOfStock && 'border-neutral-800 bg-neutral-900/50 text-neutral-600 cursor-not-allowed opacity-50'
+                  isSelected && 'border-primary bg-primary/10 text-primary',
+                  !isSelected && !isOutOfStock && 'border-border bg-card text-muted-foreground hover:border-muted-foreground',
+                  isOutOfStock && 'border-border bg-muted/50 text-muted-foreground cursor-not-allowed opacity-50'
                 )}
                 data-testid={`${type}-button-${variant.id}`}
                 data-value={value}

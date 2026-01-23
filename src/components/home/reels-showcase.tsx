@@ -27,7 +27,7 @@ export function ReelsShowcase() {
                 .eq('is_approved', true)
                 .order('created_at', { ascending: false })
                 .limit(10);
-            
+
             if (data && !error) {
                 setReels(data);
             }
@@ -80,7 +80,7 @@ export function ReelsShowcase() {
         if (autoScrollIntervalRef.current) {
             clearInterval(autoScrollIntervalRef.current);
         }
-        
+
         // Resume after 3 seconds of no interaction
         setTimeout(() => {
             setIsAutoScrolling(true);
@@ -90,9 +90,9 @@ export function ReelsShowcase() {
     const scroll = (direction: 'left' | 'right') => {
         if (scrollContainerRef.current) {
             const scrollAmount = 400;
-            const newScrollLeft = scrollContainerRef.current.scrollLeft + 
+            const newScrollLeft = scrollContainerRef.current.scrollLeft +
                 (direction === 'left' ? -scrollAmount : scrollAmount);
-            
+
             scrollContainerRef.current.scrollTo({
                 left: newScrollLeft,
                 behavior: 'smooth'
@@ -104,33 +104,33 @@ export function ReelsShowcase() {
     if (loading || reels.length === 0) return null;
 
     return (
-        <div className="relative w-full bg-black py-12 md:py-16 overflow-hidden">
+        <div className="relative w-full bg-muted/30 py-12 md:py-16 overflow-hidden">
             {/* Background decoration */}
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-yellow-500/5 to-transparent pointer-events-none" />
-            
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/5 to-transparent pointer-events-none" />
+
             <div className="container mx-auto px-4 relative z-10">
                 {/* Section Header */}
                 <div className="mb-8 flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                        <div className="p-2 rounded-lg bg-gradient-to-br from-yellow-500/20 to-yellow-600/20 border border-yellow-500/30">
-                            <Play className="h-6 w-6 text-yellow-500" />
+                        <div className="p-2 rounded-lg bg-gradient-to-br from-primary/20 to-pink-600/20 border border-primary/30">
+                            <Play className="h-6 w-6 text-primary" />
                         </div>
                         <div>
-                            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white flex items-center gap-2">
+                            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-foreground flex items-center gap-2">
                                 Trending Reels
-                                <Sparkles className="h-6 w-6 text-yellow-500 animate-pulse" />
+                                <Sparkles className="h-6 w-6 text-primary animate-pulse" />
                             </h2>
                             <p className="text-sm md:text-base text-neutral-400 mt-1">
                                 Discover our jewelry in action
                             </p>
                         </div>
                     </div>
-                    
+
                     {/* View All Button - Desktop */}
                     <Link href="/reels" className="hidden md:block">
-                        <Button 
-                            variant="outline" 
-                            className="group border-yellow-500/30 text-yellow-500 hover:bg-yellow-500 hover:text-black transition-all duration-300"
+                        <Button
+                            variant="outline"
+                            className="group border-primary/30 text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300"
                         >
                             View All Reels
                             <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
@@ -143,22 +143,22 @@ export function ReelsShowcase() {
                     {/* Navigation Buttons */}
                     <button
                         onClick={() => scroll('left')}
-                        className="absolute left-0 top-1/2 -translate-y-1/2 z-20 hidden md:flex items-center justify-center w-12 h-12 rounded-full bg-black/80 backdrop-blur-md border border-yellow-500/30 text-yellow-500 hover:bg-yellow-500 hover:text-black transition-all duration-300 hover:scale-110 shadow-lg"
+                        className="absolute left-0 top-1/2 -translate-y-1/2 z-20 hidden md:flex items-center justify-center w-12 h-12 rounded-full bg-background/80 backdrop-blur-md border border-primary/30 text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300 hover:scale-110 shadow-lg"
                         aria-label="Scroll left"
                     >
                         <ChevronLeft className="h-6 w-6" />
                     </button>
-                    
+
                     <button
                         onClick={() => scroll('right')}
-                        className="absolute right-0 top-1/2 -translate-y-1/2 z-20 hidden md:flex items-center justify-center w-12 h-12 rounded-full bg-black/80 backdrop-blur-md border border-yellow-500/30 text-yellow-500 hover:bg-yellow-500 hover:text-black transition-all duration-300 hover:scale-110 shadow-lg"
+                        className="absolute right-0 top-1/2 -translate-y-1/2 z-20 hidden md:flex items-center justify-center w-12 h-12 rounded-full bg-background/80 backdrop-blur-md border border-primary/30 text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300 hover:scale-110 shadow-lg"
                         aria-label="Scroll right"
                     >
                         <ChevronRight className="h-6 w-6" />
                     </button>
 
                     {/* Scrollable Reels */}
-                    <div 
+                    <div
                         ref={scrollContainerRef}
                         className="flex gap-4 md:gap-6 overflow-x-auto scrollbar-hide scroll-smooth pb-4"
                         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
@@ -175,10 +175,10 @@ export function ReelsShowcase() {
                                 className="flex-shrink-0 group"
                             >
                                 <Link href={`/reels?id=${reel.id}`}>
-                                    <div className="relative w-[180px] md:w-[220px] h-[320px] md:h-[390px] rounded-2xl overflow-hidden border-2 border-neutral-800 hover:border-yellow-500/50 transition-all duration-300 shadow-xl hover:shadow-2xl hover:shadow-yellow-500/20 cursor-pointer">
+                                    <div className="relative w-[180px] md:w-[220px] h-[320px] md:h-[390px] rounded-2xl overflow-hidden border-2 border-border hover:border-primary/50 transition-all duration-300 shadow-xl hover:shadow-2xl hover:shadow-primary/20 cursor-pointer">
                                         {/* Video Preview - Auto-playing, looping, muted */}
                                         <div className="absolute inset-0">
-                                            <video 
+                                            <video
                                                 src={reel.video_url}
                                                 autoPlay
                                                 loop
@@ -190,9 +190,9 @@ export function ReelsShowcase() {
                                         </div>
 
                                         {/* Play Button Overlay - Shows on hover */}
-                                        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/40 backdrop-blur-sm">
-                                            <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-yellow-500 flex items-center justify-center shadow-2xl shadow-yellow-500/50 group-hover:scale-110 transition-transform">
-                                                <Play className="h-7 w-7 md:h-8 md:w-8 text-black fill-black ml-1" />
+                                        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/20 backdrop-blur-sm">
+                                            <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-primary flex items-center justify-center shadow-2xl shadow-primary/50 group-hover:scale-110 transition-transform">
+                                                <Play className="h-7 w-7 md:h-8 md:w-8 text-white fill-white ml-1" />
                                             </div>
                                         </div>
 
@@ -206,8 +206,8 @@ export function ReelsShowcase() {
                                                 <div className="flex items-center gap-1.5 text-white/90">
                                                     <Eye className="h-4 w-4" />
                                                     <span className="text-xs md:text-sm font-medium">
-                                                        {reel.likes_count > 1000 
-                                                            ? `${(reel.likes_count / 1000).toFixed(1)}K` 
+                                                        {reel.likes_count > 1000
+                                                            ? `${(reel.likes_count / 1000).toFixed(1)}K`
                                                             : reel.likes_count}
                                                     </span>
                                                 </div>
@@ -222,11 +222,11 @@ export function ReelsShowcase() {
                                             {/* Product Info */}
                                             {reel.product && (
                                                 <div className="space-y-1">
-                                                    <h3 className="text-white font-semibold text-sm md:text-base line-clamp-2 group-hover:text-yellow-500 transition-colors">
+                                                    <h3 className="text-white font-semibold text-sm md:text-base line-clamp-2 group-hover:text-primary transition-colors">
                                                         {reel.product.title}
                                                     </h3>
                                                     <div className="flex items-center gap-2">
-                                                        <span className="text-yellow-500 font-bold text-base md:text-lg">
+                                                        <span className="text-primary font-bold text-base md:text-lg">
                                                             ₹{reel.product.discount_price || reel.product.base_price}
                                                         </span>
                                                         {reel.product.discount_price && (
@@ -242,9 +242,9 @@ export function ReelsShowcase() {
                                         {/* Featured Badge */}
                                         {reel.product?.is_featured && (
                                             <div className="absolute top-3 right-3 z-10">
-                                                <div className="px-3 py-1 rounded-full bg-yellow-500/90 backdrop-blur-sm border border-yellow-400 flex items-center gap-1">
+                                                <div className="px-3 py-1 rounded-full bg-primary/90 backdrop-blur-sm border border-primary/50 flex items-center gap-1">
                                                     <Sparkles className="h-3 w-3 text-black" />
-                                                    <span className="text-xs font-bold text-black">Featured</span>
+                                                    <span className="text-xs font-bold text-white">Featured</span>
                                                 </div>
                                             </div>
                                         )}
@@ -258,15 +258,15 @@ export function ReelsShowcase() {
                     </div>
 
                     {/* Fade edges for scroll indication */}
-                    <div className="absolute left-0 top-0 bottom-4 w-8 md:w-16 bg-gradient-to-r from-black to-transparent pointer-events-none z-10" />
-                    <div className="absolute right-0 top-0 bottom-4 w-8 md:w-16 bg-gradient-to-l from-black to-transparent pointer-events-none z-10" />
+                    <div className="absolute left-0 top-0 bottom-4 w-8 md:w-16 bg-gradient-to-r from-background to-transparent pointer-events-none z-10" />
+                    <div className="absolute right-0 top-0 bottom-4 w-8 md:w-16 bg-gradient-to-l from-background to-transparent pointer-events-none z-10" />
                 </div>
 
                 {/* View All Button - Mobile */}
                 <div className="mt-8 flex justify-center md:hidden">
                     <Link href="/reels">
-                        <Button 
-                            className="group bg-gradient-to-r from-yellow-500 to-yellow-600 text-black hover:from-yellow-400 hover:to-yellow-500 px-8 py-6 text-base rounded-full shadow-lg shadow-yellow-500/30"
+                        <Button
+                            className="group bg-gradient-to-r from-primary to-pink-600 text-primary-foreground hover:from-primary/90 hover:to-pink-600/90 px-8 py-6 text-base rounded-full shadow-lg shadow-primary/30"
                         >
                             View All Reels
                             <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />

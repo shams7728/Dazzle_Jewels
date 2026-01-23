@@ -54,11 +54,11 @@ function FilterPanelComponent() {
     <div className="space-y-4">
       {/* Header with Clear All */}
       <div className="flex items-center justify-between">
-        <h3 className="text-lg font-semibold text-white">Filters</h3>
+        <h3 className="text-lg font-semibold text-foreground">Filters</h3>
         {activeCount > 0 && (
           <button
             onClick={clearAllFilters}
-            className="text-sm text-yellow-500 hover:text-yellow-400 transition-colors flex items-center gap-1"
+            className="text-sm text-primary hover:text-primary/80 transition-colors flex items-center gap-1"
             aria-label={`Clear all ${activeCount} active filters`}
           >
             <X className="w-4 h-4" aria-hidden="true" />
@@ -76,29 +76,29 @@ function FilterPanelComponent() {
           return (
             <div
               key={section.id}
-              className="border-2 border-neutral-700 rounded-lg bg-neutral-900/50 overflow-hidden"
+              className="border border-border rounded-lg bg-card overflow-hidden shadow-sm"
             >
               {/* Section Header */}
               <button
                 onClick={() => toggleSection(section.id)}
-                className="w-full flex items-center justify-between p-4 hover:bg-neutral-800/50 transition-colors"
+                className="w-full flex items-center justify-between p-4 hover:bg-muted/50 transition-colors"
                 aria-expanded={isOpen}
                 aria-controls={`filter-section-${section.id}`}
                 aria-label={`${section.title} filter section`}
               >
-                <span className="font-medium text-white">{section.title}</span>
+                <span className="font-medium text-foreground">{section.title}</span>
                 {isOpen ? (
-                  <ChevronUp className="w-5 h-5 text-neutral-400" aria-hidden="true" />
+                  <ChevronUp className="w-5 h-5 text-muted-foreground" aria-hidden="true" />
                 ) : (
-                  <ChevronDown className="w-5 h-5 text-neutral-400" aria-hidden="true" />
+                  <ChevronDown className="w-5 h-5 text-muted-foreground" aria-hidden="true" />
                 )}
               </button>
 
               {/* Section Content */}
               {isOpen && (
-                <div 
+                <div
                   id={`filter-section-${section.id}`}
-                  className="p-4 pt-0 border-t border-neutral-800"
+                  className="p-4 pt-0 border-t border-border"
                   role="region"
                   aria-label={`${section.title} filter options`}
                 >

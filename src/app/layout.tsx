@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
@@ -9,15 +9,7 @@ import { PerformanceInit } from "@/components/performance-init";
 import { FirstVisitModal } from "@/components/auth/first-visit-modal";
 import { StructuredData } from "@/components/seo/structured-data";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'),
@@ -92,7 +84,7 @@ export default function RootLayout({
         <link rel="canonical" href={process.env.NEXT_PUBLIC_APP_URL} />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-black text-white`}
+        className={`${inter.className} antialiased bg-background text-foreground`}
       >
         <StructuredData />
         <PerformanceInit />

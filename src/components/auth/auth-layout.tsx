@@ -32,7 +32,7 @@ export function AuthLayout({
 
     // Check for reduced motion preference
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    
+
     if (!prefersReducedMotion) {
       // Animate page entrance
       animatePageEntrance(containerRef.current);
@@ -51,25 +51,25 @@ export function AuthLayout({
   }, []);
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center px-4 py-12 overflow-hidden bg-gradient-to-br from-black via-neutral-950 to-neutral-900">
+    <div className="relative min-h-screen flex items-center justify-center px-4 py-12 overflow-hidden bg-gradient-to-br from-background via-pink-50/50 to-background">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {/* Gradient Orbs */}
         <div
           ref={decorRef1}
-          className="absolute top-20 left-10 w-72 h-72 bg-gradient-to-br from-yellow-500/20 to-gold-600/10 rounded-full blur-3xl"
+          className="absolute top-20 left-10 w-72 h-72 bg-gradient-to-br from-primary/20 to-pink-300/20 rounded-full blur-3xl"
         />
         <div
           ref={decorRef2}
-          className="absolute bottom-20 right-10 w-96 h-96 bg-gradient-to-br from-gold-500/15 to-yellow-600/10 rounded-full blur-3xl"
+          className="absolute bottom-20 right-10 w-96 h-96 bg-gradient-to-br from-pink-400/15 to-primary/10 rounded-full blur-3xl"
         />
         <div
           ref={decorRef3}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-br from-gold-400/5 to-transparent rounded-full blur-3xl"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-br from-primary/5 to-transparent rounded-full blur-3xl"
         />
-        
+
         {/* Grid Pattern */}
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(212,175,55,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(212,175,55,0.03)_1px,transparent_1px)] bg-[size:50px_50px]" />
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(236,72,153,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(236,72,153,0.03)_1px,transparent_1px)] bg-[size:50px_50px]" />
       </div>
 
       {/* Main Content */}
@@ -77,11 +77,11 @@ export function AuthLayout({
         {/* Card Container */}
         <div
           data-animate
-          className="relative backdrop-blur-xl bg-black/40 border border-neutral-800/50 rounded-2xl shadow-2xl overflow-hidden"
+          className="relative backdrop-blur-xl bg-card/80 border border-border rounded-2xl shadow-2xl overflow-hidden"
         >
           {/* Shine Effect */}
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-gold-500/5 to-transparent -translate-x-full animate-[shimmer_3s_ease-in-out_infinite]" />
-          
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/5 to-transparent -translate-x-full animate-[shimmer_3s_ease-in-out_infinite]" />
+
           {/* Content */}
           <div className="relative p-8">
             {/* Logo */}
@@ -89,9 +89,9 @@ export function AuthLayout({
               <Link href="/" className="inline-block">
                 <div className="relative group">
                   <div className="w-16 h-16 mx-auto rounded-xl overflow-hidden bg-white p-2">
-                    <img 
-                      src="/logo-white.jpg" 
-                      alt="Dazzle Jewelry" 
+                    <img
+                      src="/logo-white.jpg"
+                      alt="Dazzle Jewelry"
                       className="w-full h-full object-contain"
                     />
                   </div>
@@ -101,19 +101,19 @@ export function AuthLayout({
 
             {/* Header */}
             <div data-animate className="text-center mb-8">
-              <h2 className="text-3xl font-bold text-white mb-2">{title}</h2>
-              <p className="text-neutral-400">{subtitle}</p>
+              <h2 className="text-3xl font-bold text-foreground mb-2">{title}</h2>
+              <p className="text-muted-foreground">{subtitle}</p>
             </div>
 
             {/* Form Content */}
             {children}
 
             {/* Footer */}
-            <div data-animate className="mt-6 text-center text-sm text-neutral-400">
+            <div data-animate className="mt-6 text-center text-sm text-muted-foreground">
               {footerText}{' '}
               <Link
                 href={footerLink}
-                className="text-gold-500 hover:text-gold-400 font-medium transition-colors"
+                className="text-primary hover:text-primary/80 font-medium transition-colors"
               >
                 {footerLinkText}
               </Link>
@@ -137,7 +137,7 @@ export function AuthLayout({
             <span>Encrypted</span>
           </div>
           <div className="flex items-center gap-1">
-            <svg className="w-4 h-4 text-gold-500" fill="currentColor" viewBox="0 0 20 20">
+            <svg className="w-4 h-4 text-primary" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
             </svg>
             <span>Trusted</span>

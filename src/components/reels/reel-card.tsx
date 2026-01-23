@@ -70,14 +70,14 @@ export function ReelCard({ reel, isActive }: ReelProps) {
   const handleAddToCart = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (reel.product) {
-        // Note: This is a simplified product object from the reel
-        // In a real scenario, you'd fetch the full product details
-        alert("Added to cart!");
+      // Note: This is a simplified product object from the reel
+      // In a real scenario, you'd fetch the full product details
+      alert("Added to cart!");
     }
   };
 
   return (
-    <div className="relative h-[calc(100vh-4rem)] w-full snap-start bg-black md:h-[calc(100vh-5rem)] md:w-[400px] md:rounded-2xl md:border md:border-neutral-800">
+    <div className="relative h-[calc(100vh-4rem)] w-full snap-start bg-black md:h-[calc(100vh-5rem)] md:w-[400px] md:rounded-2xl md:border md:border-border">
       {/* Video Player */}
       <div className="absolute inset-0 cursor-pointer" onClick={togglePlay}>
         <video
@@ -109,8 +109,8 @@ export function ReelCard({ reel, isActive }: ReelProps) {
               <Link href={`/products/${reel.product.id}`} className="group block">
                 <div className="flex items-center gap-2 rounded-lg bg-black/50 p-2 backdrop-blur-sm transition-colors hover:bg-black/70">
                   <div className="relative h-10 w-10 flex-shrink-0 overflow-hidden rounded bg-neutral-800">
-                     {/* Use product image if available, else placeholder */}
-                     <div className="h-full w-full bg-neutral-700" /> 
+                    {/* Use product image if available, else placeholder */}
+                    <div className="h-full w-full bg-neutral-700" />
                   </div>
                   <div className="min-w-0 flex-1">
                     <p className="text-xs font-medium text-white line-clamp-1 group-hover:text-yellow-500 sm:text-sm">
@@ -143,14 +143,14 @@ export function ReelCard({ reel, isActive }: ReelProps) {
               </div>
               <span className="text-[10px] font-medium text-white sm:text-xs">Share</span>
             </button>
-            
-             {reel.product && (
-                <button className="group flex flex-col items-center" onClick={handleAddToCart}>
+
+            {reel.product && (
+              <button className="group flex flex-col items-center" onClick={handleAddToCart}>
                 <div className="rounded-full bg-yellow-500 p-2.5 text-black transition-all hover:bg-yellow-400">
-                    <ShoppingBag className="h-5 w-5 sm:h-6 sm:w-6" />
+                  <ShoppingBag className="h-5 w-5 sm:h-6 sm:w-6" />
                 </div>
-                </button>
-             )}
+              </button>
+            )}
           </div>
         </div>
       </div>

@@ -73,23 +73,21 @@ export function AnimatedInput({
   return (
     <div ref={containerRef} data-animate className="relative">
       <div
-        className={`relative rounded-lg border transition-all duration-300 ${
-          error
+        className={`relative rounded-lg border transition-all duration-300 ${error
             ? 'border-red-500/50 bg-red-500/5'
             : isFocused
-            ? 'border-gold-500/50 bg-gold-500/5'
-            : 'border-neutral-800 bg-neutral-900/50'
-        }`}
+              ? 'border-primary/50 bg-primary/5 ring-4 ring-primary/10'
+              : 'border-input bg-background/50'
+          }`}
       >
         {/* Floating Label */}
         <label
           ref={labelRef}
           htmlFor={id}
-          className={`absolute left-4 transition-all duration-300 pointer-events-none ${
-            isFloating
-              ? 'top-2 text-xs text-gold-500'
-              : 'top-1/2 -translate-y-1/2 text-sm text-neutral-400'
-          }`}
+          className={`absolute left-4 transition-all duration-300 pointer-events-none ${isFloating
+              ? 'top-2 text-xs text-primary font-medium'
+              : 'top-1/2 -translate-y-1/2 text-sm text-muted-foreground'
+            }`}
         >
           {label}
           {required && <span className="text-red-500 ml-1">*</span>}
@@ -107,9 +105,8 @@ export function AnimatedInput({
           onBlur={handleBlur}
           required={required}
           autoComplete={autoComplete}
-          className={`w-full bg-transparent border-0 outline-none text-white px-4 transition-all duration-300 ${
-            isFloating ? 'pt-7 pb-2' : 'py-4'
-          } ${isPasswordType ? 'pr-12' : ''}`}
+          className={`w-full bg-transparent border-0 outline-none text-foreground px-4 transition-all duration-300 ${isFloating ? 'pt-7 pb-2' : 'py-4'
+            } ${isPasswordType ? 'pr-12' : ''}`}
         />
 
         {/* Password Toggle */}
@@ -117,7 +114,7 @@ export function AnimatedInput({
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-4 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-gold-500 transition-colors"
+            className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-primary transition-colors"
             tabIndex={-1}
           >
             {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
@@ -126,7 +123,7 @@ export function AnimatedInput({
 
         {/* Focus Ring */}
         {isFocused && !error && (
-          <div className="absolute inset-0 rounded-lg ring-2 ring-gold-500/30 pointer-events-none" />
+          <div className="absolute inset-0 rounded-lg ring-2 ring-primary/30 pointer-events-none" />
         )}
       </div>
 

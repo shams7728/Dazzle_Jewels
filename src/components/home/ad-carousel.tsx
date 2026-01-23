@@ -138,7 +138,7 @@ export function AdCarousel() {
             case "black":
                 return "text-black";
             case "yellow":
-                return "text-yellow-500";
+                return "text-primary";
             default:
                 return "text-white";
         }
@@ -181,23 +181,23 @@ export function AdCarousel() {
     };
 
     return (
-        <div className="relative w-full overflow-hidden bg-black py-8 md:py-12">
+        <div className="relative w-full overflow-hidden bg-background py-8 md:py-12">
             <div className="container mx-auto px-4">
                 {/* Section Header */}
                 <div className="mb-8 flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                        <div className="p-2 rounded-lg bg-yellow-500/10 border border-yellow-500/20">
-                            <Tag className="h-5 w-5 text-yellow-500" />
+                        <div className="p-2 rounded-lg bg-primary/10 border border-primary/20">
+                            <Tag className="h-5 w-5 text-primary" />
                         </div>
                         <div>
-                            <h2 className="text-2xl md:text-3xl font-bold text-white">Special Offers</h2>
-                            <p className="text-sm text-neutral-400">Don&apos;t miss out on our exclusive deals</p>
+                            <h2 className="text-2xl md:text-3xl font-bold text-foreground">Special Offers</h2>
+                            <p className="text-sm text-muted-foreground">Don&apos;t miss out on our exclusive deals</p>
                         </div>
                     </div>
-                    <Sparkles className="h-6 w-6 text-yellow-500 animate-pulse hidden md:block" />
+                    <Sparkles className="h-6 w-6 text-primary animate-pulse hidden md:block" />
                 </div>
 
-                <div className="relative h-[300px] md:h-[400px] lg:h-[450px] w-full overflow-hidden rounded-3xl border-2 border-neutral-800/50 shadow-2xl shadow-yellow-500/10">
+                <div className="relative h-[300px] md:h-[400px] lg:h-[450px] w-full overflow-hidden rounded-3xl border-2 border-border shadow-2xl shadow-primary/10">
                     <AnimatePresence initial={false} custom={direction} mode="wait">
                         <motion.div
                             key={currentPoster.id}
@@ -226,16 +226,16 @@ export function AdCarousel() {
                                             priority
                                         />
                                         {/* Dark overlay for better text readability */}
-                                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent z-[1]" />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/40 to-transparent z-[1]" />
                                     </>
                                 )}
 
                                 {/* Animated particles background */}
                                 <div className="absolute inset-0 z-[2] pointer-events-none">
-                                    <div className="absolute top-10 left-10 w-2 h-2 bg-yellow-500/30 rounded-full animate-ping" />
-                                    <div className="absolute top-20 right-20 w-3 h-3 bg-yellow-400/20 rounded-full animate-pulse" />
-                                    <div className="absolute bottom-20 left-1/4 w-2 h-2 bg-yellow-500/40 rounded-full animate-ping" style={{ animationDelay: '1s' }} />
-                                    <div className="absolute bottom-32 right-1/3 w-2 h-2 bg-yellow-400/30 rounded-full animate-pulse" style={{ animationDelay: '0.5s' }} />
+                                    <div className="absolute top-10 left-10 w-2 h-2 bg-primary/30 rounded-full animate-ping" />
+                                    <div className="absolute top-20 right-20 w-3 h-3 bg-pink-400/20 rounded-full animate-pulse" />
+                                    <div className="absolute bottom-20 left-1/4 w-2 h-2 bg-primary/40 rounded-full animate-ping" style={{ animationDelay: '1s' }} />
+                                    <div className="absolute bottom-32 right-1/3 w-2 h-2 bg-pink-400/30 rounded-full animate-pulse" style={{ animationDelay: '0.5s' }} />
                                 </div>
 
                                 {/* Content */}
@@ -245,10 +245,10 @@ export function AdCarousel() {
                                         initial={{ opacity: 0, y: 20 }}
                                         animate={{ opacity: 1, y: 0 }}
                                         transition={{ delay: 0.2 }}
-                                        className="inline-flex items-center gap-2 mb-6 px-4 py-2 rounded-full bg-yellow-500/20 backdrop-blur-md border border-yellow-500/30"
+                                        className="inline-flex items-center gap-2 mb-6 px-4 py-2 rounded-full bg-primary/20 backdrop-blur-md border border-primary/30"
                                     >
-                                        <Sparkles className="h-4 w-4 text-yellow-400" />
-                                        <span className="text-sm font-semibold text-yellow-400 uppercase tracking-wider">Limited Time</span>
+                                        <Sparkles className="h-4 w-4 text-primary" />
+                                        <span className="text-sm font-semibold text-primary uppercase tracking-wider">Limited Time</span>
                                     </motion.div>
 
                                     {/* Title */}
@@ -269,7 +269,7 @@ export function AdCarousel() {
                                             initial={{ opacity: 0, y: 20 }}
                                             animate={{ opacity: 1, y: 0 }}
                                             transition={{ delay: 0.4 }}
-                                            className={`mb-6 text-base md:text-lg lg:text-xl ${currentPoster.text_color === 'black' ? 'text-black/90' : currentPoster.text_color === 'yellow' ? 'text-yellow-400' : 'text-white/90'} drop-shadow-lg max-w-2xl`}
+                                            className={`mb-6 text-base md:text-lg lg:text-xl ${currentPoster.text_color === 'black' ? 'text-black/90' : currentPoster.text_color === 'yellow' ? 'text-primary' : 'text-white/90'} drop-shadow-lg max-w-2xl`}
                                         >
                                             {currentPoster.description}
                                         </motion.p>
@@ -283,9 +283,9 @@ export function AdCarousel() {
                                             transition={{ delay: 0.5 }}
                                         >
                                             <Link href={currentPoster.link}>
-                                                <Button 
-                                                    size="lg" 
-                                                    className="group bg-gradient-to-r from-yellow-400 to-yellow-600 text-black hover:from-yellow-300 hover:to-yellow-500 px-6 py-3 md:px-8 md:py-4 text-base md:text-lg rounded-full shadow-2xl shadow-yellow-500/30 transition-all hover:scale-105 hover:shadow-yellow-500/50 font-semibold"
+                                                <Button
+                                                    size="lg"
+                                                    className="group bg-gradient-to-r from-primary to-pink-600 text-white hover:from-primary/90 hover:to-pink-600/90 px-6 py-3 md:px-8 md:py-4 text-base md:text-lg rounded-full shadow-2xl shadow-primary/30 transition-all hover:scale-105 hover:shadow-primary/50 font-semibold"
                                                 >
                                                     Shop Now
                                                     <ArrowRight className="ml-2 h-4 w-4 md:h-5 md:w-5 group-hover:translate-x-1 transition-transform" />
@@ -303,24 +303,24 @@ export function AdCarousel() {
                         <>
                             <button
                                 onClick={prevSlide}
-                                className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 rounded-full bg-black/40 backdrop-blur-md p-3 md:p-4 text-white border border-white/10 transition-all hover:bg-black/60 hover:scale-110 hover:border-yellow-500/50 z-20 group"
+                                className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 rounded-full bg-black/40 backdrop-blur-md p-3 md:p-4 text-white border border-white/10 transition-all hover:bg-black/60 hover:scale-110 hover:border-primary/50 z-20 group"
                                 aria-label="Previous slide"
                             >
-                                <ChevronLeft className="h-6 w-6 md:h-7 md:w-7 group-hover:text-yellow-500 transition-colors" />
+                                <ChevronLeft className="h-6 w-6 md:h-7 md:w-7 group-hover:text-primary transition-colors" />
                             </button>
                             <button
                                 onClick={nextSlide}
-                                className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 rounded-full bg-black/40 backdrop-blur-md p-3 md:p-4 text-white border border-white/10 transition-all hover:bg-black/60 hover:scale-110 hover:border-yellow-500/50 z-20 group"
+                                className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 rounded-full bg-black/40 backdrop-blur-md p-3 md:p-4 text-white border border-white/10 transition-all hover:bg-black/60 hover:scale-110 hover:border-primary/50 z-20 group"
                                 aria-label="Next slide"
                             >
-                                <ChevronRight className="h-6 w-6 md:h-7 md:w-7 group-hover:text-yellow-500 transition-colors" />
+                                <ChevronRight className="h-6 w-6 md:h-7 md:w-7 group-hover:text-primary transition-colors" />
                             </button>
 
                             {/* Progress Bar */}
                             <div className="absolute top-0 left-0 right-0 h-1 bg-white/10 z-20">
                                 <motion.div
                                     key={currentIndex}
-                                    className="h-full bg-gradient-to-r from-yellow-400 to-yellow-600"
+                                    className="h-full bg-gradient-to-r from-primary to-pink-600"
                                     initial={{ width: "0%" }}
                                     animate={{ width: "100%" }}
                                     transition={{ duration: 4, ease: "linear" }}
@@ -337,11 +337,10 @@ export function AdCarousel() {
                             <button
                                 key={poster.id}
                                 onClick={() => goToSlide(index)}
-                                className={`relative w-32 h-20 rounded-lg overflow-hidden border-2 transition-all ${
-                                    index === currentIndex 
-                                        ? 'border-yellow-500 scale-105 shadow-lg shadow-yellow-500/30' 
-                                        : 'border-neutral-700 hover:border-neutral-600 opacity-60 hover:opacity-100'
-                                }`}
+                                className={`relative w-32 h-20 rounded-lg overflow-hidden border-2 transition-all ${index === currentIndex
+                                    ? 'border-primary scale-105 shadow-lg shadow-primary/30'
+                                    : 'border-neutral-700 hover:border-neutral-600 opacity-60 hover:opacity-100'
+                                    }`}
                             >
                                 <div className={`w-full h-full ${poster.background_type === 'preset' ? poster.image_url : 'bg-neutral-800'}`}>
                                     {poster.background_type === 'image' && (
@@ -354,7 +353,7 @@ export function AdCarousel() {
                                     )}
                                 </div>
                                 {index === currentIndex && (
-                                    <div className="absolute inset-0 bg-yellow-500/20" />
+                                    <div className="absolute inset-0 bg-primary/20" />
                                 )}
                             </button>
                         ))}

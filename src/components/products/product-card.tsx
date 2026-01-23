@@ -36,11 +36,11 @@ export function ProductCard({ product, index = 0, featured = false, priority = f
   const firstVariant = product.variants?.[0];
   const image = firstVariant?.images?.[0] || "/placeholder.svg";
   const secondImage = firstVariant?.images?.[1] || image;
-  
+
   const basePrice = firstVariant
     ? product.base_price + firstVariant.price_adjustment
     : product.base_price;
-  
+
   const discountPrice = product.discount_price
     ? firstVariant
       ? product.discount_price + firstVariant.price_adjustment
@@ -58,20 +58,20 @@ export function ProductCard({ product, index = 0, featured = false, priority = f
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    
+
     if (isInCart) {
       // Navigate to cart if already in cart
       router.push('/cart');
       return;
     }
-    
+
     if (!isInStock) {
       toast.error("Out of stock", {
         description: "This item is currently unavailable",
       });
       return;
     }
-    
+
     setIsAdding(true);
     try {
       addItem(product, firstVariant);
@@ -93,8 +93,8 @@ export function ProductCard({ product, index = 0, featured = false, priority = f
     <motion.div
       initial={{ opacity: 0, y: isMobile ? 10 : 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ 
-        duration: isMobile ? 0.3 : 0.4, 
+      transition={{
+        duration: isMobile ? 0.3 : 0.4,
         delay: isMobile ? Math.min(index * 0.05, 0.4) : index * 0.1,
         ease: "easeOut"
       }}
@@ -103,15 +103,15 @@ export function ProductCard({ product, index = 0, featured = false, priority = f
       className="group relative h-full"
     >
       {/* Animated Border Gradient - Visible on mobile too */}
-      <div className="absolute -inset-[2px] rounded-2xl bg-gradient-to-r from-yellow-500/0 via-yellow-500/30 to-yellow-500/0 sm:via-yellow-500/50 opacity-0 blur-sm transition-opacity duration-500 group-hover:opacity-100 group-active:opacity-100" />
-      
-      {/* Shimmer Effect - Visible on mobile too */}
-      <div className="absolute inset-0 -z-10 rounded-2xl bg-gradient-to-r from-transparent via-yellow-500/10 to-transparent bg-[length:200%_100%] opacity-0 transition-opacity duration-500 group-hover:animate-shimmer group-hover:opacity-100 group-active:animate-shimmer group-active:opacity-100" />
+      <div className="absolute -inset-[2px] rounded-2xl bg-gradient-to-r from-primary/0 via-primary/30 to-primary/0 sm:via-primary/50 opacity-0 blur-sm transition-opacity duration-500 group-hover:opacity-100 group-active:opacity-100" />
 
-      <div className="relative h-full overflow-hidden rounded-xl border border-neutral-800 bg-gradient-to-b from-neutral-900 to-black transition-all duration-300 group-hover:border-yellow-500/30 group-hover:shadow-xl group-hover:shadow-yellow-500/10">
+      {/* Shimmer Effect - Visible on mobile too */}
+      <div className="absolute inset-0 -z-10 rounded-2xl bg-gradient-to-r from-transparent via-primary/10 to-transparent bg-[length:200%_100%] opacity-0 transition-opacity duration-500 group-hover:animate-shimmer group-hover:opacity-100 group-active:animate-shimmer group-active:opacity-100" />
+
+      <div className="relative h-full overflow-hidden rounded-xl border border-border bg-card transition-all duration-300 group-hover:border-primary/30 group-hover:shadow-xl group-hover:shadow-primary/10">
         <Link href={`/products/${product.id}`} className="flex h-full flex-col">
           {/* Image Container */}
-          <div className="relative aspect-square overflow-hidden bg-neutral-800">
+          <div className="relative aspect-square overflow-hidden bg-muted">
             {/* Main Image - Optimized with lazy loading */}
             <motion.div
               animate={{ opacity: isHovered && !isMobile ? 0 : 1 }}
@@ -158,28 +158,28 @@ export function ProductCard({ product, index = 0, featured = false, priority = f
                 <motion.div
                   initial={{ scale: 0, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
-                  transition={{ 
-                    delay: isMobile ? Math.min(index * 0.05 + 0.2, 0.5) : 0.2, 
-                    type: "spring", 
+                  transition={{
+                    delay: isMobile ? Math.min(index * 0.05 + 0.2, 0.5) : 0.2,
+                    type: "spring",
                     stiffness: isMobile ? 150 : 200,
                     damping: isMobile ? 12 : 10
                   }}
-                  className="flex items-center gap-0.5 rounded bg-gradient-to-r from-yellow-500 to-yellow-600 px-1 py-0.5 shadow-lg shadow-yellow-500/30 sm:shadow-md sm:shadow-yellow-500/20"
+                  className="flex items-center gap-0.5 rounded bg-gradient-to-r from-primary to-pink-600 px-1 py-0.5 shadow-lg shadow-primary/30 sm:shadow-md sm:shadow-primary/20"
                 >
-                  <Sparkles className="h-2 w-2 text-black" />
-                  <span className="text-[8px] font-bold uppercase tracking-wide text-black">
+                  <Sparkles className="h-2 w-2 text-primary-foreground" />
+                  <span className="text-[8px] font-bold uppercase tracking-wide text-primary-foreground">
                     Featured
                   </span>
                 </motion.div>
               )}
-              
+
               {discountPrice && (
                 <motion.div
                   initial={{ scale: 0, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
-                  transition={{ 
-                    delay: isMobile ? Math.min(index * 0.05 + 0.3, 0.6) : 0.3, 
-                    type: "spring", 
+                  transition={{
+                    delay: isMobile ? Math.min(index * 0.05 + 0.3, 0.6) : 0.3,
+                    type: "spring",
                     stiffness: isMobile ? 150 : 200,
                     damping: isMobile ? 12 : 10
                   }}
@@ -195,15 +195,15 @@ export function ProductCard({ product, index = 0, featured = false, priority = f
                 <motion.div
                   initial={{ scale: 0, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
-                  transition={{ 
-                    delay: isMobile ? Math.min(index * 0.05 + 0.4, 0.7) : 0.4, 
-                    type: "spring", 
+                  transition={{
+                    delay: isMobile ? Math.min(index * 0.05 + 0.4, 0.7) : 0.4,
+                    type: "spring",
                     stiffness: isMobile ? 150 : 200,
                     damping: isMobile ? 12 : 10
                   }}
-                  className="rounded bg-neutral-800/90 px-1 py-0.5 backdrop-blur-sm shadow-lg sm:shadow-md"
+                  className="rounded bg-muted/90 px-1 py-0.5 backdrop-blur-sm shadow-lg sm:shadow-md border border-border"
                 >
-                  <span className="text-[8px] font-bold uppercase tracking-wide text-neutral-400">
+                  <span className="text-[8px] font-bold uppercase tracking-wide text-muted-foreground">
                     Out of Stock
                   </span>
                 </motion.div>
@@ -214,7 +214,7 @@ export function ProductCard({ product, index = 0, featured = false, priority = f
             <motion.div
               initial={{ x: 20, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
-              transition={{ 
+              transition={{
                 delay: isMobile ? Math.min(index * 0.05 + 0.15, 0.4) : 0.2,
                 type: "spring",
                 stiffness: isMobile ? 150 : 200,
@@ -236,7 +236,7 @@ export function ProductCard({ product, index = 0, featured = false, priority = f
                 <Button
                   size="sm"
                   variant="secondary"
-                  className="gap-1.5 rounded-full bg-white/90 text-black backdrop-blur-sm hover:bg-white h-7 px-3"
+                  className="gap-1.5 rounded-full bg-background/90 text-foreground backdrop-blur-sm hover:bg-background h-7 px-3 border border-border"
                 >
                   <Eye className="h-3 w-3" />
                   <span className="text-[10px] font-semibold">Quick View</span>
@@ -260,12 +260,12 @@ export function ProductCard({ product, index = 0, featured = false, priority = f
           {/* Content - Compact responsive spacing */}
           <div className="flex flex-1 flex-col p-2 sm:p-3">
             {/* Title */}
-            <h3 className="mb-1 line-clamp-1 text-xs sm:text-sm font-semibold text-white transition-colors group-hover:text-yellow-500">
+            <h3 className="mb-1 line-clamp-1 text-xs sm:text-sm font-semibold text-foreground transition-colors group-hover:text-primary">
               {product.title}
             </h3>
 
             {/* Description - Hidden on mobile for compactness */}
-            <p className="mb-1.5 line-clamp-1 text-[10px] sm:text-xs text-neutral-400 hidden sm:block">
+            <p className="mb-1.5 line-clamp-1 text-[10px] sm:text-xs text-muted-foreground hidden sm:block">
               {product.description}
             </p>
 
@@ -276,11 +276,11 @@ export function ProductCard({ product, index = 0, featured = false, priority = f
                   key={i}
                   className={cn(
                     "h-2 w-2 sm:h-2.5 sm:w-2.5",
-                    i < 4 ? "fill-yellow-500 text-yellow-500" : "text-neutral-600"
+                    i < 4 ? "fill-primary text-primary" : "text-muted"
                   )}
                 />
               ))}
-              <span className="ml-0.5 text-[9px] sm:text-[10px] text-neutral-500">(4.0)</span>
+              <span className="ml-0.5 text-[9px] sm:text-[10px] text-muted-foreground">(4.0)</span>
             </div>
 
             {/* Price and Add to Cart */}
@@ -289,10 +289,10 @@ export function ProductCard({ product, index = 0, featured = false, priority = f
                 {discountPrice ? (
                   <>
                     <div className="flex items-baseline gap-1">
-                      <span className="text-xs sm:text-sm font-bold text-yellow-500">
+                      <span className="text-xs sm:text-sm font-bold text-primary">
                         ₹{discountPrice.toLocaleString()}
                       </span>
-                      <span className="text-[9px] sm:text-[10px] text-neutral-500 line-through">
+                      <span className="text-[9px] sm:text-[10px] text-muted-foreground line-through">
                         ₹{basePrice.toLocaleString()}
                       </span>
                     </div>
@@ -301,7 +301,7 @@ export function ProductCard({ product, index = 0, featured = false, priority = f
                     </span>
                   </>
                 ) : (
-                  <span className="text-xs sm:text-sm font-bold text-yellow-500">
+                  <span className="text-xs sm:text-sm font-bold text-primary">
                     ₹{basePrice.toLocaleString()}
                   </span>
                 )}
@@ -318,17 +318,17 @@ export function ProductCard({ product, index = 0, featured = false, priority = f
                   className={cn(
                     "relative gap-1.5 rounded-lg transition-all duration-300 h-8 sm:h-9 px-3 sm:px-4 font-bold overflow-hidden group/btn",
                     !isInStock
-                      ? "cursor-not-allowed bg-neutral-800 text-neutral-500 border border-neutral-700"
+                      ? "cursor-not-allowed bg-muted text-muted-foreground border border-input"
                       : isInCart
-                      ? "bg-gradient-to-r from-yellow-600 via-yellow-500 to-yellow-600 text-black hover:from-yellow-500 hover:via-yellow-400 hover:to-yellow-500 shadow-lg shadow-yellow-500/40 hover:shadow-xl hover:shadow-yellow-500/50 border border-yellow-400/50"
-                      : "bg-gradient-to-r from-yellow-500 via-yellow-400 to-yellow-500 text-black hover:from-yellow-400 hover:via-yellow-300 hover:to-yellow-400 shadow-lg shadow-yellow-500/30 hover:shadow-xl hover:shadow-yellow-500/40 border border-yellow-400/30"
+                        ? "bg-gradient-to-r from-primary via-pink-500 to-primary text-primary-foreground hover:from-primary/90 hover:via-pink-500/90 hover:to-primary/90 shadow-lg shadow-primary/40 hover:shadow-xl hover:shadow-primary/50 border border-primary/50"
+                        : "bg-gradient-to-r from-primary to-pink-600 text-primary-foreground hover:from-primary/90 hover:to-pink-600/90 shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40 border border-primary/30"
                   )}
                 >
                   {/* Shine effect */}
                   {isInStock && (
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent translate-x-[-200%] group-hover/btn:translate-x-[200%] transition-transform duration-700" />
                   )}
-                  
+
                   <ShoppingBag className={cn(
                     "h-3.5 w-3.5 sm:h-4 sm:w-4 relative z-10 transition-transform duration-300",
                     isInCart && "group-hover/btn:rotate-12"
@@ -349,19 +349,19 @@ export function ProductCard({ product, index = 0, featured = false, priority = f
           initial={{ opacity: 0, scale: 0 }}
           animate={{ opacity: [0, 0.6, 0], scale: [0, 1, 0], y: -50 }}
           transition={{ duration: 3, repeat: Infinity, delay: index * 0.2 }}
-          className="pointer-events-none absolute left-1/4 top-1/4 h-1 w-1 rounded-full bg-yellow-500"
+          className="pointer-events-none absolute left-1/4 top-1/4 h-1 w-1 rounded-full bg-primary"
         />
         <motion.div
           initial={{ opacity: 0, scale: 0 }}
           animate={{ opacity: [0, 0.5, 0], scale: [0, 1, 0], y: -50 }}
           transition={{ duration: 3, repeat: Infinity, delay: index * 0.2 + 0.5 }}
-          className="pointer-events-none absolute right-1/4 top-1/3 h-1 w-1 rounded-full bg-yellow-400"
+          className="pointer-events-none absolute right-1/4 top-1/3 h-1 w-1 rounded-full bg-pink-400"
         />
         <motion.div
           initial={{ opacity: 0, scale: 0 }}
           animate={{ opacity: [0, 0.4, 0], scale: [0, 1, 0], y: -50 }}
           transition={{ duration: 3, repeat: Infinity, delay: index * 0.2 + 1 }}
-          className="pointer-events-none absolute left-1/3 top-1/2 h-1 w-1 rounded-full bg-yellow-300"
+          className="pointer-events-none absolute left-1/3 top-1/2 h-1 w-1 rounded-full bg-pink-300"
         />
       </>
     </motion.div>

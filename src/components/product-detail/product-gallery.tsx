@@ -32,7 +32,7 @@ export function ProductGallery({
   const touchEndX = useRef<number>(0);
   const initialPinchDistance = useRef<number>(0);
   const isPinching = useRef<boolean>(false);
-  
+
   // Detect reduced motion preference
   const prefersReducedMotion = usePrefersReducedMotion();
   const transitionDuration = getTransitionDuration(300, prefersReducedMotion);
@@ -104,13 +104,13 @@ export function ProductGallery({
       // Handle pinch zoom
       const currentDistance = getTouchDistance(e.touches);
       const distanceChange = currentDistance - initialPinchDistance.current;
-      
+
       // Threshold for activating zoom
       if (Math.abs(distanceChange) > 30) {
         if (distanceChange > 0 && !isZoomed) {
           // Pinch out - zoom in
           toggleZoom();
-          
+
           // Calculate zoom center based on midpoint between fingers
           if (mainImageRef.current) {
             const rect = mainImageRef.current.getBoundingClientRect();
@@ -194,8 +194,8 @@ export function ProductGallery({
 
   if (!images || images.length === 0) {
     return (
-      <div className="w-full aspect-square bg-neutral-900 rounded-lg flex items-center justify-center">
-        <p className="text-neutral-500">No images available</p>
+      <div className="w-full aspect-square bg-muted/30 rounded-lg flex items-center justify-center border border-border">
+        <p className="text-muted-foreground">No images available</p>
       </div>
     );
   }
@@ -207,7 +207,7 @@ export function ProductGallery({
       {/* Main Gallery */}
       <div className="space-y-4">
         {/* Main Image Display */}
-        <div className="relative aspect-square bg-neutral-900 rounded-lg overflow-hidden group">
+        <div className="relative aspect-square bg-muted/50 rounded-lg overflow-hidden group border border-border">
           <div
             ref={mainImageRef}
             className="relative w-full h-full cursor-pointer"
@@ -231,12 +231,12 @@ export function ProductGallery({
               style={
                 isZoomed
                   ? {
-                      transformOrigin: `${zoomPosition.x}% ${zoomPosition.y}%`,
-                      transitionDuration: prefersReducedMotion ? '0ms' : '300ms',
-                    }
+                    transformOrigin: `${zoomPosition.x}% ${zoomPosition.y}%`,
+                    transitionDuration: prefersReducedMotion ? '0ms' : '300ms',
+                  }
                   : {
-                      transitionDuration: prefersReducedMotion ? '0ms' : '300ms',
-                    }
+                    transitionDuration: prefersReducedMotion ? '0ms' : '300ms',
+                  }
               }
               priority={selectedIndex === 0}
               sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 600px"
@@ -244,7 +244,7 @@ export function ProductGallery({
 
             {/* Zoom indicator */}
             {!isZoomed && (
-              <div 
+              <div
                 className={cn(
                   "absolute top-4 right-4 bg-black/50 backdrop-blur-sm rounded-full p-2 opacity-0 group-hover:opacity-100",
                   !prefersReducedMotion && "transition-opacity duration-200"
@@ -328,8 +328,8 @@ export function ProductGallery({
                       !prefersReducedMotion && 'transition-all duration-200',
                       isActive && 'active',
                       isActive
-                        ? 'bg-yellow-500'
-                        : 'bg-white/50 hover:bg-white/70'
+                        ? 'bg-primary'
+                        : 'bg-primary/20 hover:bg-primary/40'
                     )}
                     style={{
                       transitionDuration: prefersReducedMotion ? '0ms' : '200ms',
@@ -355,8 +355,8 @@ export function ProductGallery({
                   !prefersReducedMotion && 'transition-all duration-200',
                   'min-h-[60px] min-w-[60px] md:min-h-[80px] md:min-w-[80px] touch-manipulation',
                   index === selectedIndex
-                    ? 'border-yellow-500 ring-2 ring-yellow-500/20'
-                    : 'border-neutral-800 hover:border-neutral-600'
+                    ? 'border-primary ring-2 ring-primary/20'
+                    : 'border-border hover:border-primary/50'
                 )}
                 style={{
                   transitionDuration: prefersReducedMotion ? '0ms' : '200ms',

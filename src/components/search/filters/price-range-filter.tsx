@@ -35,8 +35,8 @@ export function PriceRangeFilter() {
     <div className="space-y-4" role="group" aria-labelledby="price-range-label">
       <div id="price-range-label" className="sr-only">Price range filter</div>
       <div className="flex items-center justify-between text-sm" aria-live="polite">
-        <span className="text-neutral-400" aria-label={`Minimum price: ${localMin} rupees`}>₹{localMin.toLocaleString()}</span>
-        <span className="text-neutral-400" aria-label={`Maximum price: ${localMax} rupees`}>₹{localMax.toLocaleString()}</span>
+        <span className="text-muted-foreground" aria-label={`Minimum price: ${localMin} rupees`}>₹{localMin.toLocaleString()}</span>
+        <span className="text-muted-foreground" aria-label={`Maximum price: ${localMax} rupees`}>₹{localMax.toLocaleString()}</span>
       </div>
 
       <div className="space-y-3">
@@ -50,17 +50,17 @@ export function PriceRangeFilter() {
             value={localMin}
             onChange={handleMinChange}
             className={cn(
-              'w-full h-2 bg-neutral-700 rounded-lg appearance-none cursor-pointer',
+              'w-full h-2 bg-muted rounded-lg appearance-none cursor-pointer',
               '[&::-webkit-slider-thumb]:appearance-none',
               '[&::-webkit-slider-thumb]:w-4',
               '[&::-webkit-slider-thumb]:h-4',
               '[&::-webkit-slider-thumb]:rounded-full',
-              '[&::-webkit-slider-thumb]:bg-yellow-500',
+              '[&::-webkit-slider-thumb]:bg-primary',
               '[&::-webkit-slider-thumb]:cursor-pointer',
               '[&::-moz-range-thumb]:w-4',
               '[&::-moz-range-thumb]:h-4',
               '[&::-moz-range-thumb]:rounded-full',
-              '[&::-moz-range-thumb]:bg-yellow-500',
+              '[&::-moz-range-thumb]:bg-primary',
               '[&::-moz-range-thumb]:border-0',
               '[&::-moz-range-thumb]:cursor-pointer'
             )}
@@ -78,17 +78,17 @@ export function PriceRangeFilter() {
             value={localMax}
             onChange={handleMaxChange}
             className={cn(
-              'w-full h-2 bg-neutral-700 rounded-lg appearance-none cursor-pointer',
+              'w-full h-2 bg-muted rounded-lg appearance-none cursor-pointer',
               '[&::-webkit-slider-thumb]:appearance-none',
               '[&::-webkit-slider-thumb]:w-4',
               '[&::-webkit-slider-thumb]:h-4',
               '[&::-webkit-slider-thumb]:rounded-full',
-              '[&::-webkit-slider-thumb]:bg-yellow-500',
+              '[&::-webkit-slider-thumb]:bg-primary',
               '[&::-webkit-slider-thumb]:cursor-pointer',
               '[&::-moz-range-thumb]:w-4',
               '[&::-moz-range-thumb]:h-4',
               '[&::-moz-range-thumb]:rounded-full',
-              '[&::-moz-range-thumb]:bg-yellow-500',
+              '[&::-moz-range-thumb]:bg-primary',
               '[&::-moz-range-thumb]:border-0',
               '[&::-moz-range-thumb]:cursor-pointer'
             )}
@@ -100,26 +100,26 @@ export function PriceRangeFilter() {
       {/* Input Fields */}
       <div className="grid grid-cols-2 gap-3">
         <div>
-          <label htmlFor="price-min-input" className="text-xs text-neutral-500 mb-1 block">Min</label>
+          <label htmlFor="price-min-input" className="text-xs text-muted-foreground mb-1 block">Min</label>
           <input
             id="price-min-input"
             type="number"
             value={localMin}
             onChange={handleMinChange}
-            className="w-full px-3 py-2 bg-neutral-800 border-2 border-neutral-600 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500"
+            className="w-full px-3 py-2 bg-background border border-input rounded-lg text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary"
             min="0"
             max={localMax}
             aria-label="Minimum price in rupees"
           />
         </div>
         <div>
-          <label htmlFor="price-max-input" className="text-xs text-neutral-500 mb-1 block">Max</label>
+          <label htmlFor="price-max-input" className="text-xs text-muted-foreground mb-1 block">Max</label>
           <input
             id="price-max-input"
             type="number"
             value={localMax}
             onChange={handleMaxChange}
-            className="w-full px-3 py-2 bg-neutral-800 border-2 border-neutral-600 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500"
+            className="w-full px-3 py-2 bg-background border border-input rounded-lg text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary"
             min={localMin}
             max="100000"
             aria-label="Maximum price in rupees"

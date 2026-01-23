@@ -131,15 +131,15 @@ export function ReviewsSection({ productId }: ReviewsSectionProps) {
         <div className="space-y-8">
             {/* Aggregate Rating Display */}
             {totalReviews > 0 && (
-                <div className="rounded-xl border border-neutral-800 bg-neutral-900/30 p-6">
+                <div className="rounded-xl border border-border bg-card p-6">
                     <div className="grid gap-8 md:grid-cols-2">
                         {/* Left: Overall Rating */}
-                        <div className="flex flex-col items-center justify-center space-y-2 border-b border-neutral-800 pb-6 md:border-b-0 md:border-r md:pb-0">
-                            <div className="text-5xl font-bold text-white">
+                        <div className="flex flex-col items-center justify-center space-y-2 border-b border-border pb-6 md:border-b-0 md:border-r md:pb-0">
+                            <div className="text-5xl font-bold text-foreground">
                                 {averageRating.toFixed(1)}
                             </div>
                             <StarRating rating={Math.round(averageRating)} readonly size="lg" />
-                            <p className="text-sm text-neutral-400">
+                            <p className="text-sm text-muted-foreground">
                                 Based on {totalReviews} {totalReviews === 1 ? "review" : "reviews"}
                             </p>
                         </div>
@@ -152,14 +152,14 @@ export function ReviewsSection({ productId }: ReviewsSectionProps) {
 
                                 return (
                                     <div key={rating} className="flex items-center gap-3">
-                                        <span className="w-8 text-sm text-neutral-400">{rating}★</span>
-                                        <div className="h-2 flex-1 overflow-hidden rounded-full bg-neutral-800">
+                                        <span className="w-8 text-sm text-muted-foreground">{rating}★</span>
+                                        <div className="h-2 flex-1 overflow-hidden rounded-full bg-muted">
                                             <div
-                                                className="h-full bg-yellow-500 transition-all"
+                                                className="h-full bg-primary transition-all"
                                                 style={{ width: `${percentage}%` }}
                                             />
                                         </div>
-                                        <span className="w-12 text-right text-sm text-neutral-400">
+                                        <span className="w-12 text-right text-sm text-muted-foreground">
                                             {count}
                                         </span>
                                     </div>
@@ -177,19 +177,19 @@ export function ReviewsSection({ productId }: ReviewsSectionProps) {
             {totalReviews > 0 ? (
                 <div className="space-y-6">
                     {/* Sort Options */}
-                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-neutral-800 pb-4">
-                        <h3 className="text-base md:text-lg font-semibold text-white">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-border pb-4">
+                        <h3 className="text-base md:text-lg font-semibold text-foreground">
                             All Reviews ({totalReviews})
                         </h3>
                         <div className="flex items-center gap-2">
-                            <label className="text-sm text-neutral-400 whitespace-nowrap">Sort by:</label>
+                            <label className="text-sm text-muted-foreground whitespace-nowrap">Sort by:</label>
                             <select
                                 value={sortBy}
                                 onChange={(e) => {
                                     setSortBy(e.target.value as SortOption);
                                     setCurrentPage(1);
                                 }}
-                                className="rounded-md border border-neutral-800 bg-neutral-900 px-3 py-2.5 md:py-2 text-sm text-white focus:outline-none focus:ring-2 focus:ring-yellow-500 min-h-[44px] md:min-h-[40px] flex-1 sm:flex-initial touch-manipulation"
+                                className="rounded-md border border-input bg-background px-3 py-2.5 md:py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary min-h-[44px] md:min-h-[40px] flex-1 sm:flex-initial touch-manipulation"
                             >
                                 <option value="most_recent">Most Recent</option>
                                 <option value="highest_rated">Highest Rated</option>
@@ -211,7 +211,7 @@ export function ReviewsSection({ productId }: ReviewsSectionProps) {
                             <Button
                                 variant="outline"
                                 onClick={handleLoadMore}
-                                className="border-neutral-800 bg-neutral-900 text-white hover:bg-neutral-800"
+                                className="border-border bg-card text-foreground hover:bg-muted"
                             >
                                 Load More Reviews
                                 <ChevronDown className="ml-2 h-4 w-4" />
@@ -250,17 +250,17 @@ function ReviewCard({ review }: { review: Review }) {
     };
 
     return (
-        <div className="rounded-lg border border-neutral-800 bg-neutral-900/30 p-6">
+        <div className="rounded-lg border border-border bg-card p-6">
             <div className="mb-4 flex items-start justify-between">
                 <div className="flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-neutral-800">
-                        <User className="h-5 w-5 text-neutral-400" />
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-muted">
+                        <User className="h-5 w-5 text-muted-foreground" />
                     </div>
                     <div>
-                        <p className="font-medium text-white">
+                        <p className="font-medium text-foreground">
                             {review.profile?.full_name || "Anonymous User"}
                         </p>
-                        <p className="text-xs text-neutral-500">
+                        <p className="text-xs text-muted-foreground">
                             {new Date(review.created_at).toLocaleDateString("en-US", {
                                 year: "numeric",
                                 month: "long",
@@ -272,17 +272,16 @@ function ReviewCard({ review }: { review: Review }) {
                 <StarRating rating={review.rating} readonly size="sm" />
             </div>
 
-            <p className="mb-4 text-neutral-300 leading-relaxed">{review.comment}</p>
+            <p className="mb-4 text-muted-foreground leading-relaxed">{review.comment}</p>
 
             <div className="flex items-center gap-4 border-t border-neutral-800 pt-4">
                 <button
                     onClick={handleHelpfulClick}
                     disabled={hasVoted}
-                    className={`flex items-center gap-2 text-sm transition-colors px-3 py-2 rounded-lg min-h-[44px] touch-manipulation ${
-                        hasVoted
-                            ? "cursor-not-allowed text-neutral-600 bg-neutral-800/30"
-                            : "text-neutral-400 hover:text-white hover:bg-neutral-800/50"
-                    }`}
+                    className={`flex items-center gap-2 text-sm transition-colors px-3 py-2 rounded-lg min-h-[44px] touch-manipulation ${hasVoted
+                        ? "cursor-not-allowed text-neutral-600 bg-neutral-800/30"
+                        : "text-neutral-400 hover:text-white hover:bg-neutral-800/50"
+                        }`}
                 >
                     <ThumbsUp className={`h-4 w-4 ${hasVoted ? "fill-yellow-500 text-yellow-500" : ""}`} />
                     <span>Helpful ({helpfulCount})</span>

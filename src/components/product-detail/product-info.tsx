@@ -26,20 +26,20 @@ export function ProductInfo({
 }: ProductInfoProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isTogglingWishlist, setIsTogglingWishlist] = useState(false);
-  
+
   // Get wishlist store actions
   const { toggleItem, isInWishlist: checkIsInWishlist } = useWishlistStore();
-  
+
   // Check if product is in wishlist
   const isInWishlist = checkIsInWishlist(product.id);
-  
+
   // Detect reduced motion preference
   const prefersReducedMotion = usePrefersReducedMotion();
 
   // Calculate current price
   const currentPrice = calculateEffectivePrice(product, selectedVariant);
   const originalPrice = product.base_price + (selectedVariant?.price_adjustment ?? 0);
-  
+
   // Check if product has discount
   const showDiscount = hasDiscount(product);
   const discountPercentage = showDiscount
@@ -59,18 +59,18 @@ export function ProductInfo({
   // Handle wishlist toggle
   const handleWishlistClick = async () => {
     setIsTogglingWishlist(true);
-    
+
     try {
       // Toggle in wishlist store
       toggleItem(product);
-      
+
       // Show success feedback
       if (isInWishlist) {
         showSuccessToast('Removed from wishlist');
       } else {
         showSuccessToast('Added to wishlist!');
       }
-      
+
       // Call parent callback if provided
       if (onAddToWishlist) {
         onAddToWishlist();
@@ -87,13 +87,13 @@ export function ProductInfo({
     <div className="space-y-6">
       {/* Title */}
       <div>
-        <h1 className="text-3xl md:text-4xl font-bold text-white" data-testid="product-title">
+        <h1 className="text-3xl md:text-4xl font-bold text-foreground" data-testid="product-title">
           {product.title}
         </h1>
       </div>
 
       {/* Pricing */}
-      <div 
+      <div
         className={cn(
           "space-y-2",
           !prefersReducedMotion && "transition-all duration-300"
@@ -106,7 +106,7 @@ export function ProductInfo({
           <div className="flex items-center gap-4 flex-wrap">
             <p
               className={cn(
-                "text-3xl md:text-4xl font-bold text-yellow-500",
+                "text-3xl md:text-4xl font-bold text-primary",
                 !prefersReducedMotion && "transition-all duration-300"
               )}
               style={{
@@ -118,7 +118,7 @@ export function ProductInfo({
             </p>
             <p
               className={cn(
-                "text-xl text-neutral-500 line-through",
+                "text-xl text-muted-foreground line-through",
                 !prefersReducedMotion && "transition-all duration-300"
               )}
               style={{
@@ -142,9 +142,9 @@ export function ProductInfo({
             </span>
           </div>
         ) : (
-          <p 
+          <p
             className={cn(
-              "text-3xl md:text-4xl font-bold text-yellow-500",
+              "text-3xl md:text-4xl font-bold text-primary",
               !prefersReducedMotion && "transition-all duration-300"
             )}
             style={{
@@ -158,8 +158,8 @@ export function ProductInfo({
       </div>
 
       {/* Stock Status */}
-      <div 
-        data-testid="stock-status" 
+      <div
+        data-testid="stock-status"
         className={cn(
           !prefersReducedMotion && "transition-all duration-300"
         )}
@@ -168,7 +168,7 @@ export function ProductInfo({
         }}
       >
         {stockStatus === 'in_stock' && (
-          <p 
+          <p
             className={cn(
               "text-green-500 text-sm font-medium",
               !prefersReducedMotion && "transition-all duration-300"
@@ -181,9 +181,9 @@ export function ProductInfo({
           </p>
         )}
         {stockStatus === 'low_stock' && (
-          <p 
+          <p
             className={cn(
-              "text-yellow-500 text-sm font-medium",
+              "text-primary text-sm font-medium",
               !prefersReducedMotion && "transition-all duration-300"
             )}
             style={{
@@ -194,7 +194,7 @@ export function ProductInfo({
           </p>
         )}
         {stockStatus === 'out_of_stock' && (
-          <p 
+          <p
             className={cn(
               "text-red-500 text-sm font-medium",
               !prefersReducedMotion && "transition-all duration-300"
@@ -211,14 +211,14 @@ export function ProductInfo({
       {/* Description */}
       {product.description && (
         <div className="space-y-2">
-          <p className="text-neutral-300 leading-relaxed" data-testid="product-description">
+          <p className="text-muted-foreground leading-relaxed" data-testid="product-description">
             {displayDescription}
           </p>
           {isLongDescription && (
             <button
               onClick={() => setIsExpanded(!isExpanded)}
               className={cn(
-                "text-yellow-500 hover:text-yellow-400 text-sm font-medium",
+                "text-primary hover:text-primary/80 text-sm font-medium",
                 !prefersReducedMotion && "transition-colors duration-200"
               )}
               style={{
@@ -235,12 +235,12 @@ export function ProductInfo({
       {/* Features List */}
       {'features' in product && Array.isArray(product.features) && product.features.length > 0 && (
         <div className="space-y-3">
-          <h3 className="text-sm font-medium text-neutral-400">Key Features</h3>
+          <h3 className="text-sm font-medium text-muted-foreground">Key Features</h3>
           <ul className="space-y-2" data-testid="features-list">
             {product.features.map((feature: string, index: number) => (
               <li
                 key={index}
-                className="flex items-start gap-3 text-neutral-300"
+                className="flex items-start gap-3 text-muted-foreground"
                 data-testid={`feature-item-${index}`}
               >
                 <Check className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
@@ -282,7 +282,7 @@ export function ProductInfo({
           size="lg"
           variant="outline"
           className={cn(
-            'w-full sm:w-auto border-neutral-800 hover:bg-neutral-900 disabled:opacity-50 disabled:cursor-not-allowed touch-manipulation',
+            'w-full sm:w-auto border-border hover:bg-muted disabled:opacity-50 disabled:cursor-not-allowed touch-manipulation',
             !prefersReducedMotion && 'transition-all duration-200',
             isInWishlist && 'bg-red-500/10 border-red-500 text-red-500 hover:bg-red-500/20'
           )}
@@ -297,7 +297,7 @@ export function ProductInfo({
             <Loader2 className="h-5 w-5 animate-spin" />
           ) : (
             <>
-              <Heart 
+              <Heart
                 className={cn(
                   'h-5 w-5',
                   !prefersReducedMotion && 'transition-all duration-200',

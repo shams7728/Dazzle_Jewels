@@ -1,27 +1,96 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0a0a0a;
-  --foreground: #ededed;
-  --gold: #d4af37;
-  --gold-light: #f1c40f;
-  --gold-dark: #aa8c2c;
+  /* Core Theme Colors - White & Pink */
+  --background: #ffffff;
+  --foreground: #171717;
+  /* Dark Gray for contrast */
+
+  /* Pink Palette (Primary Brand) */
+  --primary: #ec4899;
+  /* Pink 500 */
+  --primary-foreground: #ffffff;
+  --secondary: #fce7f3;
+  /* Pink 100 */
+  --secondary-foreground: #db2777;
+  /* Pink 600 */
+
+  /* Borders & Accents */
+  --border: #f9a8d4;
+  /* Pink 300 - Prominent Pink Borders */
+  --input: #fbcfe8;
+  /* Pink 200 */
+  --ring: #ec4899;
+  /* Pink 500 */
+
+  /* UI Surfaces */
+  --card: #ffffff;
+  --card-foreground: #171717;
+  --popover: #ffffff;
+  --popover-foreground: #171717;
+  --muted: #fdf2f8;
+  /* Pink 50 */
+  --muted-foreground: #db2777;
+  /* Pink 600 */
+  --accent: #fbcfe8;
+  /* Pink 200 */
+  --accent-foreground: #9d174d;
+  /* Pink 800 */
+
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+
+  /* Legacy "Gold" Variable Mappings - Remapped to Pink/Rose for compatibility */
+  --gold: #ec4899;
+  /* Mapped to Primary Pink */
+  --gold-light: #fbcfe8;
+  /* Mapped to Light Pink */
+  --gold-dark: #be185d;
+  /* Mapped to Dark Pink */
+
+  /* Radius */
+  --radius: 0.5rem;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* Legacy mappings */
   --color-gold: var(--gold);
   --color-gold-light: var(--gold-light);
   --color-gold-dark: var(--gold-dark);
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  /* Ease Curves */
+  --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  border-color: var(--border);
+  /* Default border color */
 }
 
 /* Custom Scrollbar */
@@ -64,7 +133,7 @@ body {
     width: 0.5rem;
     height: 0.5rem;
   }
-  
+
   .gallery-indicator.active {
     width: 2rem;
     height: 0.5rem;
@@ -90,6 +159,7 @@ body {
 
 /* Mobile Performance Optimizations */
 @media (max-width: 768px) {
+
   /* Optimize touch interactions */
   button,
   a,
@@ -108,6 +178,7 @@ body {
 
   /* Reduce motion for users who prefer it */
   @media (prefers-reduced-motion: reduce) {
+
     *,
     *::before,
     *::after {
@@ -121,12 +192,14 @@ body {
 /* Responsive Typography - Better readability on mobile */
 @media (max-width: 640px) {
   html {
-    font-size: 16px; /* Prevent zoom on input focus */
+    font-size: 16px;
+    /* Prevent zoom on input focus */
   }
 }
 
 /* Minimum Touch Target Sizes - Accessibility */
 @media (pointer: coarse) {
+
   /* For touch devices, ensure minimum 44x44px touch targets */
   button:not(.no-min-size),
   a:not(.no-min-size),
@@ -178,25 +251,32 @@ img {
   0% {
     background-position: -200% center;
   }
+
   100% {
     background-position: 200% center;
   }
 }
 
 @keyframes float {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0px);
   }
+
   50% {
     transform: translateY(-5px);
   }
 }
 
 @keyframes sparkle {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 0;
     transform: scale(0.8) rotate(0deg);
   }
+
   50% {
     opacity: 1;
     transform: scale(1.2) rotate(180deg);
@@ -221,6 +301,7 @@ img {
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -231,6 +312,7 @@ img {
     transform: translateY(-10px);
     opacity: 0;
   }
+
   to {
     transform: translateY(0);
     opacity: 1;
@@ -251,9 +333,12 @@ img {
 
 /* Hero section animations */
 @keyframes gradient-shift {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 0.3;
   }
+
   50% {
     opacity: 0.6;
   }
@@ -269,6 +354,7 @@ img {
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -284,6 +370,7 @@ img {
   0% {
     transform: translateX(0);
   }
+
   100% {
     transform: translateX(-33.333%);
   }
@@ -340,6 +427,7 @@ img {
     opacity: 0;
     transform: translateY(30px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -351,6 +439,7 @@ img {
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -360,6 +449,7 @@ img {
   from {
     opacity: 1;
   }
+
   to {
     opacity: 0;
   }
@@ -379,6 +469,7 @@ img {
     transform: translateY(-20px);
     opacity: 0;
   }
+
   to {
     transform: translateY(0);
     opacity: 1;
@@ -390,6 +481,7 @@ img {
     transform: translateY(20px);
     opacity: 0;
   }
+
   to {
     transform: translateY(0);
     opacity: 1;
@@ -401,6 +493,7 @@ img {
     transform: translateX(-20px);
     opacity: 0;
   }
+
   to {
     transform: translateX(0);
     opacity: 1;
@@ -412,6 +505,7 @@ img {
     transform: translateX(20px);
     opacity: 0;
   }
+
   to {
     transform: translateX(0);
     opacity: 1;
@@ -440,6 +534,7 @@ img {
     transform: scale(0.95);
     opacity: 0;
   }
+
   to {
     transform: scale(1);
     opacity: 1;
@@ -451,6 +546,7 @@ img {
     transform: scale(1);
     opacity: 1;
   }
+
   to {
     transform: scale(0.95);
     opacity: 0;
@@ -471,6 +567,7 @@ img {
     transform: translateY(10px);
     opacity: 0;
   }
+
   to {
     transform: translateY(0);
     opacity: 1;
@@ -482,6 +579,7 @@ img {
     transform: translateY(-10px);
     opacity: 0;
   }
+
   to {
     transform: translateY(0);
     opacity: 1;
@@ -502,6 +600,7 @@ img {
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -559,6 +658,7 @@ img {
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -569,6 +669,7 @@ img {
     transform: scale(0.95);
     opacity: 0;
   }
+
   to {
     transform: scale(1);
     opacity: 1;
@@ -589,6 +690,7 @@ img {
 
 /* Disable all animations for users who prefer reduced motion */
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {
@@ -652,6 +754,7 @@ img {
    ============================================ */
 
 @media print {
+
   /* Reset page margins and colors */
   @page {
     margin: 1cm;
@@ -777,6 +880,7 @@ img {
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -788,6 +892,7 @@ img {
     opacity: 0;
     transform: translateY(30px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -800,6 +905,7 @@ img {
     opacity: 0;
     transform: scale(0.9);
   }
+
   to {
     opacity: 1;
     transform: scale(1);
@@ -812,13 +918,16 @@ img {
     opacity: 0;
     transform: scale(0.3);
   }
+
   50% {
     opacity: 1;
     transform: scale(1.05);
   }
+
   70% {
     transform: scale(0.9);
   }
+
   100% {
     transform: scale(1);
   }
@@ -843,6 +952,7 @@ img {
 
 /* Responsive poster animations */
 @media (max-width: 768px) {
+
   .animate-fade-in,
   .animate-slide-up,
   .animate-zoom-in,
@@ -853,6 +963,7 @@ img {
 
 /* Disable poster animations for reduced motion */
 @media (prefers-reduced-motion: reduce) {
+
   .animate-fade-in,
   .animate-slide-up,
   .animate-zoom-in,
@@ -873,6 +984,7 @@ img {
     opacity: 0;
     transform: translateX(-20px);
   }
+
   to {
     opacity: 1;
     transform: translateX(0);
@@ -884,6 +996,7 @@ img {
   0% {
     transform: translateX(-100%);
   }
+
   100% {
     transform: translateX(100%);
   }
@@ -891,9 +1004,12 @@ img {
 
 /* Pulse glow effect */
 @keyframes pulse-glow {
-  0%, 100% {
+
+  0%,
+  100% {
     box-shadow: 0 0 5px rgba(212, 175, 55, 0.2);
   }
+
   50% {
     box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
   }

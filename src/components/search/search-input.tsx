@@ -19,7 +19,7 @@ function SearchInputComponent() {
     debounce((searchQuery: string) => {
       const sanitized = sanitizeSearchQuery(searchQuery);
       setQuery(sanitized);
-      
+
       // Fetch suggestions if query is at least 2 characters
       if (sanitized.length >= 2) {
         // TODO: Implement suggestion fetching in a later task
@@ -114,7 +114,7 @@ function SearchInputComponent() {
     <div className="relative">
       {/* Search Input */}
       <div className="relative">
-        <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-neutral-400" />
+        <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
         <input
           ref={inputRef}
           type="text"
@@ -124,9 +124,9 @@ function SearchInputComponent() {
           placeholder="Search for jewelry, rings, necklaces..."
           className={cn(
             'w-full pl-12 pr-12 py-3 rounded-lg',
-            'bg-neutral-800 border-2 border-neutral-600',
-            'text-white placeholder-neutral-500',
-            'focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent',
+            'bg-background border border-input shadow-sm',
+            'text-foreground placeholder-muted-foreground',
+            'focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent',
             'transition-all duration-200',
             'touch-manipulation' // Mobile optimization
           )}
@@ -137,7 +137,7 @@ function SearchInputComponent() {
           aria-expanded={showSuggestions}
           inputMode="search" // Mobile keyboard optimization
         />
-        
+
         {/* Loading or Clear Button */}
         <div className="absolute right-4 top-1/2 -translate-y-1/2">
           {isLoading ? (
@@ -145,7 +145,7 @@ function SearchInputComponent() {
           ) : localQuery.length > 0 ? (
             <button
               onClick={handleClear}
-              className="text-neutral-400 hover:text-white transition-colors touch-manipulation active:scale-90"
+              className="text-muted-foreground hover:text-foreground transition-colors touch-manipulation active:scale-90"
               aria-label="Clear search"
             >
               <X className="h-5 w-5" />
@@ -201,8 +201,8 @@ function SearchInputComponent() {
         <div
           className={cn(
             'absolute top-full left-0 right-0 mt-2 z-10',
-            'bg-neutral-800 border-2 border-neutral-600 rounded-lg shadow-xl',
-            'px-4 py-6 text-center text-neutral-400',
+            'bg-popover border border-border rounded-lg shadow-xl',
+            'px-4 py-6 text-center text-muted-foreground',
             'animate-in fade-in-0 slide-in-from-top-2 duration-200'
           )}
         >

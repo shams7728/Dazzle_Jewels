@@ -51,7 +51,7 @@ export default function LoginPage() {
         } catch (err) {
             const errorMessage = err instanceof Error ? err.message : "An error occurred";
             setError(errorMessage);
-            
+
             // Error animation
             if (formRef.current) {
                 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -105,15 +105,15 @@ export default function LoginPage() {
                             type="checkbox"
                             checked={rememberMe}
                             onChange={(e) => setRememberMe(e.target.checked)}
-                            className="w-4 h-4 rounded border-neutral-700 bg-neutral-900 text-gold-500 focus:ring-2 focus:ring-gold-500/50 transition-all"
+                            className="w-4 h-4 rounded border-input bg-background text-primary focus:ring-2 focus:ring-primary/50 transition-all"
                         />
-                        <span className="text-neutral-400 group-hover:text-neutral-300 transition-colors">
+                        <span className="text-muted-foreground group-hover:text-foreground transition-colors">
                             Remember me
                         </span>
                     </label>
                     <a
                         href="#"
-                        className="text-gold-500 hover:text-gold-400 transition-colors"
+                        className="text-primary hover:text-primary/80 transition-colors"
                     >
                         Forgot password?
                     </a>

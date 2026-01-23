@@ -7,10 +7,10 @@ import { Package } from 'lucide-react';
 import { ProductCard } from '@/components/products/product-card';
 
 export function SearchResults() {
-  const { 
-    query, 
-    isLoading, 
-    getFilteredProducts, 
+  const {
+    query,
+    isLoading,
+    getFilteredProducts,
     getActiveFilterCount,
     clearAllFilters,
     products
@@ -49,9 +49,9 @@ export function SearchResults() {
       <div className="flex flex-col items-center justify-center py-16 space-y-6 text-center">
         <Package className="w-16 h-16 text-neutral-600" />
         <div className="space-y-3">
-          <h3 className="text-xl font-semibold text-white">No products found</h3>
-          <p className="text-neutral-400 max-w-md">
-            {query.length > 0 
+          <h3 className="text-xl font-semibold text-foreground">No products found</h3>
+          <p className="text-muted-foreground max-w-md">
+            {query.length > 0
               ? `We couldn't find any products matching &ldquo;${query}&rdquo;.`
               : "No products match your current filters."}
           </p>
@@ -65,7 +65,7 @@ export function SearchResults() {
           <Button
             onClick={clearAllFilters}
             variant="outline"
-            className="bg-neutral-800 text-white border-neutral-700 hover:bg-neutral-700"
+            className="bg-secondary text-secondary-foreground border-border hover:bg-secondary/80"
           >
             Clear All Filters
           </Button>
@@ -79,18 +79,18 @@ export function SearchResults() {
     return (
       <div className="space-y-6">
         <div className="text-center py-8">
-          <h3 className="text-xl font-semibold text-white mb-2">Popular Products</h3>
-          <p className="text-neutral-400">
+          <h3 className="text-xl font-semibold text-foreground mb-2">Popular Products</h3>
+          <p className="text-muted-foreground">
             Start typing to search, or browse our featured collection below
           </p>
         </div>
-        
+
         {/* Popular Products Responsive Grid */}
         <div className="grid grid-cols-2 gap-3 xs:gap-4 sm:gap-5 md:grid-cols-3 md:gap-6 lg:grid-cols-4">
           {popularProducts.map((product, index) => (
-            <div 
+            <div
               key={product.id}
-              style={{ 
+              style={{
                 animation: `fadeInUp 0.6s ease-out ${index * 0.1}s both`
               }}
             >
@@ -112,8 +112,8 @@ export function SearchResults() {
       <div className="flex flex-col items-center justify-center py-16 space-y-4 text-center">
         <Package className="w-16 h-16 text-neutral-600" />
         <div>
-          <h3 className="text-xl font-semibold text-white mb-2">Start searching</h3>
-          <p className="text-neutral-400 max-w-md">
+          <h3 className="text-xl font-semibold text-foreground mb-2">Start searching</h3>
+          <p className="text-muted-foreground max-w-md">
             Type in the search box above to find jewelry, rings, necklaces, and more.
           </p>
         </div>
@@ -131,20 +131,20 @@ export function SearchResults() {
       </div>
 
       {/* Result Count - Enhanced with real-time updates */}
-      <div className="flex items-center justify-between border-b border-neutral-800 pb-3">
+      <div className="flex items-center justify-between border-b border-border pb-3">
         <div className="flex items-center gap-3">
-          <p className="text-sm font-medium text-white" aria-hidden="true">
+          <p className="text-sm font-medium text-foreground" aria-hidden="true">
             {resultCount} {resultCount === 1 ? 'Product' : 'Products'}
           </p>
           {query && (
-            <p className="text-xs text-neutral-500">
+            <p className="text-xs text-muted-foreground">
               matching &ldquo;{query}&rdquo;
             </p>
           )}
           {activeFilterCount > 0 && (
             <div className="flex items-center gap-1">
-              <span className="text-xs text-neutral-500">•</span>
-              <span className="text-xs text-yellow-500">
+              <span className="text-xs text-muted-foreground">•</span>
+              <span className="text-xs text-primary">
                 {activeFilterCount} {activeFilterCount === 1 ? 'filter' : 'filters'} active
               </span>
             </div>
@@ -155,7 +155,7 @@ export function SearchResults() {
             onClick={clearAllFilters}
             variant="ghost"
             size="sm"
-            className="text-xs text-neutral-400 hover:text-white h-7"
+            className="text-xs text-muted-foreground hover:text-foreground h-7"
           >
             Clear filters
           </Button>
@@ -163,15 +163,15 @@ export function SearchResults() {
       </div>
 
       {/* Responsive Product Grid */}
-      <div 
+      <div
         className="grid grid-cols-2 gap-3 xs:gap-4 sm:gap-5 md:grid-cols-3 md:gap-6 lg:grid-cols-4"
         role="list"
         aria-label="Search results"
       >
         {filteredProducts.map((product, index) => (
-          <div 
+          <div
             key={product.id}
-            style={{ 
+            style={{
               animation: `fadeInUp 0.6s ease-out ${index * 0.1}s both`
             }}
           >
@@ -190,26 +190,26 @@ export function SearchResults() {
 // Loading Skeleton Component
 function ProductCardSkeleton() {
   return (
-    <div className="group relative rounded-xl p-[2px] overflow-hidden bg-neutral-800">
-      <div className="relative h-full bg-neutral-900 rounded-xl overflow-hidden flex flex-col">
+    <div className="group relative rounded-xl p-[2px] overflow-hidden bg-muted">
+      <div className="relative h-full bg-card rounded-xl overflow-hidden flex flex-col">
         {/* Image Skeleton */}
-        <div className="relative aspect-square overflow-hidden bg-neutral-800 animate-pulse" />
-        
+        <div className="relative aspect-square overflow-hidden bg-muted animate-pulse" />
+
         {/* Content Skeleton */}
         <div className="p-3 flex flex-col flex-grow space-y-2">
           {/* Title Skeleton */}
-          <div className="h-4 bg-neutral-800 rounded animate-pulse w-3/4" />
-          
+          <div className="h-4 bg-muted rounded animate-pulse w-3/4" />
+
           {/* Description Skeleton */}
           <div className="space-y-1">
-            <div className="h-3 bg-neutral-800 rounded animate-pulse w-full" />
-            <div className="h-3 bg-neutral-800 rounded animate-pulse w-2/3" />
+            <div className="h-3 bg-muted rounded animate-pulse w-full" />
+            <div className="h-3 bg-muted rounded animate-pulse w-2/3" />
           </div>
-          
+
           {/* Price and Button Skeleton */}
           <div className="mt-auto flex flex-col sm:flex-row sm:items-center justify-between gap-2 pt-2">
-            <div className="h-5 bg-neutral-800 rounded animate-pulse w-20" />
-            <div className="h-8 sm:h-9 bg-neutral-800 rounded animate-pulse w-full sm:w-24" />
+            <div className="h-5 bg-muted rounded animate-pulse w-20" />
+            <div className="h-8 sm:h-9 bg-muted rounded animate-pulse w-full sm:w-24" />
           </div>
         </div>
       </div>
@@ -223,7 +223,7 @@ export function SearchResultsLoading() {
     <div className="space-y-4">
       {/* Result Count Skeleton */}
       <div className="flex items-center justify-between">
-        <div className="h-4 bg-neutral-800 rounded animate-pulse w-32" />
+        <div className="h-4 bg-muted rounded animate-pulse w-32" />
       </div>
 
       {/* Product Grid with Skeletons */}

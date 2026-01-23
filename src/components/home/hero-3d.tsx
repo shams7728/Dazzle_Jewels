@@ -87,13 +87,13 @@ function Scene() {
 
     return (
         <>
-            <ambientLight intensity={0.5} />
-            <spotLight position={[10, 10, 10]} angle={0.5} penumbra={1} intensity={2} color="#fff0d0" />
-            <spotLight position={[-10, 0, -5]} angle={0.5} penumbra={1} intensity={2} color="#d0e0ff" />
-            <pointLight position={[0, -2, 2]} intensity={1} color="#ffaa00" />
+            <ambientLight intensity={0.8} />
+            <spotLight position={[10, 10, 10]} angle={0.5} penumbra={1} intensity={1} color="#fff0d0" />
+            <spotLight position={[-10, 0, -5]} angle={0.5} penumbra={1} intensity={1} color="#d0e0ff" />
+            <pointLight position={[0, -2, 2]} intensity={0.5} color="#ec4899" />
 
-            <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
-            <Sparkles count={50} scale={10} size={4} speed={0.4} opacity={0.5} color="#fff" />
+            <Stars radius={100} depth={50} count={2000} factor={4} saturation={0} fade speed={1} />
+            <Sparkles count={50} scale={10} size={4} speed={0.4} opacity={0.5} color="#ec4899" />
 
             <Float speed={1.5} rotationIntensity={0.5} floatIntensity={0.5}>
                 <Ring
@@ -103,7 +103,7 @@ function Scene() {
                 />
             </Float>
 
-            <ContactShadows position={[isMobile ? 0 : 2.5, -4, 0]} opacity={0.4} scale={20} blur={2} far={4} color="#d4af37" />
+            <ContactShadows position={[isMobile ? 0 : 2.5, -4, 0]} opacity={0.4} scale={20} blur={2} far={4} color="#ec4899" />
             <Environment preset="city" />
         </>
     );
@@ -173,17 +173,17 @@ export function Hero3D() {
     const currentContent = slides[currentSlide];
 
     return (
-        <div className="relative h-screen w-full overflow-hidden bg-black">
+        <div className="relative h-screen w-full overflow-hidden bg-background">
             {/* 3D Scene Background */}
             <div className="absolute inset-0 z-0">
                 <Canvas camera={{ position: [0, 0, 12], fov: 45 }} gl={{ preserveDrawingBuffer: true, antialias: true }}>
-                    <color attach="background" args={["#050505"]} />
+                    <color attach="background" args={["#ffffff"]} />
                     <Scene />
                 </Canvas>
             </div>
 
             {/* Animated gradient overlay */}
-            <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/5 via-transparent to-purple-500/5 animate-gradient-shift pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-purple-500/5 animate-gradient-shift pointer-events-none" />
 
             {/* Overlay Content */}
             <div className="container mx-auto px-4 h-full pointer-events-none">
@@ -193,47 +193,47 @@ export function Hero3D() {
                 >
                     {/* Badge with animation */}
                     <div className="hero-text mb-6 flex items-center justify-center md:justify-start gap-2">
-                        <div className="h-px w-8 bg-gradient-to-r from-transparent to-yellow-500" />
-                        <span className="text-sm font-medium tracking-[0.3em] text-yellow-400 uppercase flex items-center gap-2">
+                        <div className="h-px w-8 bg-gradient-to-r from-transparent to-primary" />
+                        <span className="text-sm font-medium tracking-[0.3em] text-primary uppercase flex items-center gap-2">
                             <SparklesIcon className="h-4 w-4 animate-pulse" />
                             {currentContent.badge}
                         </span>
-                        <div className="h-px w-8 bg-gradient-to-l from-transparent to-yellow-500" />
+                        <div className="h-px w-8 bg-gradient-to-l from-transparent to-primary" />
                     </div>
 
                     {/* Main heading with enhanced styling */}
-                    <h1 className="hero-text mb-6 text-5xl font-bold tracking-tight text-white sm:text-7xl lg:text-8xl leading-tight">
+                    <h1 className="hero-text mb-6 text-5xl font-bold tracking-tight text-foreground sm:text-7xl lg:text-8xl leading-tight">
                         {currentContent.title}<br />
                         <span className="relative inline-block">
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 via-yellow-400 to-yellow-600 animate-shimmer bg-[length:200%_auto]">
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-pink-400 to-primary animate-shimmer bg-[length:200%_auto]">
                                 {currentContent.highlight}
                             </span>
                             {/* Underline decoration */}
-                            <span className="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-yellow-400/0 via-yellow-400/50 to-yellow-400/0" />
+                            <span className="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-primary/0 via-primary/50 to-primary/0" />
                         </span>
                     </h1>
 
                     {/* Description */}
-                    <p className="hero-text mb-10 text-lg md:text-xl text-neutral-300 max-w-2xl mx-auto md:mx-0 leading-relaxed">
+                    <p className="hero-text mb-10 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto md:mx-0 leading-relaxed">
                         {currentContent.description}
                     </p>
 
                     {/* CTA Buttons */}
                     <div className="hero-btn flex flex-col gap-4 sm:flex-row justify-center md:justify-start">
                         <Link href="/products">
-                            <Button 
-                                size="lg" 
-                                className="group bg-gradient-to-r from-yellow-400 to-yellow-600 text-black hover:from-yellow-300 hover:to-yellow-500 px-10 py-7 text-lg rounded-full shadow-2xl shadow-yellow-500/30 transition-all hover:scale-105 hover:shadow-yellow-500/50 font-semibold"
+                            <Button
+                                size="lg"
+                                className="group bg-gradient-to-r from-primary to-pink-600 text-white hover:from-primary/90 hover:to-pink-600/90 px-10 py-7 text-lg rounded-full shadow-2xl shadow-primary/30 transition-all hover:scale-105 hover:shadow-primary/50 font-semibold"
                             >
-                                Shop Now 
+                                Shop Now
                                 <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                             </Button>
                         </Link>
                         <Link href="/collections">
-                            <Button 
-                                variant="outline" 
-                                size="lg" 
-                                className="border-2 border-white/30 bg-white/5 backdrop-blur-md text-white hover:bg-white/10 hover:border-white/50 px-10 py-7 text-lg rounded-full transition-all hover:scale-105 font-semibold"
+                            <Button
+                                variant="outline"
+                                size="lg"
+                                className="border-2 border-primary/30 bg-background/50 backdrop-blur-md text-foreground hover:bg-primary/5 hover:border-primary/50 px-10 py-7 text-lg rounded-full transition-all hover:scale-105 font-semibold"
                             >
                                 View Collections
                             </Button>
@@ -245,10 +245,10 @@ export function Hero3D() {
             </div>
 
             {/* Enhanced vignette overlay */}
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.5)_100%)] pointer-events-none" />
-            
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(255,255,255,0.8)_100%)] pointer-events-none" />
+
             {/* Bottom gradient fade */}
-            <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black to-transparent pointer-events-none" />
+            <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent pointer-events-none" />
         </div>
     );
 }

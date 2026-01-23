@@ -2,23 +2,23 @@
 
 import { useState, Suspense } from "react";
 import { Product, ProductVariant } from "@/types";
-import { 
-  ProductGallery,
-  ProductInfo
+import {
+    ProductGallery,
+    ProductInfo
 } from "@/components/product-detail";
 import { ProductActions } from "@/components/product-detail/product-actions";
-import { 
-  LazyProductTabs, 
-  LazyRelatedProducts, 
-  LazyReviewsSection,
-  LazyShareButtons 
+import {
+    LazyProductTabs,
+    LazyRelatedProducts,
+    LazyReviewsSection,
+    LazyShareButtons
 } from "@/components/product-detail/lazy-components";
 import { Breadcrumb } from "@/components/layout/breadcrumb";
 import { MobileBackButton } from "@/components/layout/mobile-back-button";
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
-import { 
-  RelatedProductsSkeleton, 
-  ReviewsSectionSkeleton 
+import {
+    RelatedProductsSkeleton,
+    ReviewsSectionSkeleton
 } from "@/components/ui/skeleton";
 import { ErrorBoundary, ErrorFallback } from "@/components/error-boundary";
 import { calculateEffectivePrice } from "@/lib/utils/product-detail";
@@ -105,8 +105,8 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                                 variants={product.variants || []}
                                 selectedVariant={selectedVariant}
                                 onVariantChange={handleVariantChange}
-                                onAddToCart={() => {}}
-                                onAddToWishlist={() => {}}
+                                onAddToCart={() => { }}
+                                onAddToWishlist={() => { }}
                             />
                         </ErrorBoundary>
                     </ScrollReveal>
@@ -158,7 +158,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
             {/* Product Details Tabs Section - Lazy Loaded */}
             <ScrollReveal delay={0.75}>
                 <div className="mt-12 md:mt-16">
-                    <h2 className="mb-4 md:mb-6 text-xl md:text-2xl font-bold text-white">Product Details</h2>
+                    <h2 className="mb-4 md:mb-6 text-xl md:text-2xl font-bold text-foreground">Product Details</h2>
                     <ErrorBoundary
                         fallback={
                             <ErrorFallback
@@ -200,7 +200,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
             {/* Reviews Section - Lazy Loaded */}
             <ScrollReveal delay={0.85}>
                 <div className="mt-12 md:mt-16 border-t border-neutral-800 pt-8 md:pt-12">
-                    <h2 className="mb-4 md:mb-6 text-xl md:text-2xl font-bold text-white">Customer Reviews</h2>
+                    <h2 className="mb-4 md:mb-6 text-xl md:text-2xl font-bold text-foreground">Customer Reviews</h2>
                     <ErrorBoundary
                         fallback={
                             <ErrorFallback
@@ -228,8 +228,8 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                         }
                     >
                         <Suspense fallback={<RelatedProductsSkeleton count={8} />}>
-                            <LazyRelatedProducts 
-                                currentProductId={product.id} 
+                            <LazyRelatedProducts
+                                currentProductId={product.id}
                                 categoryId={product.category_id}
                                 limit={8}
                             />

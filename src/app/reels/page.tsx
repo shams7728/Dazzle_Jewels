@@ -62,14 +62,14 @@ export default function ReelsPage() {
 
     if (loading) {
         return (
-            <div className="flex h-screen items-center justify-center bg-black">
-                <Loader2 className="h-8 w-8 animate-spin text-yellow-500" />
+            <div className="flex h-screen items-center justify-center bg-background">
+                <Loader2 className="h-8 w-8 animate-spin text-primary" />
             </div>
         );
     }
 
     return (
-        <div className="flex h-[calc(100vh-4rem)] justify-center bg-black">
+        <div className="flex h-[calc(100vh-4rem)] justify-center bg-background">
             <div
                 ref={containerRef}
                 className="h-full w-full snap-y snap-mandatory overflow-y-scroll scroll-smooth md:w-auto no-scrollbar"

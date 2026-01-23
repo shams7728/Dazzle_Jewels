@@ -26,10 +26,10 @@ interface ProfessionalPosterProps {
     interval?: number;
 }
 
-export default function ProfessionalPoster({ 
-    posters, 
-    autoPlay = true, 
-    interval = 5000 
+export default function ProfessionalPoster({
+    posters,
+    autoPlay = true,
+    interval = 5000
 }: ProfessionalPosterProps) {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isAnimating, setIsAnimating] = useState(false);
@@ -123,7 +123,7 @@ export default function ProfessionalPoster({
 
     const PosterContent = ({ poster }: { poster: Poster }) => {
         const content = (
-            <div className={`relative w-full h-[300px] md:h-[400px] lg:h-[500px] overflow-hidden rounded-2xl ${poster.background_type === 'preset' ? poster.image_url : 'bg-neutral-900'}`}>
+            <div className={`relative w-full h-[300px] md:h-[400px] lg:h-[500px] overflow-hidden rounded-2xl ${poster.background_type === 'preset' ? poster.image_url : 'bg-background'}`}>
                 {/* Background Image */}
                 {poster.background_type === 'image' && (
                     <Image
@@ -142,7 +142,7 @@ export default function ProfessionalPoster({
 
                 {/* Text Content */}
                 <div className={`absolute inset-0 flex flex-col justify-center p-6 md:p-12 lg:p-16 ${getTextPositionClasses(poster.text_position)}`}>
-                    <div 
+                    <div
                         key={currentIndex}
                         className={`
                             ${poster.background_type === 'image' ? 'bg-black/40 backdrop-blur-sm p-6 md:p-8 rounded-2xl' : ''} 
@@ -164,7 +164,7 @@ export default function ProfessionalPoster({
                         {poster.description && (
                             <p className={`
                                 text-base md:text-lg lg:text-xl 
-                                ${poster.text_color === 'black' ? 'text-black/90' : poster.text_color === 'yellow' ? 'text-yellow-400' : 'text-white/90'}
+                                ${poster.text_color === 'black' ? 'text-black/90' : poster.text_color === 'yellow' ? 'text-primary' : 'text-foreground/90'}
                                 drop-shadow-md
                                 mb-6
                             `}>
@@ -172,8 +172,8 @@ export default function ProfessionalPoster({
                             </p>
                         )}
                         {poster.link && (
-                            <Button 
-                                className="bg-yellow-500 text-black hover:bg-yellow-400 font-semibold px-6 py-3 md:px-8 md:py-4 text-base md:text-lg rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+                            <Button
+                                className="bg-primary text-primary-foreground hover:bg-primary/90 font-semibold px-6 py-3 md:px-8 md:py-4 text-base md:text-lg rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
                             >
                                 Shop Now
                             </Button>
@@ -227,8 +227,8 @@ export default function ProfessionalPoster({
                             disabled={isAnimating}
                             className={`
                                 h-2 rounded-full transition-all duration-300
-                                ${index === currentIndex 
-                                    ? 'w-8 bg-yellow-500' 
+                                ${index === currentIndex
+                                    ? 'w-8 bg-yellow-500'
                                     : 'w-2 bg-white/50 hover:bg-white/70'
                                 }
                                 disabled:cursor-not-allowed

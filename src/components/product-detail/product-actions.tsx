@@ -41,13 +41,13 @@ function ProductActionsComponent({
     } else {
       // Add to cart
       setIsAddingToCart(true);
-      
+
       try {
         // Add item to cart with specified quantity
         for (let i = 0; i < quantity; i++) {
           addItem(product, selectedVariant || undefined);
         }
-        
+
         // Show success feedback
         const message = `Added ${quantity} ${quantity === 1 ? 'item' : 'items'} to cart!`;
         showSuccessToast(message);
@@ -87,7 +87,7 @@ function ProductActionsComponent({
 
       // Create checkout session with single item
       const checkoutSession = createCheckoutSession([buyNowItem]);
-      
+
       console.log('Buy Now - Created checkout session:', checkoutSession);
 
       // Navigate to checkout with session data
@@ -95,7 +95,7 @@ function ProductActionsComponent({
       if (typeof window !== 'undefined') {
         sessionStorage.setItem('buyNowSession', JSON.stringify(checkoutSession));
         console.log('Buy Now - Stored session in sessionStorage');
-        
+
         // Small delay to ensure sessionStorage is written
         setTimeout(() => {
           router.push('/checkout');
@@ -122,10 +122,10 @@ function ProductActionsComponent({
           'text-base md:text-sm min-h-[44px] font-bold',
           'disabled:opacity-50 disabled:cursor-not-allowed',
           'transform active:scale-95',
-          'focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 focus:ring-offset-black',
-          isInCart 
-            ? 'bg-gradient-to-r from-yellow-600 via-yellow-500 to-yellow-600 text-black hover:from-yellow-500 hover:via-yellow-400 hover:to-yellow-500 shadow-lg shadow-yellow-500/40 hover:shadow-xl hover:shadow-yellow-500/50 border border-yellow-400/50'
-            : 'bg-white text-black hover:bg-neutral-100 hover:shadow-lg shadow-md'
+          'focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background',
+          isInCart
+            ? 'bg-gradient-to-r from-primary via-pink-500 to-primary text-white hover:from-primary/90 hover:via-pink-500/90 hover:to-primary/90 shadow-lg shadow-primary/40 hover:shadow-xl hover:shadow-primary/50 border border-pink-400/50'
+            : 'bg-card text-foreground hover:bg-muted hover:shadow-lg shadow-md border border-border'
         )}
         onClick={handleCartAction}
         disabled={isAddingToCart}
@@ -137,7 +137,7 @@ function ProductActionsComponent({
         {isInCart && (
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700" />
         )}
-        
+
         {isAddingToCart ? (
           <>
             <Loader2 className="mr-2 h-5 w-5 animate-spin relative z-10" />
@@ -162,10 +162,10 @@ function ProductActionsComponent({
         className={cn(
           'group flex-1 transition-all duration-200 touch-manipulation',
           'text-base md:text-sm min-h-[44px]',
-          'bg-gradient-to-r from-yellow-500 to-yellow-600 text-black hover:from-yellow-400 hover:to-yellow-500 active:scale-95',
+          'bg-gradient-to-r from-primary to-pink-600 text-white hover:from-primary/90 hover:to-pink-600/90 active:scale-95',
           'disabled:opacity-50 disabled:cursor-not-allowed',
-          'transform hover:shadow-lg shadow-lg shadow-yellow-500/20 hover:shadow-xl hover:shadow-yellow-500/30 font-semibold',
-          'focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 focus:ring-offset-black'
+          'transform hover:shadow-lg shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 font-semibold',
+          'focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background'
         )}
         onClick={handleBuyNow}
         disabled={isBuyingNow}

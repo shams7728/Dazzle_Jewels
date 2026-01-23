@@ -84,15 +84,13 @@ export function AnimatedButton({
       type={type}
       disabled={disabled || loading}
       onClick={handleClick}
-      className={`relative w-full py-4 px-6 rounded-lg font-semibold text-base overflow-hidden transition-all duration-300 ${
-        isPrimary
-          ? 'bg-gradient-to-r from-yellow-500 via-gold-500 to-yellow-600 text-black hover:shadow-lg hover:shadow-gold-500/50'
-          : 'bg-neutral-800 text-white hover:bg-neutral-700'
-      } ${
-        disabled || loading
+      className={`relative w-full py-4 px-6 rounded-lg font-semibold text-base overflow-hidden transition-all duration-300 ${isPrimary
+          ? 'bg-gradient-to-r from-primary via-pink-500 to-pink-600 text-white shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40'
+          : 'bg-muted text-foreground hover:bg-muted/80'
+        } ${disabled || loading
           ? 'opacity-50 cursor-not-allowed'
           : 'hover:scale-[1.02] active:scale-[0.98]'
-      }`}
+        }`}
     >
       {/* Ripple Effect */}
       <div
